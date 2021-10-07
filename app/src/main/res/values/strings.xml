@@ -5,4 +5,5 @@
     
     <!--  fragment_friend_list  -->
     <string name="no_have_friend">友だちが1人もいないようです。下のボタンから追加してみましょう！</string>
+    <string name="disc_fab">友だちを追加する</string>
 </resources>
