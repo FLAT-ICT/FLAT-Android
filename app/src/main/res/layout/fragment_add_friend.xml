@@ -22,14 +22,14 @@
         app:layout_constraintTop_toBottomOf="@id/tv_input_friend_id"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:errorEnabled="true"
-        app:counterMaxLength="6">
+        app:errorEnabled="true">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_input_friend_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:maxLines="1"
+            android:maxLength="6"
             android:hint="@string/input_friend_id_hint"/>
     </com.google.android.material.textfield.TextInputLayout>
 
