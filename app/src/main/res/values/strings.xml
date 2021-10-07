@@ -2,4 +2,7 @@
     <string name="app_name">FLAT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <!--  fragment_friend_list  -->
+    <string name="no_have_friend">友だちが1人もいないようです。下のボタンから追加してみましょう！</string>
 </resources>
