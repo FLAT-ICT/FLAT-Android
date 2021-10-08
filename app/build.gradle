@@ -42,6 +42,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    // REST API
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+
     // JSON
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3'
 
