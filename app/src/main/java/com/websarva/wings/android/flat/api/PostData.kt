@@ -1,4 +1,4 @@
-package com.websarva.wings.android.flat.model.api
+package com.websarva.wings.android.flat.api
 
 import com.squareup.moshi.Json
 
