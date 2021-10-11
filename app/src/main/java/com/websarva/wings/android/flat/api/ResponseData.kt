@@ -7,7 +7,7 @@ class ResponseData {
         @Json(name = "message") val message: String
     )
 
-    data class ResponseGetMe(
+    data class ResponseGetUser(
         @Json(name = "id") val id: String,
         @Json(name = "name") val name: String,
         @Json(name = "status") val status: Int,
