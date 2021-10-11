@@ -12,6 +12,6 @@ class ResponseData {
         @Json(name = "name") val name: String,
         @Json(name = "status") val status: Int,
         @Json(name = "beacon") val beacon: String,
-        @Json(name = "icon") val icon: String
+        @Json(name = "icon_path") val icon_path: String
     )
 }

@@ -11,8 +11,8 @@ import retrofit2.http.Query
 
 interface RestApi {
 
-    @GET("me")
-    fun getMe(@Query("id") id: String, @Query("icon") icon: Boolean): Call<ResponseGetMe>
+    @GET("user")
+    fun getMe(@Query("id") id: String): Call<ResponseGetMe>
 
     @POST("friends/add")
     fun postAddFriend(@Body postAddFriend: PostAddFriend): Call<ResponseAddFriend>
