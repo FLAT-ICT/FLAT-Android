@@ -12,7 +12,7 @@ import retrofit2.http.Query
 interface RestApi {
 
     @GET("/v1/user")
-    suspend fun getUser(@Query("id") id: String): Call<ResponseGetUser>
+    suspend fun getUser(@Query("id") id: String): ResponseGetUser
 
     @POST("/v1/friends/add")
     suspend fun postAddFriend(@Body postAddFriend: PostAddFriend): Call<ResponseAddFriend>

@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable-v24/ic_baseline_search_24.xml" value="0.24739583333333334" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.24739583333333334" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable-v24/search_icon.xml" value="0.24739583333333334" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/activity_main.xml" value="0.2234375" />
-        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/fragment_add_friend.xml" value="0.2234375" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/fragment_add_friend.xml" value="0.2" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/fragment_friend_list.xml" value="0.2234375" />
       </map>
     </option>
