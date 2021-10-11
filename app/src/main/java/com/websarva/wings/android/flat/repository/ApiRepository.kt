@@ -17,13 +17,11 @@ class ApiRepository {
     private val service: RestApi = retrofit.create(RestApi::class.java)
 
     // APIにリクエストしてレスポンスを受け取る
-    suspend fun getUser(id: String): Call<ResponseData.ResponseGetUser> {
-        return service.getUser(id)
-    }
+    suspend fun getUser(id: String): Call<ResponseData.ResponseGetUser> =
+        service.getUser(id)
 
-    suspend fun postAddFriend(postData: PostData.PostAddFriend): Call<ResponseData.ResponseAddFriend> {
-        return service.postAddFriend(postData)
-    }
+    suspend fun postAddFriend(postData: PostData.PostAddFriend): Call<ResponseData.ResponseAddFriend> =
+        service.postAddFriend(postData)
 
     companion object Factory {
         val instance: ApiRepository
