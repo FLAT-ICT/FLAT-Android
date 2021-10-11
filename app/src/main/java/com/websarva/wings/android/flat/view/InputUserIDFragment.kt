@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.websarva.wings.android.flat.R
 
-class AddFriendFragment : Fragment() {
+class InputUserIDFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
