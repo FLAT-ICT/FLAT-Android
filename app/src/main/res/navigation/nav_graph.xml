@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/friendListFragment">
+
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.websarva.wings.android.flat.view.AddFriendFragment"
+        android:label="fragment_add_friend"
+        tools:layout="@layout/fragment_add_friend" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/friendListFragment"
+        android:name="com.websarva.wings.android.flat.view.FriendListFragment"
+        android:label="fragment_friend_list"
+        tools:layout="@layout/fragment_friend_list" >
+        <action
+            android:id="@+id/action_friendListFragment_to_addFriendFragment"
+            app:destination="@id/addFriendFragment" />
+    </fragment>
+</navigation>

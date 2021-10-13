@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentAddFriendBinding
 import com.websarva.wings.android.flat.viewmodel.AddFriendViewModel
@@ -33,10 +34,6 @@ class AddFriendFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // ツールバー左上のバツで友だち一覧画面に戻る
-        binding.addFriendToolbar.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
 
         binding.ibSearchId.setOnClickListener {
             val text = binding.etInputFriendId.text

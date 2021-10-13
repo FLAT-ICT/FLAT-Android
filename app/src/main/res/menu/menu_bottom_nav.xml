@@ -8,7 +8,7 @@
         android:title="@string/navigation_title_map" />
 
     <item
-        android:id="@+id/friendListFragment"
+        android:id="@id/friendListFragment"
         android:icon="@drawable/ic_nav_friends"
         android:title="@string/navigation_title_friends" />
 
