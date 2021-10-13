@@ -33,10 +33,9 @@ class AddFriendFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Toolbarを表示する
-        (activity as AppCompatActivity?)!!.apply {
-            supportActionBar?.title = getString(R.string.title_add_friend)
-            supportActionBar?.show()
+        // ツールバー左上のバツで友だち一覧画面に戻る
+        binding.addFriendToolbar.setNavigationOnClickListener {
+            parentFragmentManager.popBackStack()
         }
 
         binding.ibSearchId.setOnClickListener {

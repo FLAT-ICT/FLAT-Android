@@ -6,6 +6,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.AddFriendFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/add_friend_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@drawable/layout_shape"
+        app:title="@string/title_add_friend"
+        app:navigationIcon="@drawable/ic_delete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tv_input_friend_id"
         android:layout_width="wrap_content"

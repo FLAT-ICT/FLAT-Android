@@ -24,8 +24,7 @@ class FriendListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Toolbarを隠す
-        (activity as AppCompatActivity?)!!.supportActionBar?.hide()
+
         binding.fabAddFriend.setOnClickListener{
             parentFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.app_container, AddFriendFragment()).commit()
         }
