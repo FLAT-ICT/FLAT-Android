@@ -9,6 +9,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(findViewById(R.id.toolbar))
         supportFragmentManager.beginTransaction().replace(R.id.app_container, FriendListFragment()).commit()
     }
 }

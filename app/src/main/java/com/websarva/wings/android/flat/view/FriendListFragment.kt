@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentFriendListBinding
 
@@ -23,6 +24,8 @@ class FriendListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Toolbarを隠す
+        (activity as AppCompatActivity?)!!.supportActionBar?.hide()
         binding.fabAddFriend.setOnClickListener{
             parentFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.app_container, AddFriendFragment()).commit()
         }

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.websarva.wings.android.flat.R
@@ -32,6 +33,11 @@ class AddFriendFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Toolbarを表示する
+        (activity as AppCompatActivity?)!!.apply {
+            supportActionBar?.title = getString(R.string.title_add_friend)
+            supportActionBar?.show()
+        }
 
         binding.ibSearchId.setOnClickListener {
             val text = binding.etInputFriendId.text

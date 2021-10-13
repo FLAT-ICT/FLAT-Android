@@ -3,11 +3,17 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--  bottom_navigation  -->
+    <string name="navigation_title_map">map</string>
+    <string name="navigation_title_friends">friends</string>
+    <string name="navigation_title_settings">settings</string>
+
     <!--  fragment_friend_list  -->
     <string name="no_have_friend">友だちが1人もいないようです。下のボタンから追加してみましょう！</string>
     <string name="disc_fab">友だちを追加する</string>
 
     <!--  fragment_add_friend  -->
+    <string name="title_add_friend">友だち追加</string>
     <string name="input_user_id">IDを入力してください</string>
     <string name="input_user_id_hint">#000000</string>
     <string name="apply_for_friend">申請</string>
