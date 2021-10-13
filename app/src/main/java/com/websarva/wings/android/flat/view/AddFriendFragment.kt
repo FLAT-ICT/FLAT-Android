@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentAddFriendBinding
 import com.websarva.wings.android.flat.viewmodel.AddFriendViewModel
 
@@ -65,15 +66,31 @@ class AddFriendFragment : Fragment() {
         })
     }
 
-    // キーボードに関する設定
+    // 物理キーボードのエンターやソフトウェアキーボードの完了を押したときの設定
     private val editorAction: TextView.OnEditorActionListener =
         TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 val id = binding.etInputFriendId.text.toString()
-                viewModel.getUserInfo(id)
+                binding.apply {
+                    when {
+                        etInputFriendId.text.isNullOrEmpty() -> {
+                            tilInputFriendId.error = getString(R.string.empty_id)
+                        }
+                        etInputFriendId.text.toString().length < 6 -> {
+                            tilInputFriendId.error = getString(R.string.short_id)
+                        }
+                        else -> {
+                            viewModel.getUserInfo(id)
+                        }
+                    }
+                }
                 // キーボードを非表示にする
-                val inputManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputManager.hideSoftInputFromWindow(v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+                val inputManager =
+                    activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputManager.hideSoftInputFromWindow(
+                    v.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
                 true
             } else false
         }
