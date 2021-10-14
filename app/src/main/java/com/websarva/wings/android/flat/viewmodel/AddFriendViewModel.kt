@@ -13,20 +13,38 @@ class AddFriendViewModel(
 ) : ViewModel() {
     private val repository = ApiRepository.instance
 
-    private val postId = MutableLiveData<PostAddFriend>()
-    val user = MutableLiveData<ResponseGetUser>()
-    val errorMessage = MutableLiveData<String>()
+    private val _postId = MutableLiveData<PostAddFriend>()
+    val postId: LiveData<PostAddFriend> get() = _postId
 
-    fun getUserInfo(id: String){
-        viewModelScope.launch{
+    private val _user = MutableLiveData<ResponseGetUser>()
+    val user: LiveData<ResponseGetUser> get() = _user
+
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> get() = _errorMessage
+
+    fun getUserInfo(id: String) {
+        viewModelScope.launch {
             val response = repository.getUser(id)
             if (response.isSuccessful) {
-                    Log.d("getSuccess", "$response")
-                    user.postValue(repository.getUser(id).body())
+                Log.d("getSuccess", "${response.body()}")
+                _user.postValue(repository.getUser(id).body())
             } else {
                 Log.d("getFailure", "$response")
-                errorMessage.postValue(response.message())
+                _errorMessage.postValue(response.message())
             }
         }
     }
+
+//    fun postFriendRequest(postAddFriend: PostAddFriend) {
+//        viewModelScope.launch {
+//            val response = repository.postAddFriend(postAddFriend)
+//            if (response.isSuccessful) {
+//                Log.d("postSuccess", "$response")
+//
+//            } else {
+//                Log.d("postFailure", "$response")
+//                errorMessage.postValue(response.message())
+//            }
+//        }
+//    }
 }

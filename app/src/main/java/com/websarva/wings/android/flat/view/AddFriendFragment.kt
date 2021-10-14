@@ -69,22 +69,21 @@ class AddFriendFragment : Fragment() {
     }
 
     // 物理キーボードのエンターやソフトウェアキーボードの完了を押したときの設定
+    //TODO::物理キーボードのエンターを押した後、フォーカスをエディットテキストにあてるとリスナーが反応するバグがある
+    // 後で物理キーボードを無効にするか、修正するか諦めるか対応を考える
     private val editorAction: TextView.OnEditorActionListener =
         TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 val id = binding.etInputFriendId.text.toString()
                 binding.apply {
                     when {
-                        !tilInputFriendId.isErrorEnabled -> {
+                        etInputFriendId.text.isNullOrEmpty() -> {
                             tilInputFriendId.isErrorEnabled = true
-                            when {
-                                etInputFriendId.text.isNullOrEmpty() -> {
-                                    tilInputFriendId.error = getString(R.string.empty_id)
-                                }
-                                etInputFriendId.text.toString().length < 6 -> {
-                                    tilInputFriendId.error = getString(R.string.short_id)
-                                }
-                            }
+                            tilInputFriendId.error = getString(R.string.empty_id)
+                        }
+                        etInputFriendId.text.toString().length < 6 -> {
+                            tilInputFriendId.isErrorEnabled = true
+                            tilInputFriendId.error = getString(R.string.short_id)
                         }
                         else -> {
                             tilInputFriendId.isErrorEnabled = false
