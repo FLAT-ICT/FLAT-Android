@@ -75,13 +75,19 @@ class AddFriendFragment : Fragment() {
                 val id = binding.etInputFriendId.text.toString()
                 binding.apply {
                     when {
-                        etInputFriendId.text.isNullOrEmpty() -> {
-                            tilInputFriendId.error = getString(R.string.empty_id)
-                        }
-                        etInputFriendId.text.toString().length < 6 -> {
-                            tilInputFriendId.error = getString(R.string.short_id)
+                        !tilInputFriendId.isErrorEnabled -> {
+                            tilInputFriendId.isErrorEnabled = true
+                            when {
+                                etInputFriendId.text.isNullOrEmpty() -> {
+                                    tilInputFriendId.error = getString(R.string.empty_id)
+                                }
+                                etInputFriendId.text.toString().length < 6 -> {
+                                    tilInputFriendId.error = getString(R.string.short_id)
+                                }
+                            }
                         }
                         else -> {
+                            tilInputFriendId.isErrorEnabled = false
                             viewModel.getUserInfo(id)
                         }
                     }
