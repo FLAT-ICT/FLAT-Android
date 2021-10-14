@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -43,28 +44,71 @@ class AddFriendFragment : Fragment() {
         // キーボードの完了ボタンのリスナー
         binding.etInputFriendId.setOnEditorActionListener(editorAction)
 
-        // getが成功した場合の処理
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-//            Log.d("debug", "${viewModel.user.value}")
-            binding.apply {
-                tvNotFoundId.visibility = View.GONE
-                tvAddFriendName.text = viewModel.user.value?.name
-                tvAddFriendName.visibility = View.VISIBLE
-                //TODO::ivSearchFriendにアイコンを設置する処理を書く
-                //TODO::アイコンを設置したら下のINVISIBLEをVISIBLEにする
-                cvSearchFriendPosition.visibility = View.INVISIBLE
-                btApplyForFriend.visibility = View.VISIBLE
+        // ID入力確定時の通信が成功したとき
+        viewModel.getCode.observe(viewLifecycleOwner, Observer {
+            when (viewModel.getCode.value) {
+                // GETが成功したとき
+                200 -> {
+                    binding.apply {
+                        tvNotFoundId.visibility = View.GONE
+                        tvAddFriendName.apply {
+                            text = viewModel.user.value?.name
+                            visibility = View.VISIBLE
+                        }
+                        //TODO::ivSearchFriendにアイコンを設置する処理を書く
+                        //TODO::アイコンを設置したら下のINVISIBLEをVISIBLEにする
+                        cvSearchFriendPosition.visibility = View.INVISIBLE
+                        btApplyForFriend.apply {
+                            //TODO::承認待ちならばisClickableをfalseにして、テキストや色を入れ替え
+                            text = getString(R.string.apply_for_friend)
+                            setTextColor(ContextCompat.getColor(context, R.color.white))
+                            setBackgroundColor(ContextCompat.getColor(context, R.color.primary_solid))
+                            isClickable = true
+                            visibility = View.VISIBLE
+                        }
+                    }
+                }
+                // GETが失敗したとき
+                else -> {
+                    binding.apply {
+                        tvAddFriendName.visibility = View.GONE
+                        cvSearchFriendPosition.visibility = View.GONE
+                        btApplyForFriend.visibility = View.GONE
+                        tvNotFoundId.visibility = View.VISIBLE
+                    }
+                }
             }
         })
 
-        // getが失敗した場合の処理
-        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
-            binding.apply {
-                tvAddFriendName.visibility = View.GONE
-                cvSearchFriendPosition.visibility = View.GONE
-                btApplyForFriend.visibility = View.GONE
-                tvNotFoundId.visibility = View.VISIBLE
+        // 申請ボタンを押したとき
+        binding.btApplyForFriend.apply {
+            setOnClickListener {
+                isClickable = false
+                viewModel.postFriendRequest(viewModel.user.value!!.id)
             }
+        }
+
+        // 友だち申請時の通信が成功したとき
+        viewModel.postCode.observe(viewLifecycleOwner, Observer {
+            when (viewModel.postCode.value) {
+                // POSTが成功したとき
+                200 -> {
+                    binding.btApplyForFriend.apply {
+                        text = getString(R.string.wait_for_approval)
+                        setTextColor(ContextCompat.getColor(context, R.color.middle))
+                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
+                    }
+                }
+                // POSTが失敗したとき
+                else -> {
+                    //TODO::失敗したときのメッセージ等の表示
+                }
+            }
+        })
+
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            Log.d("error", "${viewModel.errorMessage.value}")
+            //TODO::接続が確認されなかった等のメッセージの表示？
         })
     }
 

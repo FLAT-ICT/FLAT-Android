@@ -17,6 +17,7 @@
     <string name="input_user_id">IDを入力してください</string>
     <string name="input_user_id_hint">#000000</string>
     <string name="apply_for_friend">申請</string>
+    <string name="wait_for_approval">承認待ち</string>
     <string name="empty_id">6ケタのIDを入力してください。</string>
     <string name="short_id">IDが間違っています。</string>
     <string name="not_found_id">見つかりませんでした。もう一度検索してください。</string>
