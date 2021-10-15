@@ -11,11 +11,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentAddFriendBinding
 import com.websarva.wings.android.flat.viewmodel.AddFriendViewModel
@@ -61,15 +59,26 @@ class AddFriendFragment : Fragment() {
                             cvSearchFriendPosition.visibility = View.INVISIBLE
                             btApplyForFriend.apply {
                                 //TODO::承認待ちならばisClickableをfalseにして、テキストや色を入れ替え
-                                text = getString(R.string.apply_for_friend)
-                                setTextColor(ContextCompat.getColor(context, R.color.white))
-                                setBackgroundColor(
-                                    ContextCompat.getColor(
-                                        context,
-                                        R.color.primary_solid
-                                    )
-                                )
-                                isClickable = true
+                                when {
+                                    viewModel.user.value!!.applied && viewModel.user.value!!.requested -> {
+                                        text = getString(R.string.already_friend)
+                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
+                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
+                                        isClickable = false
+                                    }
+                                    viewModel.user.value!!.applied -> {
+                                        text = getString(R.string.wait_for_approval)
+                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
+                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
+                                        isClickable = false
+                                    }
+                                    else -> {
+                                        text = getString(R.string.apply_for_friend)
+                                        setTextColor(ContextCompat.getColor(context, R.color.white))
+                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_solid))
+                                        isClickable = true
+                                    }
+                                }
                                 visibility = View.VISIBLE
                             }
                         }
@@ -131,14 +140,27 @@ class AddFriendFragment : Fragment() {
                         etInputFriendId.text.isNullOrEmpty() -> {
                             tilInputFriendId.isErrorEnabled = true
                             tilInputFriendId.error = getString(R.string.empty_id)
+                            tvAddFriendName.visibility = View.GONE
+                            cvSearchFriendPosition.visibility = View.GONE
+                            btApplyForFriend.visibility = View.GONE
                         }
                         etInputFriendId.text.toString().length < 6 -> {
                             tilInputFriendId.isErrorEnabled = true
                             tilInputFriendId.error = getString(R.string.short_id)
+                            tvAddFriendName.visibility = View.GONE
+                            cvSearchFriendPosition.visibility = View.GONE
+                            btApplyForFriend.visibility = View.GONE
+                        }
+                        etInputFriendId.text.toString() == viewModel.myId.value -> {
+                            tilInputFriendId.isErrorEnabled = true
+                            tilInputFriendId.error = getString(R.string.my_id)
+                            tvAddFriendName.visibility = View.GONE
+                            cvSearchFriendPosition.visibility = View.GONE
+                            btApplyForFriend.visibility = View.GONE
                         }
                         else -> {
                             tilInputFriendId.isErrorEnabled = false
-                            viewModel.getUserInfo(id)
+                            viewModel.getCheckFriend(id)
                         }
                     }
                 }
