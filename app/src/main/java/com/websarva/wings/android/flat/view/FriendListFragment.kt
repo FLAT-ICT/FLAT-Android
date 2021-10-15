@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentFriendListBinding
 
@@ -23,8 +26,12 @@ class FriendListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.fabAddFriend.setOnClickListener{
-            parentFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.app_container, AddFriendFragment()).commit()
+            val action =
+                FriendListFragmentDirections
+                    .actionFriendListFragmentToAddFriendFragment()
+            view.findNavController().navigate(action)
         }
     }
 
