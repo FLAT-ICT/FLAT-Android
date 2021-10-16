@@ -29,11 +29,14 @@ class ApiRepository {
         .create(RestApi::class.java)
 
     // APIにリクエストしてレスポンスを受け取る
-    suspend fun getUser(id: String): Response<ResponseData.ResponseGetUser> =
-        withContext(IO){service.getUser(id)}
+    suspend fun getUser(target_id: String): Response<ResponseData.ResponseGetUser> =
+        withContext(IO){service.getUser(target_id)}
 
     suspend fun checkFriend(my_id: String, target_id: String): Response<ResponseData.ResponseCheckFriend> =
         withContext(IO){service.checkFriend(my_id, target_id)}
+
+    suspend fun getFriends(my_id: String): Response<ResponseData.ResponseGetFriends> =
+        withContext(IO){service.getFriends(my_id)}
 
     suspend fun postAddFriend(postData: PostData.PostAddFriend): Response<ResponseData.ResponseAddFriend> =
         withContext(IO){service.postAddFriend(postData)}

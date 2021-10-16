@@ -10,9 +10,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.Exception
 
-class AddFriendViewModel(
-    saveStateHandle: SavedStateHandle
-) : ViewModel() {
+class AddFriendViewModel: ViewModel() {
     private val repository = ApiRepository.instance
 
     //TODO::repositoryでroomか何かと繋いで自分のIDを取ってくるようにする？
@@ -35,7 +33,7 @@ class AddFriendViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = repository.checkFriend(myId.value.toString(), targetId)
-                _getCode.postValue((response.code()))
+                _getCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d("getSuccess", "${response}\n${response.body()}")
                     _user.postValue(response.body())
