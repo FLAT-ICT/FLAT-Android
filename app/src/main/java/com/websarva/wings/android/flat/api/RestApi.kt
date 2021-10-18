@@ -19,9 +19,8 @@ interface RestApi {
     @GET("/v1/user/check")
     suspend fun checkFriend(@Query("my_id") my_id: String, @Query("target_id") target_id: String): Response<ResponseCheckFriend>
 
-    // このidはmy_id
     @GET("/v1/friends")
-    suspend fun getFriends(@Query("id") id: String): Response<ResponseData.ResponseGetFriends>
+    suspend fun getFriends(@Query("my_id") my_id: String): Response<ResponseData.ResponseGetFriends>
 
     @POST("/v1/friends/add")
     suspend fun postAddFriend(@Body postAddFriend: PostAddFriend): Response<ResponseAddFriend>

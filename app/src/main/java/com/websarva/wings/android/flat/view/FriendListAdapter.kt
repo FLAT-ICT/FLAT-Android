@@ -56,5 +56,11 @@ class FriendListAdapter(initialItem: List<ListItem>) :
             is ListItem.OneSideItem -> (holder.binding as ItemOneSideBinding).content = item
         }
     }
+    //TODO::動くかどうかの確認に書いただけ。後で消す
+    fun addItem(item: ListItem) {
+        val addIndex = contents.size
+        contents.add(item)
+        notifyItemInserted(addIndex)
+    }
     //TODO::contentsを外部から制御するためのメソッドを書く
 }

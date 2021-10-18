@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.websarva.wings.android.flat.api.ResponseData.ResponseGetFriends
 import com.websarva.wings.android.flat.repository.ApiRepository
+import com.websarva.wings.android.flat.view.FriendListAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -14,10 +15,13 @@ class FriendListViewModel(
     private val repository = ApiRepository.instance
 
     //TODO::debugはここの値を変更して行う
-    private val myId = "000001"
+    private val myId = "000302"
 
-    private val _friendsData = MutableLiveData<ResponseGetFriends>()
-    val friendsData: LiveData<ResponseGetFriends> get() = _friendsData
+    private val _mutualFriends = MutableLiveData<List<ListItem.MutualItem>?>()
+    val mutualFriends: LiveData<List<ListItem.MutualItem>?> get() = _mutualFriends
+
+    private val _oneSideFriends = MutableLiveData<List<ListItem.OneSideItem>?>()
+    val oneSideFriends: LiveData<List<ListItem.OneSideItem>?> get() = _oneSideFriends
 
     private val _getFriendsCode = MutableLiveData<Int>()
     val getFriendsCode: LiveData<Int> get() = _getFriendsCode
@@ -37,16 +41,20 @@ class FriendListViewModel(
                 if (response.isSuccessful) {
                     Log.d("getFriendSuccess", "${response}\n${response.body()}")
                     val friendList = response.body()
-                    val mutualFriends = friendList?.mutual
-                    val oneSideFriends = friendList?.one_side
-                    _friendsData.postValue(response.body())
+                    _oneSideFriends.postValue(friendList?.one_side)
+                    _mutualFriends.postValue(friendList?.mutual)
+                    Log.d("debug", "\n${mutualFriends.value}")
                 } else {
-                    Log.d("getFriendSuccess", "${response}\n${response.body()}")
+                    Log.d("getFriendFailure", "${response}\n${response.body()}")
                 }
             } catch (e: Exception) {
                 _errorMessage.postValue(e.message)
                 e.printStackTrace()
             }
         }
+    }
+
+    //TODO::ここでリストの中身を生成する
+    private fun createFriendList(){
     }
 }

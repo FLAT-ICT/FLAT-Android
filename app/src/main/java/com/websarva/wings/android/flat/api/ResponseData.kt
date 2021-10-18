@@ -1,6 +1,7 @@
 package com.websarva.wings.android.flat.api
 
 import com.squareup.moshi.Json
+import com.websarva.wings.android.flat.viewmodel.ListItem
 
 class ResponseData {
     data class ResponseAddFriend(
@@ -24,7 +25,7 @@ class ResponseData {
     )
 
     data class ResponseGetFriends(
-        @Json(name = "mutual") val mutual: List<ResponseGetUser>?,
-        @Json(name = "one_side") val one_side: List<ResponseGetUser>?
+        @Json(name = "mutual") val mutual: List<ListItem.MutualItem>?,
+        @Json(name = "one_side") val one_side: List<ListItem.OneSideItem>?
     )
 }

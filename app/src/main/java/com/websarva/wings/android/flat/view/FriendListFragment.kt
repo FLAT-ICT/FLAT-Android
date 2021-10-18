@@ -7,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentFriendListBinding
 import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
+import com.websarva.wings.android.flat.viewmodel.ListItem
 
 class FriendListFragment : Fragment() {
 
@@ -35,15 +39,24 @@ class FriendListFragment : Fragment() {
             view.findNavController().navigate(action)
         }
 
-//        binding.debugButton.apply {
-//            setOnClickListener {
-//                viewModel.getFriends()
-//                viewModel.friendList.observe(viewLifecycleOwner, Observer {
-//                    text = viewModel.friendList.value?.mutual?.get(0)?.name.toString()
-//                })
-//            }
-//        }
-
+        //TODO::動くかどうかの確認に書いただけ。後で消す
+        //TODO::データが無いときの判断をどのタイミングでどう行うかを考える
+        val list = ArrayList<ListItem>()
+        val adapter = FriendListAdapter(list)
+        binding.apply {
+            rvFriendList.adapter = adapter
+            rvFriendList.layoutManager = LinearLayoutManager(context)
+        }
+        viewModel.oneSideFriends.observe(viewLifecycleOwner, Observer {
+            if (!it.isNullOrEmpty())
+            adapter.addItem(ListItem.HeaderItem(getString(R.string.unapproved_friends)))
+            for (item in it!!) adapter.addItem(item)
+        })
+        viewModel.mutualFriends.observe(viewLifecycleOwner, Observer {
+            if (!it.isNullOrEmpty())
+            adapter.addItem(ListItem.HeaderItem(getString(R.string.friends_list)))
+            for (item in it!!) adapter.addItem(item)
+        })
     }
 
     override fun onDestroyView() {
