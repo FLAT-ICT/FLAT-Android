@@ -4,10 +4,10 @@ import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.api.RestApi
 import com.websarva.wings.android.flat.api.Params.Companion.BASE_URL
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -38,8 +38,11 @@ class ApiRepository {
     suspend fun getFriends(my_id: String): Response<ResponseData.ResponseGetFriends> =
         withContext(IO){service.getFriends(my_id)}
 
-    suspend fun postAddFriend(postData: PostData.PostAddFriend): Response<ResponseData.ResponseAddFriend> =
+    suspend fun postAddFriend(postData: PostData.PostFriends): Response<ResponseData.ResponsePost> =
         withContext(IO){service.postAddFriend(postData)}
+
+    suspend fun postRejectFriend(postData: PostData.PostFriends): Response<ResponseData.ResponsePost> =
+        withContext(IO){service.postRejectFriend(postData)}
 
     companion object Factory {
         val instance: ApiRepository

@@ -12,9 +12,10 @@ import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.ItemHeaderBinding
 import com.websarva.wings.android.flat.databinding.ItemMutualBinding
 import com.websarva.wings.android.flat.databinding.ItemOneSideBinding
+import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
 import com.websarva.wings.android.flat.viewmodel.ListItem
 
-class FriendListAdapter(initialItem: List<ListItem>) :
+class FriendListAdapter(private val viewModel: FriendListViewModel, initialItem: List<ListItem>) :
     RecyclerView.Adapter<FriendListAdapter.BindingViewHolder>() {
     private val contents: MutableList<ListItem> = ArrayList(initialItem)
 
@@ -55,13 +56,13 @@ class FriendListAdapter(initialItem: List<ListItem>) :
         val itemView =
             LayoutInflater.from(parent.context).inflate(getLayoutRes(viewType), parent, false)
         val holder = BindingViewHolder(itemView)
-            holder.itemView.setOnClickListener {
-                //TODO::詳細画面表示の処理
-                if (viewType != 1) {
-                    val position = holder.bindingAdapterPosition
-                    Log.d("itemView", "$position")
-                }
+        holder.itemView.setOnClickListener {
+            //TODO::詳細画面表示の処理
+            if (viewType != 1) {
+                val position = holder.bindingAdapterPosition
+                Log.d("itemView", "$position")
             }
+        }
         return holder
     }
 
@@ -72,19 +73,17 @@ class FriendListAdapter(initialItem: List<ListItem>) :
             is ListItem.MutualItem -> (holder.binding as ItemMutualBinding).content = item
             is ListItem.OneSideItem -> {
                 (holder.binding as ItemOneSideBinding).content = item
+                //accept時の処理
                 holder.binding.ibAccept.setOnClickListener {
-                    //TODO::accept時の処理
-                    val p = holder.bindingAdapterPosition
-                    Log.d("button", "${position}, $p")
-                    deleteItem(p)
+                    viewModel.postAcceptFriend(item.id)
+                    val adPosition = holder.bindingAdapterPosition
+                    deleteItem(adPosition)
                 }
+                //reject時の処理
                 holder.binding.ibReject.setOnClickListener {
-                    //TODO::reject時の処理
-                    val p = holder.bindingAdapterPosition
-                    val i = item.id
-                    val n = item.name
-                    Log.d("button", "${p}, ${n}, $i")
-                    deleteItem(p)
+                    viewModel.postRejectFriend(item.id)
+                    val adPosition = holder.bindingAdapterPosition
+                    deleteItem(adPosition)
                 }
             }
         }

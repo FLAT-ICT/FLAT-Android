@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.websarva.wings.android.flat.viewmodel.ListItem
 
 class ResponseData {
-    data class ResponseAddFriend(
+    data class ResponsePost(
         @Json(name = "message") val message: String
     )
 
