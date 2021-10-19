@@ -16,7 +16,7 @@ class FriendListViewModel(
     private val repository = ApiRepository.instance
 
     //TODO::debugはここの値を変更して行う
-    private val myId = "900000"
+    private val myId = "000804"
 
     private val _mutualFriends = MutableLiveData<List<ListItem.MutualItem>?>()
     val mutualFriends: LiveData<List<ListItem.MutualItem>?> get() = _mutualFriends
@@ -33,8 +33,8 @@ class FriendListViewModel(
     private val _postAcceptFriendCode = MutableLiveData<Int>()
     val postAcceptFriendCode: LiveData<Int> get() = _postAcceptFriendCode
 
-    private val _postRejectFriendCode = MutableLiveData<Int>()
-    val postRejectFriendCode: LiveData<Int> get() = _postRejectFriendCode
+    private val _postRejectFriendCode = MutableLiveData<MutableList<Int>>()
+    val postRejectFriendCode: LiveData<MutableList<Int>> get() = _postRejectFriendCode
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
@@ -106,12 +106,14 @@ class FriendListViewModel(
         }
     }
 
-    fun postRejectFriend(targetId: String) {
+    fun postRejectFriend(targetId: String, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val postId = PostData.PostFriends(myId, targetId)
                 val response = repository.postRejectFriend(postId)
-                _postRejectFriendCode.postValue(response.code())
+                val list = mutableListOf(response.code(), position)
+                _postRejectFriendCode.postValue(list)
+                Log.d("debug", "${_postRejectFriendCode.value}")
                 if (response.isSuccessful) {
                     Log.d(
                         "rejectSuccess",

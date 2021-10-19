@@ -6,9 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.websarva.wings.android.flat.R
@@ -18,7 +17,7 @@ import com.websarva.wings.android.flat.viewmodel.ListItem
 
 class FriendListFragment : Fragment() {
 
-    private val viewModel: FriendListViewModel by viewModels()
+    private val viewModel: FriendListViewModel by activityViewModels()
     private var _binding: FragmentFriendListBinding? = null
     private val binding get() = _binding!!
 
@@ -39,14 +38,19 @@ class FriendListFragment : Fragment() {
                     .actionFriendListFragmentToAddFriendFragment()
             view.findNavController().navigate(action)
         }
-
         //TODO::データが無いときの判断をどのタイミングでどう行うかを考える
         val list = ArrayList<ListItem>()
-        val adapter = FriendListAdapter(viewModel, list)
+        val adapter = FriendListAdapter(childFragmentManager, viewModel, list)
         binding.apply {
             rvFriendList.adapter = adapter
             rvFriendList.layoutManager = LinearLayoutManager(context)
         }
+
+        //TODO::GetFriendsを再度呼ぶだけで良いかも
+        viewModel.postRejectFriendCode.observe(viewLifecycleOwner, Observer {
+            Log.d("code200", "${it[0]}, ${it[1]}")
+            if (it[0] == 200 && adapter.itemCount != 0) adapter.deleteItem(it[1])
+        })
 
         viewModel.getFriendsCode.observe(viewLifecycleOwner, Observer {
             when (it) {

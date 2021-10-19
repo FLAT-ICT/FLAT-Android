@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.ItemHeaderBinding
@@ -15,7 +17,7 @@ import com.websarva.wings.android.flat.databinding.ItemOneSideBinding
 import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
 import com.websarva.wings.android.flat.viewmodel.ListItem
 
-class FriendListAdapter(private val viewModel: FriendListViewModel, initialItem: List<ListItem>) :
+class FriendListAdapter(private val childFragmentManager: FragmentManager, private val viewModel: FriendListViewModel, initialItem: List<ListItem>) :
     RecyclerView.Adapter<FriendListAdapter.BindingViewHolder>() {
     private val contents: MutableList<ListItem> = ArrayList(initialItem)
 
@@ -74,6 +76,7 @@ class FriendListAdapter(private val viewModel: FriendListViewModel, initialItem:
             is ListItem.OneSideItem -> {
                 (holder.binding as ItemOneSideBinding).content = item
                 //accept時の処理
+                //TODO::仕様次第ではGetFriendsを再度呼ぶ
                 holder.binding.ibAccept.setOnClickListener {
                     viewModel.postAcceptFriend(item.id)
                     val adPosition = holder.bindingAdapterPosition
@@ -81,9 +84,8 @@ class FriendListAdapter(private val viewModel: FriendListViewModel, initialItem:
                 }
                 //reject時の処理
                 holder.binding.ibReject.setOnClickListener {
-                    viewModel.postRejectFriend(item.id)
                     val adPosition = holder.bindingAdapterPosition
-                    deleteItem(adPosition)
+                    RejectDialogFragment(item.id, adPosition).show(childFragmentManager, "dialog")
                 }
             }
         }
@@ -104,7 +106,7 @@ class FriendListAdapter(private val viewModel: FriendListViewModel, initialItem:
         }
     }
 
-    private fun deleteItem(position: Int) {
+    fun deleteItem(position: Int) {
         contents.removeAt(position)
         notifyItemRemoved(position)
     }
