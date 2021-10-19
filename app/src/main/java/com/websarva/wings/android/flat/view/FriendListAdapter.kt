@@ -75,13 +75,16 @@ class FriendListAdapter(initialItem: List<ListItem>) :
                 holder.binding.ibAccept.setOnClickListener {
                     //TODO::accept時の処理
                     val p = holder.bindingAdapterPosition
-                    Log.d("button", "$p")
+                    Log.d("button", "${position}, $p")
+                    deleteItem(p)
                 }
                 holder.binding.ibReject.setOnClickListener {
                     //TODO::reject時の処理
+                    val p = holder.bindingAdapterPosition
                     val i = item.id
-                    val p = item.name
-                    Log.d("button", "${p}, $i")
+                    val n = item.name
+                    Log.d("button", "${p}, ${n}, $i")
+                    deleteItem(p)
                 }
             }
         }
@@ -102,7 +105,8 @@ class FriendListAdapter(initialItem: List<ListItem>) :
         }
     }
 
-    fun deleteItem(item: ListItem) {
-        contents.remove(item)
+    private fun deleteItem(position: Int) {
+        contents.removeAt(position)
+        notifyItemRemoved(position)
     }
 }
