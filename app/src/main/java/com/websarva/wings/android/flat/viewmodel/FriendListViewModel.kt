@@ -6,6 +6,8 @@ import com.websarva.wings.android.flat.api.ResponseData.ResponseGetFriends
 import com.websarva.wings.android.flat.repository.ApiRepository
 import com.websarva.wings.android.flat.view.FriendListAdapter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -15,7 +17,7 @@ class FriendListViewModel(
     private val repository = ApiRepository.instance
 
     //TODO::debugはここの値を変更して行う
-    private val myId = "000302"
+    private val myId = "001003"
 
     private val _mutualFriends = MutableLiveData<List<ListItem.MutualItem>?>()
     val mutualFriends: LiveData<List<ListItem.MutualItem>?> get() = _mutualFriends
@@ -43,7 +45,7 @@ class FriendListViewModel(
                     val friendList = response.body()
                     _oneSideFriends.postValue(friendList?.one_side)
                     _mutualFriends.postValue(friendList?.mutual)
-                    Log.d("debug", "\n${mutualFriends.value}")
+                    Log.d("debug", "${mutualFriends.value}")
                 } else {
                     Log.d("getFriendFailure", "${response}\n${response.body()}")
                 }
@@ -52,9 +54,5 @@ class FriendListViewModel(
                 e.printStackTrace()
             }
         }
-    }
-
-    //TODO::ここでリストの中身を生成する
-    private fun createFriendList(){
     }
 }

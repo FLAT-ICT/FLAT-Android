@@ -48,15 +48,18 @@ class FriendListFragment : Fragment() {
             rvFriendList.layoutManager = LinearLayoutManager(context)
         }
         viewModel.oneSideFriends.observe(viewLifecycleOwner, Observer {
-            if (!it.isNullOrEmpty())
-            adapter.addItem(ListItem.HeaderItem(getString(R.string.unapproved_friends)))
-            for (item in it!!) adapter.addItem(item)
+            if (!it.isNullOrEmpty()) {
+                adapter.addItem(ListItem.HeaderItem(getString(R.string.unapproved_friends)))
+                adapter.addItemList(it)
+            }
         })
         viewModel.mutualFriends.observe(viewLifecycleOwner, Observer {
-            if (!it.isNullOrEmpty())
-            adapter.addItem(ListItem.HeaderItem(getString(R.string.friends_list)))
-            for (item in it!!) adapter.addItem(item)
+            if (!it.isNullOrEmpty()) {
+                adapter.addItem(ListItem.HeaderItem(getString(R.string.friends_list)))
+                adapter.addItemList(it)
+            }
         })
+
     }
 
     override fun onDestroyView() {

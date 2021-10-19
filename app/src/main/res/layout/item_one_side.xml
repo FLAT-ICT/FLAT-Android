@@ -55,6 +55,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="7dp"
             android:src="@drawable/ic_accept"
+            android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -66,6 +67,7 @@
             android:layout_marginTop="13dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="7dp"
+            android:background="@null"
             android:src="@drawable/ic_reject"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ib_accept"
