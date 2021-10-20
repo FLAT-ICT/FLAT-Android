@@ -10,13 +10,21 @@
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable-v24/ic_nav_map.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable-v24/ic_nav_settings.xml" value="0.15185185185185185" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable-v24/search_icon.xml" value="0.24739583333333334" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable/ic_accept.xml" value="0.26974358974358975" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable/ic_delete.xml" value="0.26974358974358975" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable/ic_ellipse_11.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable/ic_ellipse_18.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable/ic_icon.xml" value="0.2520833333333333" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable/ic_reject.xml" value="0.26974358974358975" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable/ic_vector.xml" value="0.264" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/drawable/layout_shape.xml" value="0.246875" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/activity_main.xml" value="0.2234375" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/fragment_add_friend.xml" value="0.2" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/fragment_friend_list.xml" value="0.176" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/item_header.xml" value="0.1" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/item_mutual.xml" value="0.4126738794435858" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/item_one_side.xml" value="0.1" />
+        <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/layout/recycler_item.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/shodai/Desktop/project/FLAT-Android/app/src/main/res/menu/menu_bottom_nav.xml" value="0.2359375" />
       </map>
     </option>

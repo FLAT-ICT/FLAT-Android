@@ -11,6 +11,14 @@
     <!--  fragment_friend_list  -->
     <string name="no_have_friend">友だちが1人もいないようです。下のボタンから追加してみましょう！</string>
     <string name="disc_fab">友だちを追加する</string>
+    <string name="unapproved_friends">未承認の友だち</string>
+    <string name="friends_list">友だち一覧</string>
+    <string name="friend_list_error">エラーが発生しました。通信環境をご確認の上、もう一度お試しください。</string>
+
+    <!--  RejectDialogFragment  -->
+    <string name="dialog_message">本当に拒否しますか？（間違って拒否した場合は、もう一度友だち申請をする必要があります）</string>
+    <string name="cancel">キャンセル</string>
+    <string name="reject">拒否</string>
 
     <!--  fragment_add_friend  -->
     <string name="title_add_friend">友だち追加</string>

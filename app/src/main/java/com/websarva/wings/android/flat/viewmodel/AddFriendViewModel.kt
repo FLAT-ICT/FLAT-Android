@@ -2,17 +2,14 @@ package com.websarva.wings.android.flat.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.websarva.wings.android.flat.api.PostData.PostAddFriend
+import com.websarva.wings.android.flat.api.PostData.PostFriends
 import com.websarva.wings.android.flat.api.ResponseData.ResponseCheckFriend
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import java.lang.Exception
 
-class AddFriendViewModel(
-    saveStateHandle: SavedStateHandle
-) : ViewModel() {
+class AddFriendViewModel: ViewModel() {
     private val repository = ApiRepository.instance
 
     //TODO::repositoryでroomか何かと繋いで自分のIDを取ってくるようにする？
@@ -35,7 +32,7 @@ class AddFriendViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = repository.checkFriend(myId.value.toString(), targetId)
-                _getCode.postValue((response.code()))
+                _getCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d("getSuccess", "${response}\n${response.body()}")
                     _user.postValue(response.body())
@@ -71,7 +68,7 @@ class AddFriendViewModel(
     fun postFriendRequest(targetId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val postId = PostAddFriend(myId.value.toString(), targetId)
+                val postId = PostFriends(myId.value.toString(), targetId)
                 val response = repository.postAddFriend(postId)
                 _postCode.postValue(response.code())
                 if (response.isSuccessful) {
