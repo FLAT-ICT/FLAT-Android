@@ -63,8 +63,9 @@ class FriendListFragment : Fragment() {
             Log.d("friends", "${viewModel.friends.value}")
             Log.d("oneSide", "${viewModel.oneSideFriends.value}")
             Log.d("mutual", "${viewModel.mutualFriends.value}")
-            if (it[0] == 0 && it[1] == 0 && viewModel.oneSideFriends.value != null && viewModel.mutualFriends.value != null) binding.tvNoHaveFriend.visibility =
-                View.VISIBLE
+            if (it[0] == 0 && it[1] == 0 && viewModel.oneSideFriends.value != null && viewModel.mutualFriends.value != null) {
+                binding.tvNoHaveFriend.visibility = View.VISIBLE
+            }
             if (it[0] > 0) {
                 adapter.addItem(ListItem.HeaderItem(getString(R.string.unapproved_friends)))
                 adapter.addItemList(viewModel.oneSideFriends.value!!)
