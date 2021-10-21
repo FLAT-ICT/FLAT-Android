@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentFriendListBinding
@@ -38,7 +37,7 @@ class FriendListFragment : Fragment() {
                     .actionFriendListFragmentToAddFriendFragment()
             view.findNavController().navigate(action)
         }
-        //TODO::データが無いときの判断をどのタイミングでどう行うかを考える
+
         val list = ArrayList<ListItem>()
         val adapter = FriendListAdapter(childFragmentManager, viewModel, list)
         binding.apply {
@@ -46,34 +45,47 @@ class FriendListFragment : Fragment() {
             rvFriendList.layoutManager = LinearLayoutManager(context)
         }
 
-        //TODO::GetFriendsを再度呼ぶだけで良いかも
-        viewModel.postRejectFriendCode.observe(viewLifecycleOwner, Observer {
-            Log.d("code200", "${it[0]}, ${it[1]}")
-            if (it[0] == 200 && adapter.itemCount != 0) adapter.deleteItem(it[1])
+        viewModel.operationUnapprovedFriends.observe(viewLifecycleOwner, {
+            when(it[0]) {
+                0 -> {
+                    Log.d("AcceptCode", "Code=${it[1]}")
+                    //TODO::Call getFriends
+                }
+                1 -> {
+                    Log.d("RejectCode", "Code=${it[1]}, listPosition=${it[2]}")
+                    //TODO::only call getFriends
+                    if (it[1] == 200 && adapter.itemCount != 0) {
+                        adapter.deleteItem(it[2])
+                    }
+                }
+            }
+            //TODO::if operate only calling getFriends, delete this
+            if (adapter.itemCount > 1 && adapter.getItemViewType(0) == 1 && adapter.getItemViewType(1) == 1) {
+                adapter.deleteItem(0)
+            }
         })
 
-        viewModel.getFriendsCode.observe(viewLifecycleOwner, Observer {
+        viewModel.getFriendsCode.observe(viewLifecycleOwner, {
+            Log.d("getFriendCode", "$it")
             when (it) {
                 200 -> binding.tvFriendListError.visibility = View.GONE
                 else -> binding.tvFriendListError.visibility = View.VISIBLE
             }
         })
 
-        viewModel.friends.observe(viewLifecycleOwner, Observer {
-            Log.d("friends", "${viewModel.friends.value}")
-            Log.d("oneSide", "${viewModel.oneSideFriends.value}")
-            Log.d("mutual", "${viewModel.mutualFriends.value}")
-            if (it[0] == 0 && it[1] == 0 && viewModel.oneSideFriends.value != null && viewModel.mutualFriends.value != null) {
+        viewModel.friendsCount.observe(viewLifecycleOwner, {
+            Log.d("friends", "${viewModel.friendsCount.value}")
+            if (it["oneSideCount"] == 0 && it["mutualCount"] == 0) {
                 binding.tvNoHaveFriend.visibility = View.VISIBLE
             }
-            if (it[0] > 0) {
+            if (it["oneSideCount"]!! > 0) {
                 adapter.addItem(ListItem.HeaderItem(getString(R.string.unapproved_friends)))
-                adapter.addItemList(viewModel.oneSideFriends.value!!)
+                adapter.addItemList(viewModel.friends.value!!.one_side!!)
                 binding.tvNoHaveFriend.visibility = View.GONE
             }
-            if (it[1] > 0) {
+            if (it["mutualCount"]!! > 0) {
                 adapter.addItem(ListItem.HeaderItem(getString(R.string.friends_list)))
-                adapter.addItemList(viewModel.mutualFriends.value!!)
+                adapter.addItemList(viewModel.friends.value!!.mutual!!)
                 binding.tvNoHaveFriend.visibility = View.GONE
             }
         })
