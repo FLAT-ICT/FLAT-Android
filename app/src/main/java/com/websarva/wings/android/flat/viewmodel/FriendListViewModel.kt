@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import androidx.lifecycle.MediatorLiveData
+import com.websarva.wings.android.flat.api.ResponseData
 
 
 class FriendListViewModel(
@@ -16,52 +17,50 @@ class FriendListViewModel(
     private val repository = ApiRepository.instance
 
     //TODO::debugはここの値を変更して行う
-    private val myId = "000804"
+    private val myId = "002003"
 
-    private val _mutualFriends = MutableLiveData<List<ListItem.MutualItem>?>()
-    val mutualFriends: LiveData<List<ListItem.MutualItem>?> get() = _mutualFriends
+    val friendsCount: MediatorLiveData<MutableMap<String, Int>> = MediatorLiveData<MutableMap<String, Int>>()
 
-    private val _oneSideFriends = MutableLiveData<List<ListItem.OneSideItem>?>()
-    val oneSideFriends: LiveData<List<ListItem.OneSideItem>?> get() = _oneSideFriends
+    val operationUnapprovedFriends: MediatorLiveData<List<Int>> = MediatorLiveData<List<Int>>()
 
-    // 友達リストの変更を通知 index0はonside, index1はmutualの友だち数を格納する
-    val friends: MediatorLiveData<MutableList<Int>> = MediatorLiveData<MutableList<Int>>()
+    private val _friends = MutableLiveData<ResponseData.ResponseGetFriends?>()
+    val friends: LiveData<ResponseData.ResponseGetFriends?> get() = _friends
 
     private val _getFriendsCode = MutableLiveData<Int>()
     val getFriendsCode: LiveData<Int> get() = _getFriendsCode
 
-    private val _postAcceptFriendCode = MutableLiveData<Int>()
-    val postAcceptFriendCode: LiveData<Int> get() = _postAcceptFriendCode
+    private val postAcceptFriendCode = MutableLiveData<Int>()
 
-    private val _postRejectFriendCode = MutableLiveData<MutableList<Int>>()
-    val postRejectFriendCode: LiveData<MutableList<Int>> get() = _postRejectFriendCode
-
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String> get() = _errorMessage
+    private val postRejectFriendCode = MutableLiveData<MutableList<Int>>()
 
     init {
-        initFriendsCount()
         getFriends()
 
-        friends.addSource(oneSideFriends) {
-            var count = 0
-            if (!it.isNullOrEmpty()) {
-                count = it.size
+        friendsCount.addSource(friends) {
+            var oneSideCount = 0
+            var mutualCount = 0
+            if (!it?.one_side.isNullOrEmpty()) {
+                oneSideCount = it!!.one_side!!.size
             }
-            Log.d("one", "$count")
-            val list = friends.value
-            list!![0] = count
-            friends.postValue(list)
+            if (!it?.mutual.isNullOrEmpty()) {
+                mutualCount = it!!.mutual!!.size
+            }
+            Log.d("fri", "oneCount=${oneSideCount}, muCount=$mutualCount")
+            val data = mutableMapOf<String, Int>()
+            data["oneSideCount"] = oneSideCount
+            data["mutualCount"] = mutualCount
+            friendsCount.postValue(data)
         }
-        friends.addSource(mutualFriends) {
-            var count = 0
-            if (!it.isNullOrEmpty()) {
-                count = it.size
-            }
-            Log.d("mu", "$count")
-            val list = friends.value
-            list!![1] = count
-            friends.postValue(list)
+
+        operationUnapprovedFriends.addSource(postAcceptFriendCode) {
+            val data: List<Int> = listOf(0, postAcceptFriendCode.value!!)
+            operationUnapprovedFriends.postValue(data)
+        }
+        operationUnapprovedFriends.addSource(postRejectFriendCode) {
+            //TODO::if operate only calling getFriends, delete third argument
+            //TODO::postRejectFriends second argument, Dialog's position, and Adapter's adPosition of dialog call also need to delete
+            val data: List<Int> = listOf(1, postRejectFriendCode.value!![0], postRejectFriendCode.value!![1])
+            operationUnapprovedFriends.postValue(data)
         }
     }
 
@@ -73,13 +72,11 @@ class FriendListViewModel(
                 if (response.isSuccessful) {
                     Log.d("getFriendSuccess", "${response}\n${response.body()}")
                     val friendList = response.body()
-                    _oneSideFriends.postValue(friendList?.one_side)
-                    _mutualFriends.postValue(friendList?.mutual)
+                    _friends.postValue(friendList)
                 } else {
                     Log.d("getFriendFailure", "${response}\n${response.body()}")
                 }
             } catch (e: Exception) {
-                _errorMessage.postValue(e.message)
                 e.printStackTrace()
             }
         }
@@ -90,7 +87,7 @@ class FriendListViewModel(
             try {
                 val postId = PostData.PostFriends(myId, targetId)
                 val response = repository.postAddFriend(postId)
-                _postAcceptFriendCode.postValue(response.code())
+                postAcceptFriendCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d(
                         "acceptSuccess",
@@ -100,7 +97,6 @@ class FriendListViewModel(
                     Log.d("acceptFailure", "$response")
                 }
             } catch (e: Exception) {
-                _errorMessage.postValue(e.message)
                 e.printStackTrace()
             }
         }
@@ -112,8 +108,8 @@ class FriendListViewModel(
                 val postId = PostData.PostFriends(myId, targetId)
                 val response = repository.postRejectFriend(postId)
                 val list = mutableListOf(response.code(), position)
-                _postRejectFriendCode.postValue(list)
-                Log.d("debug", "${_postRejectFriendCode.value}")
+                postRejectFriendCode.postValue(list)
+                Log.d("debug", "${postRejectFriendCode.value}")
                 if (response.isSuccessful) {
                     Log.d(
                         "rejectSuccess",
@@ -123,14 +119,8 @@ class FriendListViewModel(
                     Log.d("rejectFailure", "$response")
                 }
             } catch (e: Exception) {
-                _errorMessage.postValue(e.message)
                 e.printStackTrace()
             }
         }
-    }
-
-    private fun initFriendsCount() {
-        val counter = MutableList(2) { 0 }
-        friends.postValue(counter)
     }
 }
