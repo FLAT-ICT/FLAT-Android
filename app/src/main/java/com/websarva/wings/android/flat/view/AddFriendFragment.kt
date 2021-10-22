@@ -148,8 +148,7 @@ class AddFriendFragment : Fragment() {
                         }
                         else -> {
                             tilInputFriendId.isErrorEnabled = false
-                            //TODO::marge後コメントアウトを外す
-//                            viewModel.getSearchUsers(name)
+                            viewModel.getSearchUsers(name)
                         }
                     }
                 }
