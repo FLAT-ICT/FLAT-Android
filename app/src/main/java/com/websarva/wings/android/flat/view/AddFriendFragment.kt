@@ -43,11 +43,11 @@ class AddFriendFragment : Fragment() {
         binding.etInputFriendId.setOnEditorActionListener(editorAction)
 
         // ID入力確定時の通信が成功したとき
-        viewModel.getCode.observe(viewLifecycleOwner, Observer {
+        viewModel.getCode.observe(viewLifecycleOwner, {
             when (viewModel.getCode.value) {
                 // GETが成功したとき
                 200 -> {
-                    viewModel.user.observe(viewLifecycleOwner, Observer {
+                    viewModel.user.observe(viewLifecycleOwner, {
                         binding.apply {
                             tvNotFoundId.visibility = View.GONE
                             tvAddFriendName.apply {
@@ -105,7 +105,7 @@ class AddFriendFragment : Fragment() {
         }
 
         // 友だち申請時の通信が成功したとき
-        viewModel.postCode.observe(viewLifecycleOwner, Observer {
+        viewModel.postCode.observe(viewLifecycleOwner, {
             when (viewModel.postCode.value) {
                 // POSTが成功したとき
                 200 -> {
@@ -122,7 +122,7 @@ class AddFriendFragment : Fragment() {
             }
         })
 
-        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+        viewModel.errorMessage.observe(viewLifecycleOwner, {
             Log.d("error", "${viewModel.errorMessage.value}")
             //TODO::接続が確認されなかった等のメッセージの表示？
         })
@@ -140,13 +140,6 @@ class AddFriendFragment : Fragment() {
                         etInputFriendId.text.isNullOrEmpty() -> {
                             tilInputFriendId.isErrorEnabled = true
                             tilInputFriendId.error = getString(R.string.empty_text)
-                            tvAddFriendName.visibility = View.GONE
-                            cvSearchFriendPosition.visibility = View.GONE
-                            btApplyForFriend.visibility = View.GONE
-                        }
-                        etInputFriendId.text.toString() == viewModel.myId.value -> {
-                            tilInputFriendId.isErrorEnabled = true
-                            tilInputFriendId.error = getString(R.string.my_id)
                             tvAddFriendName.visibility = View.GONE
                             cvSearchFriendPosition.visibility = View.GONE
                             btApplyForFriend.visibility = View.GONE
