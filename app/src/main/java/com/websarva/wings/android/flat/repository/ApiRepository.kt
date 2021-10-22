@@ -32,9 +32,6 @@ class ApiRepository {
     suspend fun getUser(target_id: Int): Response<ResponseData.ResponseGetUser> =
         withContext(IO){service.getUser(target_id)}
 
-    suspend fun checkFriend(my_id: Int, target_id: Int): Response<ResponseData.ResponseCheckFriend> =
-        withContext(IO){service.checkFriend(my_id, target_id)}
-
     suspend fun searchUsers(my_id: Int, target_name: String): Response<List<ResponseData.ResponseSearchUsers>> =
         withContext(IO){service.searchUsers(my_id, target_name)}
 

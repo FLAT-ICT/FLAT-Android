@@ -47,42 +47,43 @@ class AddFriendFragment : Fragment() {
             when (viewModel.getCode.value) {
                 // GETが成功したとき
                 200 -> {
-                    viewModel.user.observe(viewLifecycleOwner, {
-                        binding.apply {
-                            tvNotFoundId.visibility = View.GONE
-                            tvAddFriendName.apply {
-                                text = viewModel.user.value?.name
-                                visibility = View.VISIBLE
-                            }
-                            //TODO::ivSearchFriendにアイコンを設置する処理を書く
-                            //TODO::アイコンを設置したら下のINVISIBLEをVISIBLEにする
-                            cvSearchFriendPosition.visibility = View.INVISIBLE
-                            btApplyForFriend.apply {
-                                //TODO::承認待ちならばisClickableをfalseにして、テキストや色を入れ替え
-                                when {
-                                    viewModel.user.value!!.applied && viewModel.user.value!!.requested -> {
-                                        text = getString(R.string.already_friend)
-                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
-                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
-                                        isClickable = false
-                                    }
-                                    viewModel.user.value!!.applied -> {
-                                        text = getString(R.string.wait_for_approval)
-                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
-                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
-                                        isClickable = false
-                                    }
-                                    else -> {
-                                        text = getString(R.string.apply_for_friend)
-                                        setTextColor(ContextCompat.getColor(context, R.color.white))
-                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_solid))
-                                        isClickable = true
-                                    }
-                                }
-                                visibility = View.VISIBLE
-                            }
-                        }
-                    })
+                    //TODO::適切に書き換える
+//                    viewModel.user.observe(viewLifecycleOwner, {
+//                        binding.apply {
+//                            tvNotFoundId.visibility = View.GONE
+//                            tvAddFriendName.apply {
+//                                text = viewModel.user.value?.name
+//                                visibility = View.VISIBLE
+//                            }
+//                            //TODO::ivSearchFriendにアイコンを設置する処理を書く
+//                            //TODO::アイコンを設置したら下のINVISIBLEをVISIBLEにする
+//                            cvSearchFriendPosition.visibility = View.INVISIBLE
+//                            btApplyForFriend.apply {
+//                                //TODO::承認待ちならばisClickableをfalseにして、テキストや色を入れ替え
+//                                when {
+//                                    viewModel.user.value!!.applied && viewModel.user.value!!.requested -> {
+//                                        text = getString(R.string.already_friend)
+//                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
+//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
+//                                        isClickable = false
+//                                    }
+//                                    viewModel.user.value!!.applied -> {
+//                                        text = getString(R.string.wait_for_approval)
+//                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
+//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
+//                                        isClickable = false
+//                                    }
+//                                    else -> {
+//                                        text = getString(R.string.apply_for_friend)
+//                                        setTextColor(ContextCompat.getColor(context, R.color.white))
+//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_solid))
+//                                        isClickable = true
+//                                    }
+//                                }
+//                                visibility = View.VISIBLE
+//                            }
+//                        }
+//                    })
                 }
                 // GETが失敗したとき
                 else -> {
@@ -100,7 +101,8 @@ class AddFriendFragment : Fragment() {
         binding.btApplyForFriend.apply {
             setOnClickListener {
                 isClickable = false
-                viewModel.postFriendRequest(viewModel.user.value!!.id)
+                //TODO::適切に書き換える
+//                viewModel.postFriendRequest(viewModel.user.value!!.id)
             }
         }
 
