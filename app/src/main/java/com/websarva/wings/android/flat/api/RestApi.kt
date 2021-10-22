@@ -20,7 +20,7 @@ interface RestApi {
     suspend fun checkFriend(@Query("my_id") my_id: String, @Query("target_id") target_id: String): Response<ResponseCheckFriend>
 
     @GET("/v1/user/search")
-    suspend fun searchUsers(@Query("my_id") my_id: Int, @Query("target_name") target_name: String): Response<ResponseData.ResponseSearchUsers>
+    suspend fun searchUsers(@Query("my_id") my_id: Int, @Query("target_name") target_name: String): Response<List<ResponseData.ResponseSearchUsers>>
 
     @GET("/v1/friends")
     suspend fun getFriends(@Query("my_id") my_id: String): Response<ResponseData.ResponseGetFriends>

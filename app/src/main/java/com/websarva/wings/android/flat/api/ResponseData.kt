@@ -29,7 +29,7 @@ class ResponseData {
         @Json(name = "one_side") val one_side: List<ListItem.OneSideItem>?
     )
 
-    data class ResponseSearchUser(
+    data class ResponseSearchUsers(
         @Json(name = "id") val id: Int,
         @Json(name = "name") val name: String,
         @Json(name = "icon_path") val icon_path: String,
@@ -37,7 +37,4 @@ class ResponseData {
         @Json(name = "requested") val requested: Boolean
     )
 
-    data class ResponseSearchUsers(
-        @Json(name = "") val users: List<ResponseSearchUser>
-    )
 }

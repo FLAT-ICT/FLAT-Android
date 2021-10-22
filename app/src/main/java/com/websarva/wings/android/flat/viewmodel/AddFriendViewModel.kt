@@ -16,8 +16,8 @@ class AddFriendViewModel: ViewModel() {
     //TODO::後で下のmyIDを削除して命名を変更する
     private val id: Int = 1
 
-    private val _users = MutableLiveData<ResponseSearchUsers>()
-    val users: LiveData<ResponseSearchUsers> get() = _users
+    private val _users = MutableLiveData<List<ResponseSearchUsers>>()
+    val users: LiveData<List<ResponseSearchUsers>> get() = _users
 
     //TODO::repositoryでroomか何かと繋いで自分のIDを取ってくるようにする？
     private val _myId = MutableLiveData("000001")
@@ -42,10 +42,10 @@ class AddFriendViewModel: ViewModel() {
                 val response = repository.searchUsers(id, targetName)
                 _getCode.postValue(response.code())
                 if (response.isSuccessful) {
-                    Log.d("getSuccess", "${response}\n${response.body()}")
+                    Log.d("getSearchSuccess", "${response}\n${response.body()}")
                     _users.postValue(response.body())
                 } else {
-                    Log.d("getFailure", "$response")
+                    Log.d("getSearchFailure", "$response")
                 }
             } catch (e: Exception) {
                 _errorMessage.postValue(e.message)
