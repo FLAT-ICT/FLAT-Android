@@ -14,16 +14,16 @@ interface RestApi {
 
     // このidはtarget_id
     @GET("/v1/user")
-    suspend fun getUser(@Query("id") id: String): Response<ResponseGetUser>
+    suspend fun getUser(@Query("id") id: Int): Response<ResponseGetUser>
 
     @GET("/v1/user/check")
-    suspend fun checkFriend(@Query("my_id") my_id: String, @Query("target_id") target_id: String): Response<ResponseCheckFriend>
+    suspend fun checkFriend(@Query("my_id") my_id: Int, @Query("target_id") target_id: Int): Response<ResponseCheckFriend>
 
     @GET("/v1/user/search")
     suspend fun searchUsers(@Query("my_id") my_id: Int, @Query("target_name") target_name: String): Response<List<ResponseData.ResponseSearchUsers>>
 
     @GET("/v1/friends")
-    suspend fun getFriends(@Query("my_id") my_id: String): Response<ResponseData.ResponseGetFriends>
+    suspend fun getFriends(@Query("my_id") my_id: Int): Response<ResponseData.ResponseGetFriends>
 
     @POST("/v1/friends/add")
     suspend fun postAddFriend(@Body postFriends: PostFriends): Response<ResponsePost>

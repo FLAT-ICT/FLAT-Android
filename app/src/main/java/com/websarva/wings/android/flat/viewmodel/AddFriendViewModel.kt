@@ -54,10 +54,10 @@ class AddFriendViewModel: ViewModel() {
         }
     }
 
-    fun getCheckFriend(targetId: String) {
+    fun getCheckFriend(targetId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = repository.checkFriend(myId.value.toString(), targetId)
+                val response = repository.checkFriend(id, targetId)
                 _getCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d("getSuccess", "${response}\n${response.body()}")
@@ -91,10 +91,10 @@ class AddFriendViewModel: ViewModel() {
 //        }
 //    }
 
-    fun postFriendRequest(targetId: String) {
+    fun postFriendRequest(targetId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val postId = PostFriends(myId.value.toString(), targetId)
+                val postId = PostFriends(id, targetId)
                 val response = repository.postAddFriend(postId)
                 _postCode.postValue(response.code())
                 if (response.isSuccessful) {
