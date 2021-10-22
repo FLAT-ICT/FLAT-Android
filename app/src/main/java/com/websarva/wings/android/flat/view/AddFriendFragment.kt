@@ -134,19 +134,12 @@ class AddFriendFragment : Fragment() {
     private val editorAction: TextView.OnEditorActionListener =
         TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER) {
-                val id = binding.etInputFriendId.text.toString()
+                val name = binding.etInputFriendId.text.toString()
                 binding.apply {
                     when {
                         etInputFriendId.text.isNullOrEmpty() -> {
                             tilInputFriendId.isErrorEnabled = true
-                            tilInputFriendId.error = getString(R.string.empty_id)
-                            tvAddFriendName.visibility = View.GONE
-                            cvSearchFriendPosition.visibility = View.GONE
-                            btApplyForFriend.visibility = View.GONE
-                        }
-                        etInputFriendId.text.toString().length < 6 -> {
-                            tilInputFriendId.isErrorEnabled = true
-                            tilInputFriendId.error = getString(R.string.short_id)
+                            tilInputFriendId.error = getString(R.string.empty_text)
                             tvAddFriendName.visibility = View.GONE
                             cvSearchFriendPosition.visibility = View.GONE
                             btApplyForFriend.visibility = View.GONE
@@ -160,7 +153,8 @@ class AddFriendFragment : Fragment() {
                         }
                         else -> {
                             tilInputFriendId.isErrorEnabled = false
-                            viewModel.getCheckFriend(id)
+                            //TODO::marge後コメントアウトを外す
+//                            viewModel.getSearchUsers(name)
                         }
                     }
                 }
