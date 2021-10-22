@@ -42,12 +42,13 @@ class AddFriendFragment : Fragment() {
         // キーボードの完了ボタンのリスナー
         binding.etInputFriendId.setOnEditorActionListener(editorAction)
 
-        // ID入力確定時の通信が成功したとき
+        // 名前入力確定時の通信が成功したとき
+        //TODO::recyclerViewを表示するようにする
+        //TODO::現在コメントアウトしてあるのはアイテムタップ後の処理なので、場合によってはFragmentを増やして画面遷移して処理を行うorリストの横にボタンを付けてよしなに
         viewModel.getCode.observe(viewLifecycleOwner, {
             when (viewModel.getCode.value) {
                 // GETが成功したとき
                 200 -> {
-                    //TODO::適切に書き換える
 //                    viewModel.user.observe(viewLifecycleOwner, {
 //                        binding.apply {
 //                            tvNotFoundId.visibility = View.GONE
@@ -101,7 +102,7 @@ class AddFriendFragment : Fragment() {
         binding.btApplyForFriend.apply {
             setOnClickListener {
                 isClickable = false
-                //TODO::適切に書き換える
+                //TODO::引数をrecyclerViewのアイテムクリック時に引き継いだID情報に変える
 //                viewModel.postFriendRequest(viewModel.user.value!!.id)
             }
         }
