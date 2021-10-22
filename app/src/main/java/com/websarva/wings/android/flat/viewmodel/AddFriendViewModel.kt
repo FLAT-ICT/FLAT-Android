@@ -13,8 +13,7 @@ class AddFriendViewModel: ViewModel() {
     private val repository = ApiRepository.instance
 
     //TODO::repositoryでroomか何かと繋いで自分のIDを取ってくるようにする？
-    //TODO::後で下のmyIDを削除して命名を変更する
-    private val id: Int = 1
+    private val myId: Int = 1
 
     private val _users = MutableLiveData<List<ResponseSearchUsers>>()
     val users: LiveData<List<ResponseSearchUsers>> get() = _users
@@ -32,7 +31,7 @@ class AddFriendViewModel: ViewModel() {
     fun getSearchUsers(targetName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = repository.searchUsers(id, targetName)
+                val response = repository.searchUsers(myId, targetName)
                 _getCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d("getSearchSuccess", "${response}\n${response.body()}")
@@ -69,12 +68,12 @@ class AddFriendViewModel: ViewModel() {
     fun postFriendRequest(targetId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val postId = PostFriends(id, targetId)
+                val postId = PostFriends(myId, targetId)
                 val response = repository.postAddFriend(postId)
                 _postCode.postValue(response.code())
                 if (response.isSuccessful) {
                     //TODO::適切に書き換える
-//                    Log.d("postSuccess", "${response}\n${response.body()}\nmyId=${myId.value.toString()}, targetId=${targetId}")
+                    Log.d("postSuccess", "${response}\n${response.body()}\nmyId=${myId}, targetId=${targetId}")
                 } else {
                     Log.d("postFailure", "$response")
                 }
