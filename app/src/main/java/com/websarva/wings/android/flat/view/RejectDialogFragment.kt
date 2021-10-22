@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
 
-class RejectDialogFragment(private val itemId: String, private val position: Int): DialogFragment() {
+class RejectDialogFragment(private val itemId: Int, private val position: Int): DialogFragment() {
     private val viewModel: FriendListViewModel by activityViewModels()
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext()).apply {

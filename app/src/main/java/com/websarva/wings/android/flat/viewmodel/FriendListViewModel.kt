@@ -17,7 +17,7 @@ class FriendListViewModel(
     private val repository = ApiRepository.instance
 
     //TODO::debugはここの値を変更して行う
-    private val myId = "002003"
+    private val myId = 2003
 
     val friendsCount: MediatorLiveData<MutableMap<String, Int>> = MediatorLiveData<MutableMap<String, Int>>()
 
@@ -82,7 +82,7 @@ class FriendListViewModel(
         }
     }
 
-    fun postAcceptFriend(targetId: String) {
+    fun postAcceptFriend(targetId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val postId = PostData.PostFriends(myId, targetId)
@@ -102,7 +102,7 @@ class FriendListViewModel(
         }
     }
 
-    fun postRejectFriend(targetId: String, position: Int) {
+    fun postRejectFriend(targetId: Int, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val postId = PostData.PostFriends(myId, targetId)

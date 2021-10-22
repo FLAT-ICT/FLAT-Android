@@ -42,47 +42,49 @@ class AddFriendFragment : Fragment() {
         // キーボードの完了ボタンのリスナー
         binding.etInputFriendId.setOnEditorActionListener(editorAction)
 
-        // ID入力確定時の通信が成功したとき
+        // 名前入力確定時の通信が成功したとき
+        //TODO::recyclerViewを表示するようにする
+        //TODO::現在コメントアウトしてあるのはアイテムタップ後の処理なので、場合によってはFragmentを増やして画面遷移して処理を行うorリストの横にボタンを付けてよしなに
         viewModel.getCode.observe(viewLifecycleOwner, {
             when (viewModel.getCode.value) {
                 // GETが成功したとき
                 200 -> {
-                    viewModel.user.observe(viewLifecycleOwner, {
-                        binding.apply {
-                            tvNotFoundId.visibility = View.GONE
-                            tvAddFriendName.apply {
-                                text = viewModel.user.value?.name
-                                visibility = View.VISIBLE
-                            }
-                            //TODO::ivSearchFriendにアイコンを設置する処理を書く
-                            //TODO::アイコンを設置したら下のINVISIBLEをVISIBLEにする
-                            cvSearchFriendPosition.visibility = View.INVISIBLE
-                            btApplyForFriend.apply {
-                                //TODO::承認待ちならばisClickableをfalseにして、テキストや色を入れ替え
-                                when {
-                                    viewModel.user.value!!.applied && viewModel.user.value!!.requested -> {
-                                        text = getString(R.string.already_friend)
-                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
-                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
-                                        isClickable = false
-                                    }
-                                    viewModel.user.value!!.applied -> {
-                                        text = getString(R.string.wait_for_approval)
-                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
-                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
-                                        isClickable = false
-                                    }
-                                    else -> {
-                                        text = getString(R.string.apply_for_friend)
-                                        setTextColor(ContextCompat.getColor(context, R.color.white))
-                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_solid))
-                                        isClickable = true
-                                    }
-                                }
-                                visibility = View.VISIBLE
-                            }
-                        }
-                    })
+//                    viewModel.user.observe(viewLifecycleOwner, {
+//                        binding.apply {
+//                            tvNotFoundId.visibility = View.GONE
+//                            tvAddFriendName.apply {
+//                                text = viewModel.user.value?.name
+//                                visibility = View.VISIBLE
+//                            }
+//                            //TODO::ivSearchFriendにアイコンを設置する処理を書く
+//                            //TODO::アイコンを設置したら下のINVISIBLEをVISIBLEにする
+//                            cvSearchFriendPosition.visibility = View.INVISIBLE
+//                            btApplyForFriend.apply {
+//                                //TODO::承認待ちならばisClickableをfalseにして、テキストや色を入れ替え
+//                                when {
+//                                    viewModel.user.value!!.applied && viewModel.user.value!!.requested -> {
+//                                        text = getString(R.string.already_friend)
+//                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
+//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
+//                                        isClickable = false
+//                                    }
+//                                    viewModel.user.value!!.applied -> {
+//                                        text = getString(R.string.wait_for_approval)
+//                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
+//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
+//                                        isClickable = false
+//                                    }
+//                                    else -> {
+//                                        text = getString(R.string.apply_for_friend)
+//                                        setTextColor(ContextCompat.getColor(context, R.color.white))
+//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_solid))
+//                                        isClickable = true
+//                                    }
+//                                }
+//                                visibility = View.VISIBLE
+//                            }
+//                        }
+//                    })
                 }
                 // GETが失敗したとき
                 else -> {
@@ -100,7 +102,8 @@ class AddFriendFragment : Fragment() {
         binding.btApplyForFriend.apply {
             setOnClickListener {
                 isClickable = false
-                viewModel.postFriendRequest(viewModel.user.value!!.id)
+                //TODO::引数をrecyclerViewのアイテムクリック時に引き継いだID情報に変える
+//                viewModel.postFriendRequest(viewModel.user.value!!.id)
             }
         }
 
@@ -146,8 +149,7 @@ class AddFriendFragment : Fragment() {
                         }
                         else -> {
                             tilInputFriendId.isErrorEnabled = false
-                            //TODO::marge後コメントアウトを外す
-//                            viewModel.getSearchUsers(name)
+                            viewModel.getSearchUsers(name)
                         }
                     }
                 }

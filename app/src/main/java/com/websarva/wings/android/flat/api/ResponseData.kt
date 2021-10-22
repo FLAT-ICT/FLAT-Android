@@ -9,19 +9,11 @@ class ResponseData {
     )
 
     data class ResponseGetUser(
-        @Json(name = "id") val id: String,
+        @Json(name = "id") val id: Int,
         @Json(name = "name") val name: String,
         @Json(name = "status") val status: Int,
         @Json(name = "beacon") val beacon: String?,
         @Json(name = "icon_path") val icon_path: String
-    )
-
-    data class ResponseCheckFriend(
-        @Json(name = "id") val id: String,
-        @Json(name = "name") val name: String,
-        @Json(name = "icon_path") val icon_path: String,
-        @Json(name = "applied") val applied: Boolean,
-        @Json(name = "requested") val requested: Boolean
     )
 
     data class ResponseGetFriends(
