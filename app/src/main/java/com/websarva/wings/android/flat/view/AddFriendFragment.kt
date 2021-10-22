@@ -43,11 +43,11 @@ class AddFriendFragment : Fragment() {
         binding.etInputFriendId.setOnEditorActionListener(editorAction)
 
         // ID入力確定時の通信が成功したとき
-        viewModel.getCode.observe(viewLifecycleOwner, Observer {
+        viewModel.getCode.observe(viewLifecycleOwner, {
             when (viewModel.getCode.value) {
                 // GETが成功したとき
                 200 -> {
-                    viewModel.user.observe(viewLifecycleOwner, Observer {
+                    viewModel.user.observe(viewLifecycleOwner, {
                         binding.apply {
                             tvNotFoundId.visibility = View.GONE
                             tvAddFriendName.apply {
@@ -105,7 +105,7 @@ class AddFriendFragment : Fragment() {
         }
 
         // 友だち申請時の通信が成功したとき
-        viewModel.postCode.observe(viewLifecycleOwner, Observer {
+        viewModel.postCode.observe(viewLifecycleOwner, {
             when (viewModel.postCode.value) {
                 // POSTが成功したとき
                 200 -> {
@@ -122,7 +122,7 @@ class AddFriendFragment : Fragment() {
             }
         })
 
-        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+        viewModel.errorMessage.observe(viewLifecycleOwner, {
             Log.d("error", "${viewModel.errorMessage.value}")
             //TODO::接続が確認されなかった等のメッセージの表示？
         })
@@ -134,33 +134,20 @@ class AddFriendFragment : Fragment() {
     private val editorAction: TextView.OnEditorActionListener =
         TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER) {
-                val id = binding.etInputFriendId.text.toString()
+                val name = binding.etInputFriendId.text.toString()
                 binding.apply {
                     when {
                         etInputFriendId.text.isNullOrEmpty() -> {
                             tilInputFriendId.isErrorEnabled = true
-                            tilInputFriendId.error = getString(R.string.empty_id)
-                            tvAddFriendName.visibility = View.GONE
-                            cvSearchFriendPosition.visibility = View.GONE
-                            btApplyForFriend.visibility = View.GONE
-                        }
-                        etInputFriendId.text.toString().length < 6 -> {
-                            tilInputFriendId.isErrorEnabled = true
-                            tilInputFriendId.error = getString(R.string.short_id)
-                            tvAddFriendName.visibility = View.GONE
-                            cvSearchFriendPosition.visibility = View.GONE
-                            btApplyForFriend.visibility = View.GONE
-                        }
-                        etInputFriendId.text.toString() == viewModel.myId.value -> {
-                            tilInputFriendId.isErrorEnabled = true
-                            tilInputFriendId.error = getString(R.string.my_id)
+                            tilInputFriendId.error = getString(R.string.empty_text)
                             tvAddFriendName.visibility = View.GONE
                             cvSearchFriendPosition.visibility = View.GONE
                             btApplyForFriend.visibility = View.GONE
                         }
                         else -> {
                             tilInputFriendId.isErrorEnabled = false
-                            viewModel.getCheckFriend(id)
+                            //TODO::marge後コメントアウトを外す
+//                            viewModel.getSearchUsers(name)
                         }
                     }
                 }
