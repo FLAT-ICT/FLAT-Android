@@ -2,12 +2,13 @@ package com.websarva.wings.android.flat.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.api.ResponseData
-import com.websarva.wings.android.flat.databinding.FragmentAddFriendBinding
 import com.websarva.wings.android.flat.databinding.ItemSearchedUsersBinding
 import com.websarva.wings.android.flat.viewmodel.AddFriendViewModel
 
@@ -51,5 +52,13 @@ class AddFriendAdapter(
 
     override fun onBindViewHolder(holder: AddFriendViewHolder, position: Int) {
         holder.bind(getItem(position), viewLifeCycleOwner, viewModel)
+        holder.itemView.findViewById<Button>(R.id.bt_friend_request).apply {
+            viewModel.apply {
+                text = context.getString(setButtonText(getItem(position)))
+                setTextColor(context.getColor(setButtonTextColor(getItem(position))))
+                setBackgroundColor(context.getColor(setButtonBackgroundColor(getItem(position))))
+            }
+        }
+
     }
 }

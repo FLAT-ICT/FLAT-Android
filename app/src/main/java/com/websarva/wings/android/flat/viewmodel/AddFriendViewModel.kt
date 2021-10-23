@@ -96,14 +96,14 @@ class AddFriendViewModel: ViewModel() {
         }
     }
 
-    //TODO::テキスト、色の設定方法を考える
-    fun setButtonText(item: ResponseSearchUser): String {
+    //ボタンの色、テキスト
+    fun setButtonText(item: ResponseSearchUser): Int {
         return when {
             item.applied -> {
-                R.string.wait_for_approval.toString()
+                R.string.wait_for_approval
             }
             else -> {
-                R.string.apply_for_friend.toString()
+                R.string.apply_for_friend
             }
         }
     }
