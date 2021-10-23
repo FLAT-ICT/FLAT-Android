@@ -17,7 +17,7 @@ class AddFriendViewModel: ViewModel() {
     //TODO::repositoryでroomか何かと繋いで自分のIDを取ってくるようにする？
     private val myId: Int = 1
 
-    val searchWord = MutableLiveData<String>()
+    val searchWord: MutableLiveData<String> = MutableLiveData<String>()
 
     private val _users = MutableLiveData<List<ResponseSearchUser>>()
     val users: LiveData<List<ResponseSearchUser>> get() = _users
@@ -34,6 +34,7 @@ class AddFriendViewModel: ViewModel() {
 
     fun getSearchUsers(targetName: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("target", targetName)
             try {
                 val response = repository.searchUsers(myId, targetName)
                 _getCode.postValue(response.code())
@@ -48,6 +49,13 @@ class AddFriendViewModel: ViewModel() {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun searchUsers(rawData: String) {
+        val word = rawData.trim()
+        searchWord.postValue(word)
+        Log.d("trim", "before=${rawData}, after=${word}")
+        getSearchUsers(word)
     }
 
     // 後に別のファイルに移す

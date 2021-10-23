@@ -101,14 +101,13 @@ class AddFriendFragment : Fragment() {
         })
     }
 
+    var count = 0
     // 物理キーボードのエンターやソフトウェアキーボードの完了を押したときの設定
     //TODO::物理キーボードのエンターを押した後、フォーカスをエディットテキストにあてるとリスナーが反応するバグがある
     // 後で物理キーボードを無効にするか、修正するか諦めるか対応を考える
     private val editorAction: TextView.OnEditorActionListener =
         TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER) {
-                val name = binding.etInputFriendId.text.toString()
-                viewModel.searchWord.postValue(name)
                 binding.apply {
                     when {
                         etInputFriendId.text.isNullOrEmpty() -> {
@@ -120,7 +119,8 @@ class AddFriendFragment : Fragment() {
                         }
                         else -> {
                             tilInputFriendId.isErrorEnabled = false
-                            viewModel.getSearchUsers(name)
+                            val searchWord = binding.etInputFriendId.text.toString()
+                            viewModel.searchUsers(searchWord)
                         }
                     }
                 }
