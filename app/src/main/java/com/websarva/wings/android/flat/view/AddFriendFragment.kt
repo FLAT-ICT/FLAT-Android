@@ -44,7 +44,6 @@ class AddFriendFragment : Fragment() {
 
         // 名前入力確定時の通信が成功したとき
         //TODO::recyclerViewを表示するようにする
-        //TODO::現在コメントアウトしてあるのはアイテムタップ後の処理なので、場合によってはFragmentを増やして画面遷移して処理を行うorリストの横にボタンを付けてよしなに
         viewModel.getCode.observe(viewLifecycleOwner, {
             when (viewModel.getCode.value) {
                 // GETが成功したとき
@@ -98,18 +97,20 @@ class AddFriendFragment : Fragment() {
             }
         })
 
-        // 申請ボタンを押したとき
-        binding.btApplyForFriend.apply {
-            setOnClickListener {
-                isClickable = false
-                //TODO::引数をrecyclerViewのアイテムクリック時に引き継いだID情報に変える
+//        // 申請ボタンを押したとき
+//        binding.btApplyForFriend.apply {
+//            setOnClickListener {
+//                isClickable = false
+//                //TODO::引数をrecyclerViewのアイテムクリック時に引き継いだID情報に変える
 //                viewModel.postFriendRequest(viewModel.user.value!!.id)
-            }
-        }
+//            }
+//        }
+
 
         // 友だち申請時の通信が成功したとき
         viewModel.postCode.observe(viewLifecycleOwner, {
             when (viewModel.postCode.value) {
+                // TODO::getSearchUsersを呼んで情報を更新
                 // POSTが成功したとき
                 200 -> {
                     binding.btApplyForFriend.apply {
