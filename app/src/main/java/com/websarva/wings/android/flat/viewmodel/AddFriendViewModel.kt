@@ -2,6 +2,7 @@ package com.websarva.wings.android.flat.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.api.PostData.PostFriends
 import com.websarva.wings.android.flat.api.ResponseData.ResponseSearchUser
 import com.websarva.wings.android.flat.repository.ApiRepository
@@ -65,14 +66,13 @@ class AddFriendViewModel: ViewModel() {
 //        }
 //    }
 
-    fun postFriendRequest(targetId: Int) {
+    private fun postFriendRequest(targetId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val postId = PostFriends(myId, targetId)
                 val response = repository.postAddFriend(postId)
                 _postCode.postValue(response.code())
                 if (response.isSuccessful) {
-                    //TODO::適切に書き換える
                     Log.d("postSuccess", "${response}\n${response.body()}\nmyId=${myId}, targetId=${targetId}")
                 } else {
                     Log.d("postFailure", "$response")
@@ -80,6 +80,50 @@ class AddFriendViewModel: ViewModel() {
             } catch (e: Exception) {
                 _errorMessage.postValue(e.message)
                 e.printStackTrace()
+            }
+        }
+    }
+
+    fun onClickButton(item: ResponseSearchUser) {
+        when {
+            item.applied -> {
+                //TODO::ダイアログ表示
+            }
+            else -> {
+                postFriendRequest(item.id)
+            }
+        }
+    }
+
+    fun setButtonText(item: ResponseSearchUser): String {
+        return when {
+            item.applied -> {
+                R.string.wait_for_approval.toString()
+            }
+            else -> {
+                R.string.apply_for_friend.toString()
+            }
+        }
+    }
+
+    fun setButtonBackgroundColor(item: ResponseSearchUser): Int {
+        return when {
+            item.applied -> {
+                R.color.primary_pale
+            }
+            else -> {
+                R.color.primary_solid
+            }
+        }
+    }
+
+    fun setButtonTextColor(item: ResponseSearchUser): Int {
+        return when {
+            item.applied -> {
+                R.color.middle
+            }
+            else -> {
+                R.color.white
             }
         }
     }
