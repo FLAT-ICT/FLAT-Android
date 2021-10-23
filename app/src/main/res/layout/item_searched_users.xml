@@ -57,7 +57,7 @@
             android:layout_marginEnd="16dp"
             app:cornerRadius="20dp"
             android:textSize="14sp"
-            android:onClick="@{() -> viewModel.onClickButton(user)}"
+            android:onSafeClick="@{() -> viewModel.onClickButton(user)}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
