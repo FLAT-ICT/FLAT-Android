@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentAddFriendBinding
 import com.websarva.wings.android.flat.viewmodel.AddFriendViewModel
@@ -22,6 +23,7 @@ class AddFriendFragment : Fragment() {
     private val viewModel: AddFriendViewModel by viewModels()
     private var _binding: FragmentAddFriendBinding? = null
     private val binding get() = _binding!!
+    private lateinit var addFriendAdapter: AddFriendAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,18 @@ class AddFriendFragment : Fragment() {
         binding.ibSearchId.setOnClickListener {
             val text = binding.etInputFriendId.text
             //TODO::テキストを全削除する処理
+        }
+
+        binding.rvSearchedUsers.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = AddFriendAdapter(viewLifecycleOwner, viewModel).also {
+                addFriendAdapter = it
+            }
+        }
+        viewModel.apply {
+            users.observe(viewLifecycleOwner, {
+                addFriendAdapter.submitList(it)
+            })
         }
 
         // キーボードの完了ボタンのリスナー
