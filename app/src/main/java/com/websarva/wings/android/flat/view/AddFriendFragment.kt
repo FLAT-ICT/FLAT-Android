@@ -62,64 +62,23 @@ class AddFriendFragment : Fragment() {
             when (viewModel.getCode.value) {
                 // GETが成功したとき
                 200 -> {
-//                    viewModel.user.observe(viewLifecycleOwner, {
-//                        binding.apply {
-//                            tvNotFoundId.visibility = View.GONE
-//                            tvAddFriendName.apply {
-//                                text = viewModel.user.value?.name
-//                                visibility = View.VISIBLE
-//                            }
-//                            //TODO::ivSearchFriendにアイコンを設置する処理を書く
-//                            //TODO::アイコンを設置したら下のINVISIBLEをVISIBLEにする
-//                            cvSearchFriendPosition.visibility = View.INVISIBLE
-//                            btApplyForFriend.apply {
-//                                //TODO::承認待ちならばisClickableをfalseにして、テキストや色を入れ替え
-//                                when {
-//                                    viewModel.user.value!!.applied && viewModel.user.value!!.requested -> {
-//                                        text = getString(R.string.already_friend)
-//                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
-//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
-//                                        isClickable = false
-//                                    }
-//                                    viewModel.user.value!!.applied -> {
-//                                        text = getString(R.string.wait_for_approval)
-//                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
-//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
-//                                        isClickable = false
-//                                    }
-//                                    else -> {
-//                                        text = getString(R.string.apply_for_friend)
-//                                        setTextColor(ContextCompat.getColor(context, R.color.white))
-//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_solid))
-//                                        isClickable = true
-//                                    }
-//                                }
-//                                visibility = View.VISIBLE
-//                            }
-//                        }
-//                    })
+                    binding.apply {
+                        rvSearchedUsers.visibility = View.VISIBLE
+                        tvNotFoundId.visibility = View.GONE
+                    }
                 }
                 // GETが失敗したとき
                 else -> {
                     binding.apply {
-                        tvAddFriendName.visibility = View.GONE
-                        cvSearchFriendPosition.visibility = View.GONE
-                        btApplyForFriend.visibility = View.GONE
+                        //rvをGONEにする(もしくはリストの初期化のみ)にすると次に通信に成功した場合に
+                        //直前のリストの内容が一瞬だけ表示されるのでここはわざとINVISIBLEにしています
+                        addFriendAdapter.submitList(null)
+                        rvSearchedUsers.visibility = View.INVISIBLE
                         tvNotFoundId.visibility = View.VISIBLE
                     }
                 }
             }
         })
-
-//        // 申請ボタンを押したとき
-//        binding.btApplyForFriend.apply {
-//            setOnClickListener {
-//                isClickable = false
-//                //TODO::引数をrecyclerViewのアイテムクリック時に引き継いだID情報に変える
-//                viewModel.postFriendRequest(viewModel.user.value!!.id)
-//            }
-//        }
-
 
         // 友だち申請時の通信が成功したとき
         viewModel.postCode.observe(viewLifecycleOwner, {
@@ -127,11 +86,7 @@ class AddFriendFragment : Fragment() {
                 // TODO::getSearchUsersを呼んで情報を更新
                 // POSTが成功したとき
                 200 -> {
-                    binding.btApplyForFriend.apply {
-                        text = getString(R.string.wait_for_approval)
-                        setTextColor(ContextCompat.getColor(context, R.color.middle))
-                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
-                    }
+                    viewModel.getSearchUsers(viewModel.searchWord.value.toString())
                 }
                 // POSTが失敗したとき
                 else -> {
@@ -153,6 +108,7 @@ class AddFriendFragment : Fragment() {
         TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 val name = binding.etInputFriendId.text.toString()
+                viewModel.searchWord.postValue(name)
                 binding.apply {
                     when {
                         etInputFriendId.text.isNullOrEmpty() -> {
