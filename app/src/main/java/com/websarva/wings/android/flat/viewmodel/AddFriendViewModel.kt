@@ -3,7 +3,7 @@ package com.websarva.wings.android.flat.viewmodel
 import android.util.Log
 import androidx.lifecycle.*
 import com.websarva.wings.android.flat.api.PostData.PostFriends
-import com.websarva.wings.android.flat.api.ResponseData.ResponseSearchUsers
+import com.websarva.wings.android.flat.api.ResponseData.ResponseSearchUser
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,8 +15,8 @@ class AddFriendViewModel: ViewModel() {
     //TODO::repositoryでroomか何かと繋いで自分のIDを取ってくるようにする？
     private val myId: Int = 1
 
-    private val _users = MutableLiveData<List<ResponseSearchUsers>>()
-    val users: LiveData<List<ResponseSearchUsers>> get() = _users
+    private val _users = MutableLiveData<List<ResponseSearchUser>>()
+    val users: LiveData<List<ResponseSearchUser>> get() = _users
 
     private val _getCode = MutableLiveData<Int>()
     val getCode: LiveData<Int> get() = _getCode
