@@ -1,9 +1,11 @@
 package com.websarva.wings.android.flat.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.*
+import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.api.PostData.PostFriends
-import com.websarva.wings.android.flat.api.ResponseData.ResponseSearchUsers
+import com.websarva.wings.android.flat.api.ResponseData.ResponseSearchUser
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,8 +17,10 @@ class AddFriendViewModel: ViewModel() {
     //TODO::repositoryでroomか何かと繋いで自分のIDを取ってくるようにする？
     private val myId: Int = 1
 
-    private val _users = MutableLiveData<List<ResponseSearchUsers>>()
-    val users: LiveData<List<ResponseSearchUsers>> get() = _users
+    val searchWord: MutableLiveData<String> = MutableLiveData<String>()
+
+    private val _users = MutableLiveData<List<ResponseSearchUser>>()
+    val users: LiveData<List<ResponseSearchUser>> get() = _users
 
     private val _getCode = MutableLiveData<Int>()
     val getCode: LiveData<Int> get() = _getCode
@@ -30,6 +34,7 @@ class AddFriendViewModel: ViewModel() {
 
     fun getSearchUsers(targetName: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("target", targetName)
             try {
                 val response = repository.searchUsers(myId, targetName)
                 _getCode.postValue(response.code())
@@ -44,6 +49,13 @@ class AddFriendViewModel: ViewModel() {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun searchUsers(rawData: String) {
+        val word = rawData.trim()
+        searchWord.postValue(word)
+        Log.d("trim", "before=${rawData}, after=${word}")
+        getSearchUsers(word)
     }
 
     // 後に別のファイルに移す
@@ -65,14 +77,13 @@ class AddFriendViewModel: ViewModel() {
 //        }
 //    }
 
-    fun postFriendRequest(targetId: Int) {
+    private fun postFriendRequest(targetId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val postId = PostFriends(myId, targetId)
                 val response = repository.postAddFriend(postId)
                 _postCode.postValue(response.code())
                 if (response.isSuccessful) {
-                    //TODO::適切に書き換える
                     Log.d("postSuccess", "${response}\n${response.body()}\nmyId=${myId}, targetId=${targetId}")
                 } else {
                     Log.d("postFailure", "$response")
@@ -80,6 +91,51 @@ class AddFriendViewModel: ViewModel() {
             } catch (e: Exception) {
                 _errorMessage.postValue(e.message)
                 e.printStackTrace()
+            }
+        }
+    }
+
+    fun onClickButton(item: ResponseSearchUser) {
+        when {
+            item.applied -> {
+                //TODO::ダイアログ表示
+            }
+            else -> {
+                postFriendRequest(item.id)
+            }
+        }
+    }
+
+    //ボタンの色、テキスト
+    fun setButtonText(item: ResponseSearchUser): Int {
+        return when {
+            item.applied -> {
+                R.string.wait_for_approval
+            }
+            else -> {
+                R.string.apply_for_friend
+            }
+        }
+    }
+
+    fun setButtonBackgroundColor(item: ResponseSearchUser): Int {
+        return when {
+            item.applied -> {
+                R.color.primary_pale
+            }
+            else -> {
+                R.color.primary_solid
+            }
+        }
+    }
+
+    fun setButtonTextColor(item: ResponseSearchUser): Int {
+        return when {
+            item.applied -> {
+                R.color.middle
+            }
+            else -> {
+                R.color.white
             }
         }
     }

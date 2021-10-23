@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentAddFriendBinding
 import com.websarva.wings.android.flat.viewmodel.AddFriendViewModel
@@ -22,6 +23,7 @@ class AddFriendFragment : Fragment() {
     private val viewModel: AddFriendViewModel by viewModels()
     private var _binding: FragmentAddFriendBinding? = null
     private val binding get() = _binding!!
+    private lateinit var addFriendAdapter: AddFriendAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,84 +41,52 @@ class AddFriendFragment : Fragment() {
             //TODO::テキストを全削除する処理
         }
 
+        binding.rvSearchedUsers.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = AddFriendAdapter(viewLifecycleOwner, viewModel).also {
+                addFriendAdapter = it
+            }
+        }
+        viewModel.apply {
+            users.observe(viewLifecycleOwner, {
+                addFriendAdapter.submitList(it)
+            })
+        }
+
         // キーボードの完了ボタンのリスナー
         binding.etInputFriendId.setOnEditorActionListener(editorAction)
 
         // 名前入力確定時の通信が成功したとき
         //TODO::recyclerViewを表示するようにする
-        //TODO::現在コメントアウトしてあるのはアイテムタップ後の処理なので、場合によってはFragmentを増やして画面遷移して処理を行うorリストの横にボタンを付けてよしなに
         viewModel.getCode.observe(viewLifecycleOwner, {
             when (viewModel.getCode.value) {
                 // GETが成功したとき
                 200 -> {
-//                    viewModel.user.observe(viewLifecycleOwner, {
-//                        binding.apply {
-//                            tvNotFoundId.visibility = View.GONE
-//                            tvAddFriendName.apply {
-//                                text = viewModel.user.value?.name
-//                                visibility = View.VISIBLE
-//                            }
-//                            //TODO::ivSearchFriendにアイコンを設置する処理を書く
-//                            //TODO::アイコンを設置したら下のINVISIBLEをVISIBLEにする
-//                            cvSearchFriendPosition.visibility = View.INVISIBLE
-//                            btApplyForFriend.apply {
-//                                //TODO::承認待ちならばisClickableをfalseにして、テキストや色を入れ替え
-//                                when {
-//                                    viewModel.user.value!!.applied && viewModel.user.value!!.requested -> {
-//                                        text = getString(R.string.already_friend)
-//                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
-//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
-//                                        isClickable = false
-//                                    }
-//                                    viewModel.user.value!!.applied -> {
-//                                        text = getString(R.string.wait_for_approval)
-//                                        setTextColor(ContextCompat.getColor(context, R.color.middle))
-//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
-//                                        isClickable = false
-//                                    }
-//                                    else -> {
-//                                        text = getString(R.string.apply_for_friend)
-//                                        setTextColor(ContextCompat.getColor(context, R.color.white))
-//                                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_solid))
-//                                        isClickable = true
-//                                    }
-//                                }
-//                                visibility = View.VISIBLE
-//                            }
-//                        }
-//                    })
+                    binding.apply {
+                        rvSearchedUsers.visibility = View.VISIBLE
+                        tvNotFoundId.visibility = View.GONE
+                    }
                 }
                 // GETが失敗したとき
                 else -> {
                     binding.apply {
-                        tvAddFriendName.visibility = View.GONE
-                        cvSearchFriendPosition.visibility = View.GONE
-                        btApplyForFriend.visibility = View.GONE
+                        //rvをGONEにする(もしくはリストの初期化のみ)にすると次に通信に成功した場合に
+                        //直前のリストの内容が一瞬だけ表示されるのでここはわざとINVISIBLEにしています
+                        addFriendAdapter.submitList(null)
+                        rvSearchedUsers.visibility = View.INVISIBLE
                         tvNotFoundId.visibility = View.VISIBLE
                     }
                 }
             }
         })
 
-        // 申請ボタンを押したとき
-        binding.btApplyForFriend.apply {
-            setOnClickListener {
-                isClickable = false
-                //TODO::引数をrecyclerViewのアイテムクリック時に引き継いだID情報に変える
-//                viewModel.postFriendRequest(viewModel.user.value!!.id)
-            }
-        }
-
         // 友だち申請時の通信が成功したとき
         viewModel.postCode.observe(viewLifecycleOwner, {
             when (viewModel.postCode.value) {
+                // TODO::getSearchUsersを呼んで情報を更新
                 // POSTが成功したとき
                 200 -> {
-                    binding.btApplyForFriend.apply {
-                        text = getString(R.string.wait_for_approval)
-                        setTextColor(ContextCompat.getColor(context, R.color.middle))
-                        setBackgroundColor(ContextCompat.getColor(context, R.color.primary_pale))
-                    }
+                    viewModel.getSearchUsers(viewModel.searchWord.value.toString())
                 }
                 // POSTが失敗したとき
                 else -> {
@@ -131,13 +101,13 @@ class AddFriendFragment : Fragment() {
         })
     }
 
+    var count = 0
     // 物理キーボードのエンターやソフトウェアキーボードの完了を押したときの設定
     //TODO::物理キーボードのエンターを押した後、フォーカスをエディットテキストにあてるとリスナーが反応するバグがある
     // 後で物理キーボードを無効にするか、修正するか諦めるか対応を考える
     private val editorAction: TextView.OnEditorActionListener =
         TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER) {
-                val name = binding.etInputFriendId.text.toString()
                 binding.apply {
                     when {
                         etInputFriendId.text.isNullOrEmpty() -> {
@@ -149,7 +119,8 @@ class AddFriendFragment : Fragment() {
                         }
                         else -> {
                             tilInputFriendId.isErrorEnabled = false
-                            viewModel.getSearchUsers(name)
+                            val searchWord = binding.etInputFriendId.text.toString()
+                            viewModel.searchUsers(searchWord)
                         }
                     }
                 }
