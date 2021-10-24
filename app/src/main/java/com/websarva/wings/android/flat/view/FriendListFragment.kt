@@ -39,29 +39,20 @@ class FriendListFragment : Fragment() {
         }
 
         val list = ArrayList<ListItem>()
-        val adapter = FriendListAdapter(childFragmentManager, viewModel, list)
+        val adapter = FriendListAdapter(childFragmentManager, viewModel)
         binding.apply {
             rvFriendList.adapter = adapter
             rvFriendList.layoutManager = LinearLayoutManager(context)
         }
 
         viewModel.operationUnapprovedFriends.observe(viewLifecycleOwner, {
-            when(it[0]) {
-                0 -> {
-                    Log.d("AcceptCode", "Code=${it[1]}")
-                    //TODO::Call getFriends
+            when(it[1]) {
+                200 -> {
+                    Log.d("Approve or Reject",
+                        if (it[0] == 0) "ApproveSuccess" else "RejectSuccess"
+                    )
+                    viewModel.getFriends()
                 }
-                1 -> {
-                    Log.d("RejectCode", "Code=${it[1]}, listPosition=${it[2]}")
-                    //TODO::only call getFriends
-                    if (it[1] == 200 && adapter.itemCount != 0) {
-                        adapter.deleteItem(it[2])
-                    }
-                }
-            }
-            //TODO::if operate only calling getFriends, delete this
-            if (adapter.itemCount > 1 && adapter.getItemViewType(0) == 1 && adapter.getItemViewType(1) == 1) {
-                adapter.deleteItem(0)
             }
         })
 
@@ -75,19 +66,29 @@ class FriendListFragment : Fragment() {
 
         viewModel.friendsCount.observe(viewLifecycleOwner, {
             Log.d("friends", "${viewModel.friendsCount.value}")
+            list.clear()
             if (it["oneSideCount"] == 0 && it["mutualCount"] == 0) {
                 binding.tvNoHaveFriend.visibility = View.VISIBLE
             }
             if (it["oneSideCount"]!! > 0) {
-                adapter.addItem(ListItem.HeaderItem(getString(R.string.unapproved_friends)))
-                adapter.addItemList(viewModel.friends.value!!.one_side!!)
+                list.apply {
+                    add(ListItem.HeaderItem(getString(R.string.unapproved_friends)))
+                    addAll(viewModel.friends.value!!.one_side!!)
+                }
                 binding.tvNoHaveFriend.visibility = View.GONE
             }
             if (it["mutualCount"]!! > 0) {
-                adapter.addItem(ListItem.HeaderItem(getString(R.string.friends_list)))
-                adapter.addItemList(viewModel.friends.value!!.mutual!!)
+                list.apply {
+                    add(ListItem.HeaderItem(getString(R.string.friends_list)))
+                    addAll(viewModel.friends.value!!.mutual!!)
+                }
                 binding.tvNoHaveFriend.visibility = View.GONE
             }
+            Log.d("before submit", "current list size=${adapter.itemCount}")
+            //TODO::承認/拒否時にリストの並び順がおかしくなった場合、以下のコメントアウトを外して応急対応
+//            adapter.submitList(null)
+            adapter.submitList(list)
+            Log.d("after submit", "current list size=${adapter.itemCount}")
         })
 
     }
