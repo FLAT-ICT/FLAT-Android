@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import androidx.lifecycle.MediatorLiveData
+import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.api.ResponseData
 
 
@@ -21,7 +22,7 @@ class FriendListViewModel(
 
     val friendsCount: MediatorLiveData<MutableMap<String, Int>> = MediatorLiveData<MutableMap<String, Int>>()
 
-    val operationUnapprovedFriends: MediatorLiveData<List<Int>> = MediatorLiveData<List<Int>>()
+    val operationUnapprovedFriends: LiveEvent<List<Int>> = LiveEvent()
 
     private val _friends = MutableLiveData<ResponseData.ResponseGetFriends?>()
     val friends: LiveData<ResponseData.ResponseGetFriends?> get() = _friends
