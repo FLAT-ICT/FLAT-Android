@@ -4,16 +4,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.websarva.wings.android.flat.R
-import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.databinding.ItemHeaderBinding
 import com.websarva.wings.android.flat.databinding.ItemMutualBinding
 import com.websarva.wings.android.flat.databinding.ItemOneSideBinding
@@ -90,7 +87,7 @@ class FriendListAdapter(private val childFragmentManager: FragmentManager,
                 (holder.binding as ItemOneSideBinding).content = item
                 //accept時の処理
                 holder.binding.ibAccept.setOnClickListener {
-                    viewModel.postAcceptFriend(item.id)
+                    viewModel.postApproveFriend(item.id)
                 }
                 //reject時の処理
                 holder.binding.ibReject.setOnClickListener {

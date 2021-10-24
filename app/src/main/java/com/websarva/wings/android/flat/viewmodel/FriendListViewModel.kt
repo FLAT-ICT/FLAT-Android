@@ -79,7 +79,7 @@ class FriendListViewModel(
         }
     }
 
-    fun postAcceptFriend(targetId: Int) {
+    fun postApproveFriend(targetId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val postId = PostData.PostFriends(myId, targetId)
@@ -87,11 +87,11 @@ class FriendListViewModel(
                 postAcceptFriendCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d(
-                        "acceptSuccess",
+                        "approveSuccess",
                         "${response}\n${response.body()}\nmyId=${myId}, targetId=${targetId}"
                     )
                 } else {
-                    Log.d("acceptFailure", "$response")
+                    Log.d("approveFailure", "$response")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
