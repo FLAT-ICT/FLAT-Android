@@ -4,11 +4,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.ItemHeaderBinding
@@ -17,9 +17,19 @@ import com.websarva.wings.android.flat.databinding.ItemOneSideBinding
 import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
 import com.websarva.wings.android.flat.viewmodel.ListItem
 
-class FriendListAdapter(private val childFragmentManager: FragmentManager, private val viewModel: FriendListViewModel, initialItem: List<ListItem>) :
-    RecyclerView.Adapter<FriendListAdapter.BindingViewHolder>() {
-    private val contents: MutableList<ListItem> = ArrayList(initialItem)
+private object FriendDiffCallback: DiffUtil.ItemCallback<ListItem>() {
+    override fun areItemsTheSame(oldItem: ListItem, newItem: ListItem): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: ListItem, newItem: ListItem): Boolean {
+        return oldItem == newItem
+    }
+}
+
+class FriendListAdapter(private val childFragmentManager: FragmentManager,
+                        private val viewModel: FriendListViewModel,
+): ListAdapter<ListItem, FriendListAdapter.BindingViewHolder>(FriendDiffCallback) {
 
     companion object {
         private const val VIEW_TYPE_HEADER = 1
@@ -28,11 +38,11 @@ class FriendListAdapter(private val childFragmentManager: FragmentManager, priva
     }
 
     // Headerを含めた要素数を返す
-    override fun getItemCount() = contents.size
+    override fun getItemCount() = currentList.size
 
     // Itemの型からviewTypeを返す
     override fun getItemViewType(position: Int): Int {
-        return when (contents[position]) {
+        return when (getItem(position)) {
             is ListItem.HeaderItem -> VIEW_TYPE_HEADER
             is ListItem.MutualItem -> VIEW_TYPE_MUTUAL
             is ListItem.OneSideItem -> VIEW_TYPE_ONE_SIDE
@@ -70,44 +80,20 @@ class FriendListAdapter(private val childFragmentManager: FragmentManager, priva
 
     // Itemを適切な型にキャストしてviewに値をセットする
     override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
-        when (val item = contents[position]) {
+        when (val item = getItem(position)) {
             is ListItem.HeaderItem -> (holder.binding as ItemHeaderBinding).content = item
             is ListItem.MutualItem -> (holder.binding as ItemMutualBinding).content = item
             is ListItem.OneSideItem -> {
                 (holder.binding as ItemOneSideBinding).content = item
                 //accept時の処理
-                //TODO::仕様次第ではGetFriendsを再度呼ぶ
                 holder.binding.ibAccept.setOnClickListener {
-                    viewModel.postAcceptFriend(item.id)
-                    val adPosition = holder.bindingAdapterPosition
-                    deleteItem(adPosition)
+                    viewModel.postApproveFriend(item.id)
                 }
                 //reject時の処理
                 holder.binding.ibReject.setOnClickListener {
-                    val adPosition = holder.bindingAdapterPosition
-                    RejectDialogFragment(item.id, adPosition).show(childFragmentManager, "dialog")
+                    RejectDialogFragment(item.id).show(childFragmentManager, "dialog")
                 }
             }
         }
-    }
-
-    //TODO::contentsを外部から制御するためのメソッドを書く
-    fun addItem(item: ListItem) {
-        val addIndex = contents.size
-        contents.add(item)
-        notifyItemInserted(addIndex)
-    }
-
-    fun addItemList(items: List<ListItem>) {
-        for (item in items) {
-            val addIndex = contents.size
-            contents.add(item)
-            notifyItemInserted(addIndex)
-        }
-    }
-
-    fun deleteItem(position: Int) {
-        contents.removeAt(position)
-        notifyItemRemoved(position)
     }
 }

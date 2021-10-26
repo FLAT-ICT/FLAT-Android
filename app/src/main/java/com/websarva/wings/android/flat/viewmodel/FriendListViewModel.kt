@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import androidx.lifecycle.MediatorLiveData
+import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.api.ResponseData
 
 
@@ -21,7 +22,7 @@ class FriendListViewModel(
 
     val friendsCount: MediatorLiveData<MutableMap<String, Int>> = MediatorLiveData<MutableMap<String, Int>>()
 
-    val operationUnapprovedFriends: MediatorLiveData<List<Int>> = MediatorLiveData<List<Int>>()
+    val operationUnapprovedFriends: LiveEvent<List<Int>> = LiveEvent()
 
     private val _friends = MutableLiveData<ResponseData.ResponseGetFriends?>()
     val friends: LiveData<ResponseData.ResponseGetFriends?> get() = _friends
@@ -31,7 +32,7 @@ class FriendListViewModel(
 
     private val postAcceptFriendCode = MutableLiveData<Int>()
 
-    private val postRejectFriendCode = MutableLiveData<MutableList<Int>>()
+    private val postRejectFriendCode = MutableLiveData<Int>()
 
     init {
         getFriends()
@@ -45,7 +46,6 @@ class FriendListViewModel(
             if (!it?.mutual.isNullOrEmpty()) {
                 mutualCount = it!!.mutual!!.size
             }
-            Log.d("fri", "oneCount=${oneSideCount}, muCount=$mutualCount")
             val data = mutableMapOf<String, Int>()
             data["oneSideCount"] = oneSideCount
             data["mutualCount"] = mutualCount
@@ -57,20 +57,18 @@ class FriendListViewModel(
             operationUnapprovedFriends.postValue(data)
         }
         operationUnapprovedFriends.addSource(postRejectFriendCode) {
-            //TODO::if operate only calling getFriends, delete third argument
-            //TODO::postRejectFriends second argument, Dialog's position, and Adapter's adPosition of dialog call also need to delete
-            val data: List<Int> = listOf(1, postRejectFriendCode.value!![0], postRejectFriendCode.value!![1])
+            val data: List<Int> = listOf(1, postRejectFriendCode.value!!)
             operationUnapprovedFriends.postValue(data)
         }
     }
 
-    private fun getFriends() {
+    fun getFriends() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = repository.getFriends(myId)
                 _getFriendsCode.postValue(response.code())
                 if (response.isSuccessful) {
-                    Log.d("getFriendSuccess", "${response}\n${response.body()}")
+                    Log.d("getFriendSuccess", "$response")
                     val friendList = response.body()
                     _friends.postValue(friendList)
                 } else {
@@ -82,7 +80,7 @@ class FriendListViewModel(
         }
     }
 
-    fun postAcceptFriend(targetId: Int) {
+    fun postApproveFriend(targetId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val postId = PostData.PostFriends(myId, targetId)
@@ -90,11 +88,11 @@ class FriendListViewModel(
                 postAcceptFriendCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d(
-                        "acceptSuccess",
+                        "approveSuccess",
                         "${response}\n${response.body()}\nmyId=${myId}, targetId=${targetId}"
                     )
                 } else {
-                    Log.d("acceptFailure", "$response")
+                    Log.d("approveFailure", "$response")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -102,14 +100,12 @@ class FriendListViewModel(
         }
     }
 
-    fun postRejectFriend(targetId: Int, position: Int) {
+    fun postRejectFriend(targetId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val postId = PostData.PostFriends(myId, targetId)
                 val response = repository.postRejectFriend(postId)
-                val list = mutableListOf(response.code(), position)
-                postRejectFriendCode.postValue(list)
-                Log.d("debug", "${postRejectFriendCode.value}")
+                postRejectFriendCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d(
                         "rejectSuccess",
