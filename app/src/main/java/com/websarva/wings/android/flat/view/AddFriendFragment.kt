@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -48,8 +49,26 @@ class AddFriendFragment : Fragment() {
             }
         }
         viewModel.apply {
+            //GETが成功した場合にusersに変更が加わるので、GETの成功が保証されている
             users.observe(viewLifecycleOwner, {
-                addFriendAdapter.submitList(it)
+                when {
+                    it.isEmpty() -> {
+                        binding.apply {
+                            //rvをGONE(もしくはリストの初期化のみ)にすると次に通信に成功した場合に
+                            //直前のリストの内容が一瞬だけ表示されるのでここはわざとINVISIBLEにしています
+                            addFriendAdapter.submitList(null)
+                            rvSearchedUsers.visibility = View.INVISIBLE
+                            tvNotFoundId.visibility = View.VISIBLE
+                        }
+                    }
+                    else -> {
+                        addFriendAdapter.submitList(it)
+                        binding.apply {
+                            rvSearchedUsers.visibility = View.VISIBLE
+                            tvNotFoundId.visibility = View.GONE
+                        }
+                    }
+                }
             })
         }
 
@@ -57,25 +76,17 @@ class AddFriendFragment : Fragment() {
         binding.etInputFriendId.setOnEditorActionListener(editorAction)
 
         // 名前入力確定時の通信が成功したとき
-        //TODO::recyclerViewを表示するようにする
         viewModel.getCode.observe(viewLifecycleOwner, {
-            when (viewModel.getCode.value) {
-                // GETが成功したとき
-                200 -> {
-                    binding.apply {
-                        rvSearchedUsers.visibility = View.VISIBLE
-                        tvNotFoundId.visibility = View.GONE
-                    }
-                }
-                // GETが失敗したとき
-                else -> {
-                    binding.apply {
-                        //rvをGONEにする(もしくはリストの初期化のみ)にすると次に通信に成功した場合に
-                        //直前のリストの内容が一瞬だけ表示されるのでここはわざとINVISIBLEにしています
-                        addFriendAdapter.submitList(null)
-                        rvSearchedUsers.visibility = View.INVISIBLE
-                        tvNotFoundId.visibility = View.VISIBLE
-                    }
+            // GETが失敗したとき
+            if (it != 200) {
+                binding.apply {
+                    //rvをGONE(もしくはリストの初期化のみ)にすると次に通信に成功した場合に
+                    //直前のリストの内容が一瞬だけ表示されるのでここはわざとINVISIBLEにしています
+                    addFriendAdapter.submitList(null)
+                    rvSearchedUsers.visibility = View.INVISIBLE
+                    tvNotFoundId.visibility = View.INVISIBLE
+                    //TODO::エラー時の表示が定まり次第変えるかも
+                    Toast.makeText(activity, "エラーが発生しました。\nエラーコード: $it", Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -83,7 +94,7 @@ class AddFriendFragment : Fragment() {
         // 友だち申請時の通信が成功したとき
         viewModel.postCode.observe(viewLifecycleOwner, {
             when (viewModel.postCode.value) {
-                // TODO::getSearchUsersを呼んで情報を更新
+                // getSearchUsersを呼んで情報を更新
                 // POSTが成功したとき
                 200 -> {
                     viewModel.getSearchUsers(viewModel.searchWord.value.toString())
@@ -102,6 +113,7 @@ class AddFriendFragment : Fragment() {
     }
 
     var count = 0
+
     // 物理キーボードのエンターやソフトウェアキーボードの完了を押したときの設定
     //TODO::物理キーボードのエンターを押した後、フォーカスをエディットテキストにあてるとリスナーが反応するバグがある
     // 後で物理キーボードを無効にするか、修正するか諦めるか対応を考える
@@ -113,9 +125,8 @@ class AddFriendFragment : Fragment() {
                         etInputFriendId.text.isNullOrEmpty() -> {
                             tilInputFriendId.isErrorEnabled = true
                             tilInputFriendId.error = getString(R.string.empty_text)
-                            tvAddFriendName.visibility = View.GONE
-                            cvSearchFriendPosition.visibility = View.GONE
-                            btApplyForFriend.visibility = View.GONE
+                            addFriendAdapter.submitList(null)
+                            rvSearchedUsers.visibility = View.INVISIBLE
                         }
                         else -> {
                             tilInputFriendId.isErrorEnabled = false
