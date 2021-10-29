@@ -76,6 +76,12 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.cardview:cardview:1.0.0"
 
+    // Beacon Detection
+    def permissionsDispatcher_version = "4.8.0"
+    implementation 'org.altbeacon:android-beacon-library:2.17.1'
+    implementation "org.permissionsdispatcher:permissionsdispatcher:$permissionsDispatcher_version"
+    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:$permissionsDispatcher_version"
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
