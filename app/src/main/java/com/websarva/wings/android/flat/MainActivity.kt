@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.websarva.wings.android.flat.other.Permissions
+import com.websarva.wings.android.flat.other.Permissions.REQUEST_CODE_LOCATION
 import pub.devrel.easypermissions.EasyPermissions
 
 class MainActivity : AppCompatActivity() {
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             EasyPermissions.requestPermissions(
                 this,
                 "このアプリを使うには位置情報へのアクセスを許可する必要があります",
-                0,
+                REQUEST_CODE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             EasyPermissions.requestPermissions(
                 this,
                 "このアプリを使うには位置情報へのアクセスを許可する必要があります",
-                0,
+                REQUEST_CODE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION

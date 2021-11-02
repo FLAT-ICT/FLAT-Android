@@ -7,6 +7,8 @@ import pub.devrel.easypermissions.EasyPermissions
 
 object Permissions {
 
+    const val REQUEST_CODE_LOCATION = 0
+
     fun locationPermission(context: Context) =
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             EasyPermissions.hasPermissions(
