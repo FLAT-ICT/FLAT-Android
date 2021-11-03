@@ -2,11 +2,16 @@ package com.websarva.wings.android.flat
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
@@ -23,7 +28,9 @@ import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LO
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isBeaconCompatible()
         requestPermission()
+        bluetoothOnRequest()
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
@@ -55,6 +62,27 @@ class MainActivity : AppCompatActivity() {
     // Toolbarの戻るボタンを機能させる
     override fun onSupportNavigateUp() = findNavController(R.id.navHost).navigateUp()
 
+    // BluetoothLE対応端末かの判別
+    private fun isBeaconCompatible(){
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+            Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_LONG).show()
+            finish()
+        }
+    }
+
+    // Bluetoothがoffになっているときの処理
+    private val bluetoothAdapter: BluetoothAdapter? by lazy(LazyThreadSafetyMode.NONE) {
+        val bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
+        bluetoothManager.adapter
+    }
+    private val BluetoothAdapter.isDisabled: Boolean
+        get() = !isEnabled
+    private fun bluetoothOnRequest(){
+        if (bluetoothAdapter?.isDisabled == true) {
+            Toast.makeText(this, "Bluetoothがoffになっています。設定からonにしてください。", Toast.LENGTH_LONG).show()
+            //TODO: Bluetoothがoffになっているときのユーザーに見える処理もしくは画面の設定
+        }
+    }
 
     // 位置情報に関するPermission
     private fun requestPermission() {
