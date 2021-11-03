@@ -29,4 +29,9 @@
     <string name="already_friend">既に友だちです</string>
     <string name="empty_text">名前を入力してください。</string>
     <string name="not_found_id">見つかりませんでした。もう一度検索してください。</string>
+
+    <!--  permissions  -->
+    <string name="permission_background_location_message">このデバイスの位置情報へのアクセスを「FLAT」に常に許可する必要があります。</string>
+    <string name="permission_background_location_positive">設定する</string>
+    <string name="permission_background_location_negative">設定しない</string>
 </resources>

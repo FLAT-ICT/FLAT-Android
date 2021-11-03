@@ -1,26 +1,29 @@
 package com.websarva.wings.android.flat
 
 import android.Manifest
+import android.annotation.TargetApi
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.websarva.wings.android.flat.other.Permissions
-import com.websarva.wings.android.flat.other.Permissions.REQUEST_CODE_LOCATION
-import pub.devrel.easypermissions.EasyPermissions
+import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LOCATION
+import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LOCATION_BACKGROUND
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestPermissions()
+        requestPermission()
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
@@ -52,27 +55,85 @@ class MainActivity : AppCompatActivity() {
     // Toolbarの戻るボタンを機能させる
     override fun onSupportNavigateUp() = findNavController(R.id.navHost).navigateUp()
 
-    private fun requestPermissions() {
-        if (Permissions.locationPermission(this)) {
-            return
+
+    // 位置情報に関するPermission
+    private fun requestPermission() {
+        when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
+                checkLocationPermission()
+            }
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.R -> {
+                checkLocationPermissionQ()
+            }
+            else -> {
+                checkLocationPermission()
+                checkBackgroundLocationPermissionR()
+            }
         }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            EasyPermissions.requestPermissions(
-                this,
-                "このアプリを使うには位置情報へのアクセスを許可する必要があります",
-                REQUEST_CODE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        } else {
-            EasyPermissions.requestPermissions(
-                this,
-                "このアプリを使うには位置情報へのアクセスを許可する必要があります",
-                REQUEST_CODE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
+    }
+
+    private fun checkLocationPermission() {
+        if (!checkSinglePermission(Manifest.permission.ACCESS_FINE_LOCATION) ||
+            !checkSinglePermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            val permList = arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION
             )
+            requestPermissions(permList, REQUEST_CODE_LOCATION)
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.Q)
+    private fun checkLocationPermissionQ() {
+        if (checkSinglePermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkSinglePermission(Manifest.permission.ACCESS_COARSE_LOCATION) &&
+            checkSinglePermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) return
+        val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        requestPermissions(permList, REQUEST_CODE_LOCATION)
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.R)
+    private fun checkBackgroundLocationPermissionR() {
+        if (checkSinglePermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) return
+        AlertDialog.Builder(this)
+            .setTitle("")
+            .setMessage(R.string.permission_background_location_message)
+            .setPositiveButton(R.string.permission_background_location_positive) { _,_ ->
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), REQUEST_CODE_LOCATION_BACKGROUND)
+            }
+            .setNegativeButton(R.string.permission_background_location_negative) { dialog,_ ->
+                //TODO: 設定を拒否された場合どうするか
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    private fun checkSinglePermission(permission: String) : Boolean {
+        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 許可された場合
+                //TODO: Rの場合とそれ以外で分け、画面遷移など
+            }
+            else {
+                // 許可されなかった場合
+            }
+        }
+        if (requestCode == REQUEST_CODE_LOCATION_BACKGROUND) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 許可された場合
+            }
+            else {
+                // 許可されなかった場合
+            }
         }
     }
 }
