@@ -10,91 +10,60 @@ import androidx.lifecycle.Observer
 import org.altbeacon.beacon.*
 import org.altbeacon.bluetooth.BluetoothMedic
 
-class BeaconService : Service() {
-    lateinit var region: Region
-
+class BeaconService : Service(), RangeNotifier, MonitorNotifier {
+    // TODO: Beaconに関してはActivityで動いたコードをそのまま貼ってある(コメントアウト状態)ので、これをforeground serviceとして動かす
+//    private lateinit var beaconManager: BeaconManager
+//    private lateinit var region: Region
+//
     override fun onCreate() {
         super.onCreate()
-
-        val beaconManager = BeaconManager.getInstanceForApplication(this)
-
-        beaconManager.beaconParsers.clear()
-        beaconManager.beaconParsers.add(
-            BeaconParser().
-            setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"))
-
-        BeaconManager.setDebug(true)
-
-        BluetoothMedic.getInstance().enablePowerCycleOnFailures(this)
-        BluetoothMedic.getInstance().enablePeriodicTests(this, BluetoothMedic.SCAN_TEST + BluetoothMedic.TRANSMIT_TEST)
-
-        setupForegroundService()
-        beaconManager.setEnableScheduledScanJobs(false)
-        beaconManager.backgroundBetweenScanPeriod = 0
-        beaconManager.backgroundScanPeriod = 1100
-
-        region = Region("radius-uuid", null, null, null)
-        beaconManager.startMonitoring(region)
-        beaconManager.startRangingBeacons(region)
-
-        val regionViewModel = BeaconManager.getInstanceForApplication(this).getRegionViewModel(region)
-
-        regionViewModel.regionState.observeForever( centralMonitoringObserver)
-
-        regionViewModel.rangedBeacons.observeForever( centralRangingObserver)
+//
+//        BeaconManager.setDebug(true)
+//
+//        region = Region("", null, null, null)
+//        beaconManager = BeaconManager.getInstanceForApplication(this)
+//        beaconManager.also {
+//            it.beaconParsers.clear()
+//            it.beaconParsers.add(
+//                BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")
+//            )
+//            it.addMonitorNotifier(this)
+//            it.addRangeNotifier(this)
+//            it.startMonitoring(region)
+//            it.startRangingBeacons(region)
+//            it.foregroundBetweenScanPeriod = 1000L
+//        }
+//
+//        BluetoothMedic.getInstance().enablePowerCycleOnFailures(this)
+//        BluetoothMedic.getInstance()
+//            .enablePeriodicTests(this, BluetoothMedic.SCAN_TEST + BluetoothMedic.TRANSMIT_TEST)
     }
 
-    private fun setupForegroundService() {
-        val builder = Notification.Builder(this, "BeaconReferenceApp")
-        builder.setSmallIcon(R.drawable.ic_launcher_background)
-        builder.setContentTitle("Scanning for Beacons")
-        val intent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_IMMUTABLE
-        )
-        builder.setContentIntent(pendingIntent)
-        val channel =  NotificationChannel("beacon-ref-notification-id",
-            "My Notification Name", NotificationManager.IMPORTANCE_DEFAULT)
-        channel.description = "My Notification Channel Description"
-        val notificationManager =  getSystemService(
-            Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-        builder.setChannelId(channel.id)
-        BeaconManager.getInstanceForApplication(this).enableForegroundServiceScanning(builder.build(), 456)
-    }
 
-    private val centralMonitoringObserver = Observer<Int> { state ->
-        if (state == MonitorNotifier.OUTSIDE) {
-            Log.d("centralMonitoringObserver", "outside beacon region: "+region)
-        }
-        else {
-            Log.d("centralMonitoringObserver", "inside beacon region: "+region)
-            sendNotification()
+    // public interface RangeNotifierのメンバ関数
+    // Beaconの情報を取得する
+    override fun didRangeBeaconsInRegion(beacons: MutableCollection<Beacon>?, region: Region?) {
+        for (beacon: Beacon in beacons!!) {
+            Log.d("didRangeBeaconsInRegion", "$beacon about ${beacon.distance} meters away")
+            //TODO: distanceでソートして一番近いものをPOSTする。beacon.id1はUUID, beacon.id2はMajor, beacon.id3はMinor
         }
     }
 
-    private val centralRangingObserver = Observer<Collection<Beacon>> { beacons ->
-        Log.d("RangingObserver", "Ranged: ${beacons.count()} beacons")
-        for (beacon: Beacon in beacons) {
-            Log.d("RangingObserverBeacons", "$beacon about ${beacon.distance} meters away")
-        }
+    // ここから下3つはpublic interface MonitorNotifierのメンバ関数
+    // ビーコン領域への入場を検知
+    override fun didEnterRegion(region: Region?) {
+        Log.d("iBeacon:Enter", "Region$region")
     }
 
-    private fun sendNotification() {
-        val builder = NotificationCompat.Builder(this, "beacon-ref-notification-id")
-            .setContentTitle("Beacon Reference Application")
-            .setContentText("A beacon is nearby.")
-            .setSmallIcon(R.drawable.ic_launcher_background)
-        val stackBuilder = TaskStackBuilder.create(this)
-        stackBuilder.addNextIntent(Intent(this, MainActivity::class.java))
-        val resultPendingIntent = stackBuilder.getPendingIntent(
-            0,
-            PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_IMMUTABLE
-        )
-        builder.setContentIntent(resultPendingIntent)
-        val notificationManager =
-            this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(1, builder.build())
+    // ビーコン領域からの退場を検知
+    override fun didExitRegion(region: Region?) {
+        Log.d("iBeacon:Exit", "Region$region")
+    }
+
+    // ビーコン領域への入退場のステータス変化を検知
+    // ビーコン領域の中に入れば1(INSIDE), 外に出れば0(OUTSIDE)
+    override fun didDetermineStateForRegion(state: Int, region: Region?) {
+        Log.d("iBeacon:Determine", "Determine State$state, Region$region")
     }
 
     override fun onBind(p0: Intent?): IBinder? {
