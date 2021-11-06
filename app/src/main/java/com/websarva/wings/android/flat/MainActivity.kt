@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.TargetApi
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -23,33 +24,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LOCATION
 import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LOCATION_BACKGROUND
-import org.altbeacon.beacon.*
 
-class MainActivity : AppCompatActivity() , RangeNotifier, MonitorNotifier{
-
-
-    //TODO: Serviceに移行できたらここからonCreateの前まで消す
-    private lateinit var beaconManager: BeaconManager
-    private lateinit var region: Region
-
-    override fun didRangeBeaconsInRegion(beacons: MutableCollection<Beacon>?, region: Region?) {
-        for (beacon: Beacon in beacons!!) {
-            Log.d("didRangeBeaconsInRegion", "$beacon about ${beacon.distance} meters away")
-            //TODO: distanceでソートして一番近いものをPOSTする。beacon.id1はUUID, beacon.id2はMajor, beacon.id3はMinor
-        }
-    }
-
-    override fun didEnterRegion(region: Region?) {
-        Log.d("iBeacon:Enter", "Region$region")
-    }
-
-    override fun didExitRegion(region: Region?) {
-        Log.d("iBeacon:Exit", "Region$region")
-    }
-
-    override fun didDetermineStateForRegion(state: Int, region: Region?) {
-        Log.d("iBeacon:Determine", "Determine State$state, Region$region")
-    }
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,22 +34,9 @@ class MainActivity : AppCompatActivity() , RangeNotifier, MonitorNotifier{
         bluetoothOnRequest()
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+        val serviceIntent = Intent(this, BeaconDetectionService::class.java)
+        startForegroundService(serviceIntent)
 
-        //Beacon検知
-        //TODO: Serviceに移行できたら消す
-        region = Region("", null, null, null)
-        beaconManager = BeaconManager.getInstanceForApplication(this)
-        beaconManager.also {
-            it.beaconParsers.clear()
-            it.beaconParsers.add(
-                BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")
-            )
-            it.addMonitorNotifier(this)
-            it.addRangeNotifier(this)
-            it.startMonitoring(region)
-            it.startRangingBeacons(region)
-            it.foregroundBetweenScanPeriod = 5000L
-        }
 
         // 全体の画面遷移を制御
         val navHostFragment =

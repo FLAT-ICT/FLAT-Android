@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".BeaconService"
+            android:name=".BeaconDetectionService"
             android:foregroundServiceType="location"
             >
             <meta-data android:name="longScanForcingEnabled" android:value="true"/>
