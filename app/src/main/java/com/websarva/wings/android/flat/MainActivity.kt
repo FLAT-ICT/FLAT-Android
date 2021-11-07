@@ -168,4 +168,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val serviceIntent = Intent(this, BeaconDetectionService::class.java)
+        stopService(serviceIntent)
+        Log.d("onDestroy", "Activity and Service were destroyed")
+    }
 }

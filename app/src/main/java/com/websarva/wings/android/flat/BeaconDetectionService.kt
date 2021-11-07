@@ -7,26 +7,57 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.Observer
 import org.altbeacon.beacon.*
 import org.altbeacon.bluetooth.BluetoothMedic
 import android.app.PendingIntent
-
-
+import androidx.lifecycle.*
+import com.websarva.wings.android.flat.api.PostData
+import com.websarva.wings.android.flat.repository.ApiRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 
 class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
-    //TODO: Beaconに関してはActivityで動いたコードをそのまま貼ってある(コメントアウト状態)ので、これをforeground serviceとして動かす
+    private val repository = ApiRepository.instance
+    private val job = SupervisorJob()
+    private val scope = CoroutineScope(Dispatchers.Main + job)
+
     private lateinit var beaconManager: BeaconManager
     private lateinit var region: Region
+    private lateinit var postData: PostData.PostBeacon
 
 
     // public interface RangeNotifierのメンバ関数
     // Beaconの情報を取得する
     override fun didRangeBeaconsInRegion(beacons: MutableCollection<Beacon>?, region: Region?) {
+        var nearBeacon: Beacon? = null
         for (beacon: Beacon in beacons!!) {
             Log.d("didRangeBeaconsInRegion", "$beacon about ${beacon.distance} meters away")
-            //TODO: distanceでソートして一番近いものをPOSTする。beacon.id1はUUID, beacon.id2はMajor, beacon.id3はMinor
+            //一番近いものをnearBeaconに持つ
+            if (nearBeacon == null) {
+                nearBeacon = beacon
+            }
+            else if (nearBeacon.distance > beacon.distance) {
+                nearBeacon = beacon
+            }
+        }
+        // TODO:IDをroom等で内部に保存しrepositoryから持ってくる
+        if (nearBeacon != null) {
+            postData = PostData.PostBeacon(
+                user_id = 1,
+                uuid = nearBeacon.id1.toString(),
+                major = nearBeacon.id2.toInt(),
+                minor = nearBeacon.id3.toInt(),
+                rssi = nearBeacon.rssi.toFloat(),
+                distance = nearBeacon.distance.toFloat()
+            )
+            Log.d("postBeacon", "$postData")
+            scope.launch {
+                postBeacon(postData)
+            }
         }
     }
 
@@ -39,6 +70,18 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
     // ビーコン領域からの退場を検知
     override fun didExitRegion(region: Region?) {
         Log.d("iBeacon:Exit", "Region$region")
+        postData = PostData.PostBeacon(
+            user_id = 1,
+            uuid = "0",
+            major = 0,
+            minor = 0,
+            rssi = 0.0F,
+            distance = 0.0F
+        )
+        Log.d("postExitBeacon", "$postData")
+        scope.launch {
+            postBeacon(postData)
+        }
     }
 
     // ビーコン領域への入退場のステータス変化を検知
@@ -54,7 +97,7 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
     override fun onCreate() {
         super.onCreate()
 
-        BeaconManager.setDebug(true)
+//        BeaconManager.setDebug(true)
 
         region = Region("", null, null, null)
         beaconManager = BeaconManager.getInstanceForApplication(this)
@@ -67,7 +110,11 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
             it.addRangeNotifier(this)
             it.startMonitoring(region)
             it.startRangingBeacons(region)
-            it.foregroundBetweenScanPeriod = 1000L
+            it.foregroundScanPeriod = 1100L
+            it.foregroundBetweenScanPeriod = 30000L
+            it.backgroundScanPeriod = 1100L
+            it.backgroundBetweenScanPeriod = 60000L
+            it.updateScanPeriods()
         }
     }
 
@@ -75,18 +122,19 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
         val channelId = "FLAT_DETECT_BEACON"
         createNotificationChannel(channelId)
 
-        val notificationIntent = Intent(this, MainActivity::class.java)
-        intent!!.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+        val notifyIntent = Intent(this, MainActivity::class.java).apply {
+            this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent =  PendingIntent.getActivity(this, 0, notifyIntent, 0)
 
-        val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, channelId)
-            .setContentTitle("FLAT")
-            .setContentText("滞在場所を更新しています…")
+        val notification: Notification = NotificationCompat.Builder(this, channelId)
+            .setContentTitle("FLAT Service")
+            .setContentText("滞在場所を更新します")
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
 
-        startForeground(1, builder.build())
+        startForeground(1, notification)
 
         return START_STICKY
     }
@@ -94,13 +142,32 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
     private fun createNotificationChannel(channelId: String) {
         val name = "ビーコン検知サービス起動中の通知"
         val descriptionText = "ビーコン検知を知らせるための通知です"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        // 通知音を鳴らさない
+        val importance = NotificationManager.IMPORTANCE_LOW
         val channel = NotificationChannel(channelId, name, importance).apply {
             description = descriptionText
         }
-        // Register the channel with the system
+
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+    }
+
+    private suspend fun postBeacon(postData: PostData.PostBeacon) {
+        try {
+            val response = repository.postBeacon(postData)
+            if (response.isSuccessful) {
+                Log.d("postBeaconSuccess", "${response}\n${response.body()}\n")
+            } else {
+                Log.d("postBeaconFailure", "$response")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 }

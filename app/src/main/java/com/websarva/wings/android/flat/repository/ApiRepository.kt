@@ -44,6 +44,9 @@ class ApiRepository {
     suspend fun postRejectFriend(postData: PostData.PostFriends): Response<ResponseData.ResponsePost> =
         withContext(IO){service.postRejectFriend(postData)}
 
+    suspend fun postBeacon(postData: PostData.PostBeacon): Response<ResponseData.ResponsePost> =
+        withContext(IO){service.postBeacon(postData)}
+
     companion object Factory {
         val instance: ApiRepository
             @Synchronized get() {
