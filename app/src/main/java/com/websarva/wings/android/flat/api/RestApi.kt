@@ -3,6 +3,7 @@ package com.websarva.wings.android.flat.api
 import retrofit2.http.Body
 import retrofit2.http.POST
 import com.websarva.wings.android.flat.api.PostData.PostFriends
+import com.websarva.wings.android.flat.api.PostData.PostBeacon
 import com.websarva.wings.android.flat.api.ResponseData.ResponsePost
 import com.websarva.wings.android.flat.api.ResponseData.ResponseGetUser
 import retrofit2.Response
@@ -26,4 +27,7 @@ interface RestApi {
 
     @POST("/v1/friends/reject")
     suspend fun postRejectFriend(@Body postFriends: PostFriends): Response<ResponsePost>
+
+    @POST("/v1/user/beacon")
+    suspend fun postBeacon(@Body postBeacon: PostBeacon): Response<ResponsePost>
 }
