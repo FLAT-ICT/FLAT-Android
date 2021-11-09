@@ -34,7 +34,7 @@ import android.content.Context
 class MainActivity : AppCompatActivity() {
 
     // BluetoothAdapterを予め宣言
-    private lateinit var bluetoothAdapter: BluetoothAdapter
+    private var bluetoothAdapter: BluetoothAdapter? = null
 
     // ActivityがActiveな状態でBluetoothOffにされたとき、IntentのExtraで
     // STATE_OFFとSTATE_TURNING_OFFが渡され、2回通知されるため、変数で制御する
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
     // BluetoothLE対応端末かの判別
     private fun isBeaconCompatible() {
         if (!packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_SHORT).show()
             finish()
         }
     }
@@ -142,7 +142,9 @@ class MainActivity : AppCompatActivity() {
     // 実際にBluetoothAdapterを取得する
     private fun getBluetoothAdapter() {
         bluetoothAdapter = (getSystemService(BLUETOOTH_SERVICE) as BluetoothManager).adapter
-        isBluetoothAdapterEnabled = bluetoothAdapter.isEnabled
+        if (bluetoothAdapter != null) {
+            isBluetoothAdapterEnabled = bluetoothAdapter!!.isEnabled
+        }
     }
 
     // BluetoothがOffの際に出るダイアログ操作の結果を受け取る
@@ -158,9 +160,11 @@ class MainActivity : AppCompatActivity() {
 
     // BluetoothがOffの際にOnにするリクエストダイアログを表示する
     private fun bluetoothOnRequest() {
-        if (!bluetoothAdapter.isEnabled) {
-            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startForResult.launch(enableBtIntent)
+        if (bluetoothAdapter != null) {
+            if (!bluetoothAdapter?.isEnabled!!) {
+                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startForResult.launch(enableBtIntent)
+            }
         }
     }
 
@@ -259,6 +263,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        unregisterReceiver(bluetoothAdapterStateChangeListener)
         val serviceIntent = Intent(this, BeaconDetectionService::class.java)
         stopService(serviceIntent)
         Log.d("onDestroy", "Activity and Service were destroyed")
