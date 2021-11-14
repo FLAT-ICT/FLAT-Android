@@ -6,7 +6,7 @@ sealed class ListItem {
         val id: Int,
         val name: String,
         val status: Int,
-        val beacon: String?,
+        val spot: String,
         val icon_path: String
     ) : ListItem()
 
@@ -14,7 +14,7 @@ sealed class ListItem {
         val id: Int,
         val name: String,
         val status: Int,
-        val beacon: String?,
+        val spot: String,
         val icon_path: String
     ) : ListItem()
 }

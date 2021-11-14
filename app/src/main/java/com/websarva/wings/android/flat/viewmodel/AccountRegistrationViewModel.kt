@@ -18,8 +18,8 @@ class AccountRegistrationViewModel : ViewModel() {
     private val _postCode = MutableLiveData<Int>()
     val postCode: LiveData<Int> get() = _postCode
 
-    private val _myId = MutableLiveData<ResponseData.RegisteredData>()
-    val myId: LiveData<ResponseData.RegisteredData> get() = _myId
+    private val _userData = MutableLiveData<ResponseData.ResponseGetUser>()
+    val userData: LiveData<ResponseData.ResponseGetUser> get() = _userData
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
@@ -32,8 +32,8 @@ class AccountRegistrationViewModel : ViewModel() {
                 val response = repository.postRegister(postData)
                 _postCode.postValue(response.code())
                 if (response.isSuccessful) {
-                    _myId.postValue(response.body())
-                    Log.d("RegisterSuccess", "${response}\n${response.body()}\nmyId=${_myId}")
+                    _userData.postValue(response.body())
+                    Log.d("RegisterSuccess", "${response}\n${response.body()}\nmyId=${response.body()?.id}")
                 } else {
                     Log.d("RegisterFailure", "$response")
                 }

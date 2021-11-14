@@ -27,7 +27,7 @@ class AccountRegistrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            btRegister.setOnClickListener{
+            btRegister.setOnSafeClickListener{
                 val name = etInputNickname.text.toString()
                 val password = etInputPassword.text.toString()
                 //TODO: ここで2つ目のパスワードも取得し、viewModel.checkPassword()を走らせる
@@ -35,8 +35,8 @@ class AccountRegistrationFragment : Fragment() {
             }
         }
 
-        viewModel.myId.observe(viewLifecycleOwner, {
-            //TODO: viewModelのmyIDをroomにいれる関数を呼ぶ + 画面遷移
+        viewModel.userData.observe(viewLifecycleOwner, {
+            //TODO: viewModelのuserDataをroomにいれる関数を呼ぶ + 画面遷移
         })
     }
 }

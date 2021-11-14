@@ -29,6 +29,6 @@ interface RestApi {
     @POST("/v1/user/beacon")
     suspend fun postBeacon(@Body postBeacon: PostBeacon): Response<ResponsePost>
 
-    @POST("/v1/registor")
-    suspend fun postRegister(@Body postRegister: RegisterData): Response<RegisteredData>
+    @POST("/v1/register")
+    suspend fun postRegister(@Body postRegister: RegisterData): Response<ResponseGetUser>
 }

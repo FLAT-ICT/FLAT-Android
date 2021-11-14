@@ -47,7 +47,7 @@ class ApiRepository {
     suspend fun postBeacon(postData: PostData.PostBeacon): Response<ResponseData.ResponsePost> =
         withContext(IO){service.postBeacon(postData)}
 
-    suspend fun postRegister(postData: PostData.RegisterData): Response<ResponseData.RegisteredData> =
+    suspend fun postRegister(postData: PostData.RegisterData): Response<ResponseData.ResponseGetUser> =
         withContext(IO){service.postRegister(postData)}
 
     companion object Factory {
