@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity() {
         getBluetoothAdapter()
         bluetoothOnRequest()
         requestPermission()
-        buildDatabase()
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
         val serviceIntent = Intent(this, BeaconDetectionService::class.java)
@@ -270,18 +269,5 @@ class MainActivity : AppCompatActivity() {
         val serviceIntent = Intent(this, BeaconDetectionService::class.java)
         stopService(serviceIntent)
         Log.d("onDestroy", "Activity and Service were destroyed")
-    }
-
-    // roomデータベースのビルド
-    fun buildDatabase() {
-        database = Room.databaseBuilder(
-            applicationContext,
-            UserRoomDatabase::class.java,
-            "user_database"
-        ).build()
-    }
-
-    companion object {
-        lateinit var database: UserRoomDatabase
     }
 }
