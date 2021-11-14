@@ -17,5 +17,5 @@ interface UserDao {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM user_table")
-    fun getUserData(): User
+    suspend fun getUserData(): User
 }
