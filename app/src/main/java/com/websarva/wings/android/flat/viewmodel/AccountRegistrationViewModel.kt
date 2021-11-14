@@ -53,4 +53,6 @@ class AccountRegistrationViewModel : ViewModel() {
     fun checkPassword(pass1: String, pass2: String){
         //TODO: passwordが一致しているかどうかを判断する処理を書く
     }
+
+    //TODO: myIDをroomに登録(repositoryの関数を呼ぶ?)
 }

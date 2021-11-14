@@ -35,6 +35,8 @@ class AccountRegistrationFragment : Fragment() {
             }
         }
 
-
+        viewModel.myId.observe(viewLifecycleOwner, {
+            //TODO: viewModelのmyIDをroomにいれる関数を呼ぶ + 画面遷移
+        })
     }
 }
