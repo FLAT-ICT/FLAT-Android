@@ -25,7 +25,7 @@ class AccountRegistrationViewModel : ViewModel() {
     val errorMessage: LiveData<String> get() = _errorMessage
     //TODO: DataClass定義を先にやる
 
-    fun registerUser(name: String, password: String){
+    private fun registerUser(name: String, password: String){
         viewModelScope.launch(Dispatchers.IO){
             try {
                 val postData = PostData.RegisterData(name, password)
@@ -42,5 +42,15 @@ class AccountRegistrationViewModel : ViewModel() {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun onRegisterButtonClicked(name: String, password: String) {
+        if (name != "" && password != "") {
+            registerUser(name, password)
+        }
+    }
+
+    fun checkPassword(pass1: String, pass2: String){
+        //TODO: passwordが一致しているかどうかを判断する処理を書く
     }
 }

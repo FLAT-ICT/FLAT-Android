@@ -26,6 +26,15 @@ class AccountRegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.apply {
+            btRegister.setOnClickListener{
+                val name = etInputNickname.text.toString()
+                val password = etInputPassword.text.toString()
+                //TODO: ここで2つ目のパスワードも取得し、viewModel.checkPassword()を走らせる
+                viewModel.onRegisterButtonClicked(name, password)
+            }
+        }
+
 
     }
 }
