@@ -19,4 +19,8 @@ class UserRoomRepository(private val dao: UserDao) {
     suspend fun delete(user: User) {
         return dao.delete(user)
     }
+
+    suspend fun deleteAll() {
+        return dao.deleteAll()
+    }
 }

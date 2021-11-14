@@ -69,4 +69,10 @@ class AccountRegistrationViewModel(private val roomRepository: UserRoomRepositor
             roomRepository.insert(user)
         }
     }
+
+    fun deleteUserData() {
+        viewModelScope.launch {
+            roomRepository.deleteAll()
+        }
+    }
 }
