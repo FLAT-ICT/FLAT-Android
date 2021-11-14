@@ -4,6 +4,11 @@ import com.squareup.moshi.Json
 import com.websarva.wings.android.flat.viewmodel.ListItem
 
 class ResponseData {
+
+    data class RegisteredData(
+        @Json(name = "") val myId: String
+    )
+
     data class ResponsePost(
         @Json(name = "message") val message: String
     )

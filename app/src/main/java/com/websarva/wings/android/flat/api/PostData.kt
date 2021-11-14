@@ -16,4 +16,9 @@ class PostData {
         @Json(name = "rssi") val rssi: Float,
         @Json(name = "distance") val distance: Float
     )
+
+    data class RegisterData(
+        @Json(name = "name") val name: String,
+        @Json(name = "password") val password: String
+    )
 }
