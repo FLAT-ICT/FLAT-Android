@@ -9,16 +9,20 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 import androidx.lifecycle.MediatorLiveData
 import com.hadilq.liveevent.LiveEvent
+import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.api.ResponseData
+import java.util.*
+import kotlin.properties.Delegates
 
 
 class FriendListViewModel(
     saveStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val repository = ApiRepository.instance
+    private val roomRepository = FLATApplication.userRoomRepository
 
     //TODO::debugはここの値を変更して行う
-    private val myId = 2003
+    private var myId by Delegates.notNull<Int>()
 
     val friendsCount: MediatorLiveData<MutableMap<String, Int>> = MediatorLiveData<MutableMap<String, Int>>()
 
@@ -64,6 +68,7 @@ class FriendListViewModel(
 
     fun getFriends() {
         viewModelScope.launch(Dispatchers.IO) {
+            getMyId()
             try {
                 val response = repository.getFriends(myId)
                 _getFriendsCode.postValue(response.code())
@@ -118,5 +123,11 @@ class FriendListViewModel(
                 e.printStackTrace()
             }
         }
+    }
+
+    private suspend fun getMyId(){
+        val user = roomRepository.getUserData()
+        myId = user.myId
+        Log.d("RoomData", "$user")
     }
 }

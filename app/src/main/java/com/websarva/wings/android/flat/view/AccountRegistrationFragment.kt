@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.websarva.wings.android.flat.databinding.FragmentAccountRegistrationBinding
 import com.websarva.wings.android.flat.viewmodel.AccountRegistrationViewModel
 
@@ -26,7 +27,7 @@ class AccountRegistrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            btRegister.setOnSafeClickListener{
+            btRegister.setOnSafeClickListener {
                 val name = etInputNickname.text.toString()
                 val password = etInputPassword.text.toString()
                 //TODO: ここで2つ目のパスワードも取得し、viewModel.checkPassword()を走らせる
@@ -36,6 +37,9 @@ class AccountRegistrationFragment : Fragment() {
 
         viewModel.userData.observe(viewLifecycleOwner, {
             viewModel.insertUserData()
+            val action =
+                AccountRegistrationFragmentDirections.actionAccountRegistrationFragmentToFriendListFragment()
+            view.findNavController().navigate(action)
         })
     }
 }

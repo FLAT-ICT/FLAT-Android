@@ -3,6 +3,7 @@ package com.websarva.wings.android.flat.viewmodel
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.*
+import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.api.PostData.PostFriends
 import com.websarva.wings.android.flat.api.ResponseData.ResponseSearchUser
@@ -10,12 +11,14 @@ import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import kotlin.properties.Delegates
 
 class AddFriendViewModel: ViewModel() {
     private val repository = ApiRepository.instance
+    private val roomRepository = FLATApplication.userRoomRepository
 
     //TODO::repositoryでroomか何かと繋いで自分のIDを取ってくるようにする？
-    private val myId: Int = 1
+    private var myId by Delegates.notNull<Int>()
 
     val searchWord: MutableLiveData<String> = MutableLiveData<String>()
 
@@ -30,6 +33,10 @@ class AddFriendViewModel: ViewModel() {
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
+
+    init {
+        getMyId()
+    }
 
 
     fun getSearchUsers(targetName: String) {
@@ -137,6 +144,13 @@ class AddFriendViewModel: ViewModel() {
             else -> {
                 R.color.white
             }
+        }
+    }
+
+    private fun getMyId(){
+        viewModelScope.launch {
+            val user = roomRepository.getUserData()
+            myId = user.myId
         }
     }
 }
