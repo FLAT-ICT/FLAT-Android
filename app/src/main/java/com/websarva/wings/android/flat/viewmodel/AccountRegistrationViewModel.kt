@@ -57,7 +57,7 @@ class AccountRegistrationViewModel : ViewModel() {
         //TODO: passwordが一致しているかどうかを判断する処理を書く
     }
 
-    fun insertUserData() {
+    fun registerUserInRoom() {
         val user = User(
             myId = userData.value!!.id,
             name = userData.value!!.name,
@@ -66,13 +66,31 @@ class AccountRegistrationViewModel : ViewModel() {
             iconPath = userData.value!!.icon_path
         )
         viewModelScope.launch {
-            roomRepository.insert(user)
+            if (isExistData()) {
+                updateUserAccount(user)
+            } else {
+                insertUserData(user)
+            }
         }
     }
 
-    fun deleteUserData() {
-        viewModelScope.launch {
-            roomRepository.deleteAll()
+    private suspend fun updateUserAccount(user: User) {
+        deleteUserData()
+        insertUserData(user)
+    }
+
+    private suspend fun insertUserData(user: User) {
+        roomRepository.insert(user)
+    }
+
+    private suspend fun deleteUserData() {
+        roomRepository.deleteAll()
+    }
+
+    private suspend fun isExistData(): Boolean {
+        return when (roomRepository.countData()) {
+            0 -> false
+            else -> true
         }
     }
 }

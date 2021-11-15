@@ -25,4 +25,8 @@ class UserRoomRepository(private val dao: UserDao) {
     suspend fun deleteAll() {
         return dao.deleteAll()
     }
+
+    suspend fun countData(): Int {
+        return dao.countData()
+    }
 }

@@ -18,4 +18,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user_table")
     suspend fun getUserData(): User
+
+    @Query("SELECT COUNT(*) FROM user_table")
+    suspend fun countData(): Int
 }
