@@ -98,4 +98,11 @@
         android:text="@string/register"
         app:layout_constraintTop_toBottomOf="@id/til_input_password" />
 
+    <Button
+        android:id="@+id/bt_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="次へ"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

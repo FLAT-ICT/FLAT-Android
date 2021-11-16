@@ -37,9 +37,12 @@ class AccountRegistrationFragment : Fragment() {
 
         viewModel.userData.observe(viewLifecycleOwner, {
             viewModel.registerUserInRoom()
+        })
+
+        binding.btNext.setOnClickListener {
             val action =
                 AccountRegistrationFragmentDirections.actionAccountRegistrationFragmentToFriendListFragment()
             view.findNavController().navigate(action)
-        })
+        }
     }
 }
