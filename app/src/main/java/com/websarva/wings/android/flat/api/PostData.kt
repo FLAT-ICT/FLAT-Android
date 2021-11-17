@@ -10,11 +10,9 @@ class PostData {
 
     data class PostBeacon(
         @Json(name = "user_id") val user_id: Int,
-        @Json(name = "uuid") val uuid: String,
         @Json(name = "major") val major: Int,
         @Json(name = "minor") val minor: Int,
-        @Json(name = "rssi") val rssi: Float,
-        @Json(name = "distance") val distance: Float
+        @Json(name = "rssi") val rssi: Int
     )
 
     data class RegisterData(

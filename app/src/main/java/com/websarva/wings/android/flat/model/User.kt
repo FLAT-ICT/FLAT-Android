@@ -10,6 +10,6 @@ data class User(
     @ColumnInfo(name = "id") val myId: Int,
     val name: String,
     val status: Int,
-    val spot: String,
+    val spot: String?,
     @ColumnInfo(name = "icon_path") val iconPath: String
 )

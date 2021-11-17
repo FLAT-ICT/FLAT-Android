@@ -3,14 +3,11 @@ package com.websarva.wings.android.flat
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.altbeacon.beacon.*
-import org.altbeacon.bluetooth.BluetoothMedic
 import android.app.PendingIntent
-import androidx.lifecycle.*
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.CoroutineScope
@@ -48,11 +45,9 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
         if (nearBeacon != null) {
             postData = PostData.PostBeacon(
                 user_id = 1,
-                uuid = nearBeacon.id1.toString(),
                 major = nearBeacon.id2.toInt(),
                 minor = nearBeacon.id3.toInt(),
-                rssi = nearBeacon.rssi.toFloat(),
-                distance = nearBeacon.distance.toFloat()
+                rssi = nearBeacon.rssi
             )
             Log.d("postBeacon", "$postData")
             scope.launch {
@@ -72,11 +67,9 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
         Log.d("iBeacon:Exit", "Region$region")
         postData = PostData.PostBeacon(
             user_id = 1,
-            uuid = "0",
             major = 0,
-            minor = 0,
-            rssi = 0.0F,
-            distance = 0.0F
+            minor = -1,
+            rssi = 0,
         )
         Log.d("postExitBeacon", "$postData")
         scope.launch {

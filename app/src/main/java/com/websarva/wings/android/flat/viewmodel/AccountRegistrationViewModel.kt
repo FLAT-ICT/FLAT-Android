@@ -1,16 +1,12 @@
 package com.websarva.wings.android.flat.viewmodel
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.model.User
-import com.websarva.wings.android.flat.model.UserRoomDatabase
-import com.websarva.wings.android.flat.model.UserRoomDatabase.Companion.getDatabase
 import com.websarva.wings.android.flat.repository.ApiRepository
-import com.websarva.wings.android.flat.repository.UserRoomRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -62,7 +58,7 @@ class AccountRegistrationViewModel : ViewModel() {
             myId = userData.value!!.id,
             name = userData.value!!.name,
             status = userData.value!!.status,
-            spot = userData.value!!.spot,
+            spot = userData.value?.spot,
             iconPath = userData.value!!.icon_path
         )
         viewModelScope.launch {

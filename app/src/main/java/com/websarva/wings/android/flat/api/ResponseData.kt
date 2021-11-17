@@ -13,7 +13,7 @@ class ResponseData {
         @Json(name = "id") val id: Int,
         @Json(name = "name") val name: String,
         @Json(name = "status") val status: Int,
-        @Json(name = "spot") val spot: String,
+        @Json(name = "spot") val spot: String?,
         @Json(name = "icon_path") val icon_path: String
     )
 
