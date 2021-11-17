@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.websarva.wings.android.flat.R
@@ -16,7 +17,7 @@ import com.websarva.wings.android.flat.viewmodel.ListItem
 
 class FriendListFragment : Fragment() {
 
-    private val viewModel: FriendListViewModel by activityViewModels()
+    private val viewModel: FriendListViewModel by viewModels()
     private var _binding: FragmentFriendListBinding? = null
     private val binding get() = _binding!!
 

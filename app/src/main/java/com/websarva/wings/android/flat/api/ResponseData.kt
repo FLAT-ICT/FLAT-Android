@@ -4,6 +4,7 @@ import com.squareup.moshi.Json
 import com.websarva.wings.android.flat.viewmodel.ListItem
 
 class ResponseData {
+
     data class ResponsePost(
         @Json(name = "message") val message: String
     )
@@ -12,7 +13,7 @@ class ResponseData {
         @Json(name = "id") val id: Int,
         @Json(name = "name") val name: String,
         @Json(name = "status") val status: Int,
-        @Json(name = "beacon") val beacon: String?,
+        @Json(name = "spot") val spot: String?,
         @Json(name = "icon_path") val icon_path: String
     )
 

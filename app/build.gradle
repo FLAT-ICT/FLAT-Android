@@ -36,7 +36,7 @@ android {
         viewBinding true
     }
     dataBinding {
-        enabled=true
+        enabled true
     }
 }
 
@@ -81,6 +81,11 @@ dependencies {
     implementation 'org.altbeacon:android-beacon-library:2+'
     implementation "org.permissionsdispatcher:permissionsdispatcher:$permissionsDispatcher_version"
     kapt "org.permissionsdispatcher:permissionsdispatcher-processor:$permissionsDispatcher_version"
+
+    // room
+    def room_version = "2.3.0"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

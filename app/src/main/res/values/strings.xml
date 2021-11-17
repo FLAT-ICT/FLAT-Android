@@ -39,4 +39,10 @@
     <string name="permission_background_location_message">このデバイスの位置情報へのアクセスを「FLAT」に常に許可する必要があります。</string>
     <string name="permission_background_location_positive">設定する</string>
     <string name="permission_background_location_negative">設定しない</string>
+    
+    <!--  fragment_account_registration  -->
+    <string name="account_registration_title">アカウントを登録しましょう</string>
+    <string name="input_nickname">ニックネームを入力してください(後で変更可能)</string>
+    <string name="input_password">パスワードを入力してください</string>
+    <string name="register">登録する</string>
 </resources>
