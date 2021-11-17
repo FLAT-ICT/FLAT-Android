@@ -10,6 +10,7 @@ import java.lang.Exception
 import androidx.lifecycle.MediatorLiveData
 import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication
+import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.api.ResponseData
 import java.util.*
 import kotlin.properties.Delegates
@@ -22,7 +23,7 @@ class FriendListViewModel(
     private val roomRepository = FLATApplication.userRoomRepository
 
     //TODO::debugはここの値を変更して行う
-    private var myId by Delegates.notNull<Int>()
+//    private var myId by Delegates.notNull<Int>()
 
     val friendsCount: MediatorLiveData<MutableMap<String, Int>> = MediatorLiveData<MutableMap<String, Int>>()
 
@@ -68,7 +69,7 @@ class FriendListViewModel(
 
     fun getFriends() {
         viewModelScope.launch(Dispatchers.IO) {
-            getMyId()
+//            getMyId()
             try {
                 val response = repository.getFriends(myId)
                 _getFriendsCode.postValue(response.code())

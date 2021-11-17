@@ -5,10 +5,12 @@ import com.websarva.wings.android.flat.model.UserRoomDatabase
 import com.websarva.wings.android.flat.repository.UserRoomRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlin.properties.Delegates
 
 class FLATApplication: Application() {
     companion object {
         lateinit var userRoomRepository: UserRoomRepository
+        var myId by Delegates.notNull<Int>()
         val applicationScope = CoroutineScope(SupervisorJob())
     }
 

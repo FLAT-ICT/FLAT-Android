@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.*
 import com.websarva.wings.android.flat.FLATApplication
+import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.api.PostData.PostFriends
 import com.websarva.wings.android.flat.api.ResponseData.ResponseSearchUser
@@ -18,7 +19,7 @@ class AddFriendViewModel: ViewModel() {
     private val roomRepository = FLATApplication.userRoomRepository
 
     //TODO::repositoryでroomか何かと繋いで自分のIDを取ってくるようにする？
-    private var myId by Delegates.notNull<Int>()
+//    private var myId by Delegates.notNull<Int>()
 
     val searchWord: MutableLiveData<String> = MutableLiveData<String>()
 
@@ -34,9 +35,9 @@ class AddFriendViewModel: ViewModel() {
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
-    init {
-        getMyId()
-    }
+//    init {
+//        getMyId()
+//    }
 
 
     fun getSearchUsers(targetName: String) {
@@ -147,10 +148,10 @@ class AddFriendViewModel: ViewModel() {
         }
     }
 
-    private fun getMyId(){
-        viewModelScope.launch {
-            val user = roomRepository.getUserData()
-            myId = user.myId
-        }
-    }
+//    private fun getMyId(){
+//        viewModelScope.launch {
+//            val user = roomRepository.getUserData()
+//            myId = user.myId
+//        }
+//    }
 }

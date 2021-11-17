@@ -3,6 +3,7 @@ package com.websarva.wings.android.flat.viewmodel
 import android.util.Log
 import androidx.lifecycle.*
 import com.websarva.wings.android.flat.FLATApplication
+import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.model.User
@@ -67,6 +68,7 @@ class AccountRegistrationViewModel : ViewModel() {
             } else {
                 insertUserData(user)
             }
+            myId = roomRepository.getUserData().myId
         }
     }
 

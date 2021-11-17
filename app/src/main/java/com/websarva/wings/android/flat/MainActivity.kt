@@ -91,8 +91,8 @@ class MainActivity : AppCompatActivity() {
         requestPermission()
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-        val serviceIntent = Intent(this, BeaconDetectionService::class.java)
-        startForegroundService(serviceIntent)
+//        val serviceIntent = Intent(this, BeaconDetectionService::class.java)
+//        startForegroundService(serviceIntent)
 
         // 全体の画面遷移を制御
         val navHostFragment =
