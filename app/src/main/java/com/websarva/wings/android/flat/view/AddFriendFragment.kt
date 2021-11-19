@@ -127,6 +127,7 @@ class AddFriendFragment : Fragment() {
                             tilInputFriendId.error = getString(R.string.empty_text)
                             addFriendAdapter.submitList(null)
                             rvSearchedUsers.visibility = View.INVISIBLE
+                            tvNotFoundId.visibility = View.GONE
                         }
                         else -> {
                             tilInputFriendId.isErrorEnabled = false
