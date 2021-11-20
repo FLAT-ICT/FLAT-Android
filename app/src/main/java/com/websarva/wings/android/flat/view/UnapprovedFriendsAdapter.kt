@@ -2,10 +2,14 @@ package com.websarva.wings.android.flat.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.ItemOneSideBinding
 import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
 import com.websarva.wings.android.flat.viewmodel.ListItem
@@ -27,6 +31,7 @@ private object UnapprovedFriendsDiffCallback : DiffUtil.ItemCallback<ListItem.On
 }
 
 class UnapprovedFriendsAdapter(
+    private val fragmentManager: FragmentManager,
     private val viewLifecycleOwner: LifecycleOwner,
     private val viewModel: FriendListViewModel
 ) : ListAdapter<ListItem.OneSideItem, UnapprovedFriendsAdapter.UnapprovedFriendsViewHolder>(
@@ -59,7 +64,13 @@ class UnapprovedFriendsAdapter(
     }
 
     override fun onBindViewHolder(holder: UnapprovedFriendsViewHolder, position: Int) {
-        holder.bind(getItem(position), viewLifecycleOwner, viewModel)
-        //TODO: ボタンクリック時の処理等
+        val item = getItem(position)
+        holder.bind(item, viewLifecycleOwner, viewModel)
+        holder.itemView.findViewById<ImageButton>(R.id.ib_accept).setOnClickListener {
+            viewModel.postApproveFriend(item.id)
+        }
+        holder.itemView.findViewById<ImageButton>(R.id.ib_reject).setOnClickListener {
+            RejectDialogFragment(item.id).show(fragmentManager, "dialog")
+        }
     }
 }
