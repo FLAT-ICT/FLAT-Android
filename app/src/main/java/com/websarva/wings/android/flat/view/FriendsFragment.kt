@@ -1,15 +1,12 @@
 package com.websarva.wings.android.flat.view
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.websarva.wings.android.flat.R
-import com.websarva.wings.android.flat.databinding.FragmentFriendListBinding
 import com.websarva.wings.android.flat.databinding.FragmentFriendsBinding
 import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
 
@@ -23,7 +20,7 @@ class FriendsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFriendsBinding.inflate(inflater, container, false)
         return binding.root
     }
