@@ -2,7 +2,6 @@ package com.websarva.wings.android.flat.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
@@ -10,23 +9,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.websarva.wings.android.flat.R
+import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.databinding.ItemOneSideBinding
 import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
-import com.websarva.wings.android.flat.viewmodel.ListItem
 
-private object UnapprovedFriendsDiffCallback : DiffUtil.ItemCallback<ListItem.OneSideItem>() {
+private object UnapprovedFriendsDiffCallback : DiffUtil.ItemCallback<ResponseData.OneSide>() {
     override fun areItemsTheSame(
-        oldItem: ListItem.OneSideItem,
-        newItem: ListItem.OneSideItem
+        oldItem: ResponseData.OneSide,
+        newItem: ResponseData.OneSide
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: ListItem.OneSideItem,
-        newItem: ListItem.OneSideItem
+        oldItem: ResponseData.OneSide,
+        newItem: ResponseData.OneSide
     ): Boolean {
-        return oldItem.name == newItem.name && oldItem.icon_path == newItem.icon_path && oldItem.status == newItem.status && oldItem.spot == newItem.spot
+        return oldItem == newItem
     }
 }
 
@@ -34,14 +33,14 @@ class UnapprovedFriendsAdapter(
     private val fragmentManager: FragmentManager,
     private val viewLifecycleOwner: LifecycleOwner,
     private val viewModel: FriendListViewModel
-) : ListAdapter<ListItem.OneSideItem, UnapprovedFriendsAdapter.UnapprovedFriendsViewHolder>(
+) : ListAdapter<ResponseData.OneSide, UnapprovedFriendsAdapter.UnapprovedFriendsViewHolder>(
     UnapprovedFriendsDiffCallback
 ) {
 
     class UnapprovedFriendsViewHolder(private val binding: ItemOneSideBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            item: ListItem.OneSideItem,
+            item: ResponseData.OneSide,
             viewLifecycleOwner: LifecycleOwner,
             viewModel: FriendListViewModel
         ) {

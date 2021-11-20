@@ -22,12 +22,10 @@ class FriendListViewModel(
     private val repository = ApiRepository.instance
     private val roomRepository = FLATApplication.userRoomRepository
 
-    //TODO::debugはここの値を変更して行う
-//    private var myId by Delegates.notNull<Int>()
 
-    val friendsCount: MediatorLiveData<MutableMap<String, Int>> = MediatorLiveData<MutableMap<String, Int>>()
+    val friendsCount: MediatorLiveData<MutableMap<String, Int>> =
+        MediatorLiveData<MutableMap<String, Int>>()
 
-    val operationUnapprovedFriends: LiveEvent<List<Int>> = LiveEvent()
 
     private val _friends = MutableLiveData<ResponseData.ResponseGetFriends>()
     val friends: LiveData<ResponseData.ResponseGetFriends> get() = _friends
@@ -35,9 +33,11 @@ class FriendListViewModel(
     private val _getFriendsCode = MutableLiveData<Int>()
     val getFriendsCode: LiveData<Int> get() = _getFriendsCode
 
-    private val postAcceptFriendCode = MutableLiveData<Int>()
+    private val _postApproveFriendCode = MutableLiveData<Int>()
+    val postApproveFriendCode: LiveData<Int> get() = _postApproveFriendCode
 
-    private val postRejectFriendCode = MutableLiveData<Int>()
+    private val _postRejectFriendCode = MutableLiveData<Int>()
+    val postRejectFriendCode: LiveData<Int> get() = _postRejectFriendCode
 
     init {
         getFriends()
@@ -46,10 +46,10 @@ class FriendListViewModel(
             var oneSideCount = 0
             var mutualCount = 0
             if (!it?.one_side.isNullOrEmpty()) {
-                oneSideCount = it!!.one_side!!.size
+                oneSideCount = it!!.one_side.size
             }
             if (!it?.mutual.isNullOrEmpty()) {
-                mutualCount = it!!.mutual!!.size
+                mutualCount = it!!.mutual.size
             }
             val data = mutableMapOf<String, Int>()
             data["oneSideCount"] = oneSideCount
@@ -57,19 +57,10 @@ class FriendListViewModel(
             friendsCount.postValue(data)
         }
 
-        operationUnapprovedFriends.addSource(postAcceptFriendCode) {
-            val data: List<Int> = listOf(0, postAcceptFriendCode.value!!)
-            operationUnapprovedFriends.postValue(data)
-        }
-        operationUnapprovedFriends.addSource(postRejectFriendCode) {
-            val data: List<Int> = listOf(1, postRejectFriendCode.value!!)
-            operationUnapprovedFriends.postValue(data)
-        }
     }
 
     fun getFriends() {
         viewModelScope.launch(Dispatchers.IO) {
-//            getMyId()
             try {
                 val response = repository.getFriends(myId)
                 _getFriendsCode.postValue(response.code())
@@ -90,7 +81,7 @@ class FriendListViewModel(
             try {
                 val postId = PostData.PostFriends(myId, targetId)
                 val response = repository.postAddFriend(postId)
-                postAcceptFriendCode.postValue(response.code())
+                _postApproveFriendCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d(
                         "approveSuccess",
@@ -110,7 +101,7 @@ class FriendListViewModel(
             try {
                 val postId = PostData.PostFriends(myId, targetId)
                 val response = repository.postRejectFriend(postId)
-                postRejectFriendCode.postValue(response.code())
+                _postRejectFriendCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d(
                         "rejectSuccess",
@@ -125,7 +116,7 @@ class FriendListViewModel(
         }
     }
 
-    private suspend fun getMyId(){
+    private suspend fun getMyId() {
         val user = roomRepository.getUserData()
         myId = user.myId
         Log.d("RoomData", "$user")

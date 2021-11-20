@@ -1,6 +1,7 @@
 package com.websarva.wings.android.flat.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,11 +31,12 @@ class UnapprovedFriendsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvUnapprovedFriends.apply{
+        binding.rvUnapprovedFriends.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = UnapprovedFriendsAdapter(childFragmentManager, viewLifecycleOwner, viewModel).also {
-                unapprovedFriendsAdapter = it
-            }
+            adapter =
+                UnapprovedFriendsAdapter(childFragmentManager, viewLifecycleOwner, viewModel).also {
+                    unapprovedFriendsAdapter = it
+                }
         }
 
         viewModel.friends.observe(viewLifecycleOwner, {
@@ -46,6 +48,17 @@ class UnapprovedFriendsFragment : Fragment() {
                 }
                 else -> {
                     unapprovedFriendsAdapter.submitList(it.one_side)
+                }
+            }
+        })
+
+        viewModel.postRejectFriendCode.observe(viewLifecycleOwner, {
+            when (it) {
+                200 -> {
+                    Log.d("kokomadeiketeru", "${viewModel.postRejectFriendCode}")
+                }
+                else -> {
+                    //TODO: 拒否失敗時
                 }
             }
         })

@@ -6,7 +6,7 @@
 
         <variable
             name="content"
-            type="com.websarva.wings.android.flat.viewmodel.ListItem.OneSideItem" />
+            type="com.websarva.wings.android.flat.api.ResponseData.OneSide" />
 
         <variable
             name="viewModel"

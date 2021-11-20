@@ -6,35 +6,35 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.databinding.ItemMutualBinding
 import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
-import com.websarva.wings.android.flat.viewmodel.ListItem
 
-private object FriendsDiffCallback : DiffUtil.ItemCallback<ListItem.MutualItem>() {
+private object FriendsDiffCallback : DiffUtil.ItemCallback<ResponseData.Mutual>() {
     override fun areItemsTheSame(
-        oldItem: ListItem.MutualItem,
-        newItem: ListItem.MutualItem
+        oldItem: ResponseData.Mutual,
+        newItem: ResponseData.Mutual
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: ListItem.MutualItem,
-        newItem: ListItem.MutualItem
+        oldItem: ResponseData.Mutual,
+        newItem: ResponseData.Mutual
     ): Boolean {
-        return oldItem.name == newItem.name && oldItem.icon_path == newItem.icon_path && oldItem.status == newItem.status && oldItem.spot == newItem.spot
+        return oldItem == newItem
     }
 }
 
 class FriendsAdapter(
     private val viewLifeCycleOwner: LifecycleOwner,
     private val viewModel: FriendListViewModel
-) : ListAdapter<ListItem.MutualItem, FriendsAdapter.FriendsViewHolder>(FriendsDiffCallback) {
+) : ListAdapter<ResponseData.Mutual, FriendsAdapter.FriendsViewHolder>(FriendsDiffCallback) {
 
     class FriendsViewHolder(private val binding: ItemMutualBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            item: ListItem.MutualItem,
+            item: ResponseData.Mutual,
             viewLifeCycleOwner: LifecycleOwner,
             viewModel: FriendListViewModel
         ) {

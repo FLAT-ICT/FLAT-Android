@@ -6,7 +6,7 @@
 
         <variable
             name="content"
-            type="com.websarva.wings.android.flat.viewmodel.ListItem.MutualItem" />
+            type="com.websarva.wings.android.flat.api.ResponseData.Mutual" />
 
         <variable
             name="viewModel"
