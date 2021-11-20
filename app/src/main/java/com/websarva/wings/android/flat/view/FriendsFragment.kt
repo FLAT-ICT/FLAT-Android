@@ -38,14 +38,18 @@ class FriendsFragment : Fragment() {
         viewModel.friends.observe(viewLifecycleOwner, {
             when {
                 it.mutual.isEmpty() -> {
-                    binding.apply {
-                        //TODO: 友だちがいないとき
-                    }
+                    //TODO: 友だちがいないとき
                 }
                 else -> {
-                    friendsAdapter.submitList(it.mutual)
+                    //TODO: 友だちがいないときに表示したテキスト等を消す
                 }
             }
+            friendsAdapter.submitList(it.mutual)
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getFriends()
     }
 }

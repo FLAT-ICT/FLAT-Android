@@ -42,12 +42,22 @@ class UnapprovedFriendsFragment : Fragment() {
         viewModel.friends.observe(viewLifecycleOwner, {
             when {
                 it.one_side.isEmpty() -> {
-                    binding.apply {
-                        //TODO: 未承認の友だちがいないとき
-                    }
+                    //TODO: 未承認の友だちがいないときの処理
                 }
                 else -> {
-                    unapprovedFriendsAdapter.submitList(it.one_side)
+                    //TODO: 未承認の友だちがいないときに表示したテキスト等を消す
+                }
+            }
+            unapprovedFriendsAdapter.submitList(it.one_side)
+        })
+
+        viewModel.postApproveFriendCode.observe(viewLifecycleOwner, {
+            when (it) {
+                200 -> {
+                    viewModel.getFriends()
+                }
+                else -> {
+                    //TODO: 承認失敗時の処理
                 }
             }
         })
@@ -55,10 +65,10 @@ class UnapprovedFriendsFragment : Fragment() {
         viewModel.postRejectFriendCode.observe(viewLifecycleOwner, {
             when (it) {
                 200 -> {
-                    Log.d("kokomadeiketeru", "${viewModel.postRejectFriendCode}")
+                    viewModel.getFriends()
                 }
                 else -> {
-                    //TODO: 拒否失敗時
+                    //TODO: 拒否失敗時の処理
                 }
             }
         })

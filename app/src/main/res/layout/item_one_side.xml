@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="content"
+            name="user"
             type="com.websarva.wings.android.flat.api.ResponseData.OneSide" />
 
         <variable
@@ -45,7 +45,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="27dp"
             android:layout_marginBottom="22dp"
-            android:text="@{content.name}"
+            android:text="@{user.name}"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iconPosition"
@@ -60,6 +60,7 @@
             android:layout_marginBottom="7dp"
             android:src="@drawable/ic_accept"
             android:background="@null"
+            android:onSafeClick="@{() -> viewModel.onClickApproveButton(user)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

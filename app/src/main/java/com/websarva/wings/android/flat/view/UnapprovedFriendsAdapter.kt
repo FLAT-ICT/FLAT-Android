@@ -46,7 +46,7 @@ class UnapprovedFriendsAdapter(
         ) {
             binding.run {
                 lifecycleOwner = viewLifecycleOwner
-                content = item
+                user = item
                 this.viewModel = viewModel
             }
         }
@@ -64,10 +64,7 @@ class UnapprovedFriendsAdapter(
 
     override fun onBindViewHolder(holder: UnapprovedFriendsViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, viewLifecycleOwner, viewModel)
-        holder.itemView.findViewById<ImageButton>(R.id.ib_accept).setOnClickListener {
-            viewModel.postApproveFriend(item.id)
-        }
+        holder.bind(getItem(position), viewLifecycleOwner, viewModel)
         holder.itemView.findViewById<ImageButton>(R.id.ib_reject).setOnClickListener {
             RejectDialogFragment(item.id).show(fragmentManager, "dialog")
         }

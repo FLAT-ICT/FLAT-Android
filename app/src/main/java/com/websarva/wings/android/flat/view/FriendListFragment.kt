@@ -59,20 +59,6 @@ class FriendListFragment : Fragment() {
             view.findNavController().navigate(action)
         }
 
-
-        viewModel.postRejectFriendCode.observe(viewLifecycleOwner, {
-            Log.d("madakoko", "${viewModel.postApproveFriendCode}")
-            when (it) {
-                200 -> {
-                    Log.d("kokomadeiketeru", "${viewModel.postApproveFriendCode}")
-                }
-                else -> {
-                    //TODO: 拒否失敗時
-                }
-            }
-        })
-
-
         viewModel.getFriendsCode.observe(viewLifecycleOwner, {
             Log.d("getFriendCode", "$it")
             when (it) {
@@ -80,8 +66,6 @@ class FriendListFragment : Fragment() {
 //                else -> binding.tvFriendListError.visibility = View.VISIBLE
             }
         })
-
-
     }
 
     override fun onDestroyView() {

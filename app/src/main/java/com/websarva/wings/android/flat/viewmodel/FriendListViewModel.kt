@@ -1,6 +1,7 @@
 package com.websarva.wings.android.flat.viewmodel
 
 import android.util.Log
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.*
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.repository.ApiRepository
@@ -12,6 +13,7 @@ import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.api.ResponseData
+import com.websarva.wings.android.flat.view.RejectDialogFragment
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -116,9 +118,7 @@ class FriendListViewModel(
         }
     }
 
-    private suspend fun getMyId() {
-        val user = roomRepository.getUserData()
-        myId = user.myId
-        Log.d("RoomData", "$user")
+    fun onClickApproveButton(item: ResponseData.OneSide) {
+        postApproveFriend(item.id)
     }
 }
