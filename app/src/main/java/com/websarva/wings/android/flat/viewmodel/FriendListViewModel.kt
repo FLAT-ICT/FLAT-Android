@@ -29,8 +29,8 @@ class FriendListViewModel(
 
     val operationUnapprovedFriends: LiveEvent<List<Int>> = LiveEvent()
 
-    private val _friends = MutableLiveData<ResponseData.ResponseGetFriends?>()
-    val friends: LiveData<ResponseData.ResponseGetFriends?> get() = _friends
+    private val _friends = MutableLiveData<ResponseData.ResponseGetFriends>()
+    val friends: LiveData<ResponseData.ResponseGetFriends> get() = _friends
 
     private val _getFriendsCode = MutableLiveData<Int>()
     val getFriendsCode: LiveData<Int> get() = _getFriendsCode
@@ -75,8 +75,7 @@ class FriendListViewModel(
                 _getFriendsCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d("getFriendSuccess", "$response")
-                    val friendList = response.body()
-                    _friends.postValue(friendList)
+                    _friends.postValue(response.body())
                 } else {
                     Log.d("getFriendFailure", "${response}\n${response.body()}")
                 }

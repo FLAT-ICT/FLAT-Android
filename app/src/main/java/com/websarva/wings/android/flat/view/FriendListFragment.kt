@@ -71,16 +71,16 @@ class FriendListFragment : Fragment() {
             rvFriendList.layoutManager = LinearLayoutManager(context)
         }
 
-        viewModel.operationUnapprovedFriends.observe(viewLifecycleOwner, {
-            when(it[1]) {
-                200 -> {
-                    Log.d("Approve or Reject",
-                        if (it[0] == 0) "ApproveSuccess" else "RejectSuccess"
-                    )
-                    viewModel.getFriends()
-                }
-            }
-        })
+//        viewModel.operationUnapprovedFriends.observe(viewLifecycleOwner, {
+//            when(it[1]) {
+//                200 -> {
+//                    Log.d("Approve or Reject",
+//                        if (it[0] == 0) "ApproveSuccess" else "RejectSuccess"
+//                    )
+//                    viewModel.getFriends()
+//                }
+//            }
+//        })
 
         viewModel.getFriendsCode.observe(viewLifecycleOwner, {
             Log.d("getFriendCode", "$it")

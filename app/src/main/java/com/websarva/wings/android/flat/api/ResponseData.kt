@@ -18,8 +18,8 @@ class ResponseData {
     )
 
     data class ResponseGetFriends(
-        @Json(name = "mutual") val mutual: List<ListItem.MutualItem>?,
-        @Json(name = "one_side") val one_side: List<ListItem.OneSideItem>?
+        @Json(name = "mutual") val mutual: List<ListItem.MutualItem>,
+        @Json(name = "one_side") val one_side: List<ListItem.OneSideItem>
     )
 
     data class ResponseSearchUser(
