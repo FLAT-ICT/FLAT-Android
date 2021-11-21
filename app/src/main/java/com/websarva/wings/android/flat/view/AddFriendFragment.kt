@@ -86,7 +86,7 @@ class AddFriendFragment : Fragment() {
                     rvSearchedUsers.visibility = View.INVISIBLE
                     tvNotFoundId.visibility = View.INVISIBLE
                     //TODO::エラー時の表示が定まり次第変えるかも
-                    Toast.makeText(activity, "エラーが発生しました。\nエラーコード: $it", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, R.string.connection_error.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
         })

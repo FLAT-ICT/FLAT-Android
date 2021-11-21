@@ -13,10 +13,10 @@
     <string name="disc_fab">友だちを追加する</string>
     <string name="unapproved_friends">未承認の友だち</string>
     <string name="friends_list">友だち一覧</string>
-    <string name="friend_list_error">エラーが発生しました。通信環境をご確認の上、もう一度お試しください。</string>
+    <string name="connection_error">通信エラーです。接続状況を確認してください</string>
 
     <!--  RejectDialogFragment  -->
-    <string name="dialog_message">本当に拒否しますか？（間違って拒否した場合は、もう一度友だち申請をする必要があります）</string>
+    <string name="dialog_message">本当に拒否しますか？間違って拒否した場合は、もう一度友だち申請をしてもらう必要があります</string>
     <string name="cancel">キャンセル</string>
     <string name="reject">拒否</string>
 
@@ -39,7 +39,7 @@
     <string name="permission_background_location_message">このデバイスの位置情報へのアクセスを「FLAT」に常に許可する必要があります。</string>
     <string name="permission_background_location_positive">設定する</string>
     <string name="permission_background_location_negative">設定しない</string>
-    
+
     <!--  fragment_account_registration  -->
     <string name="account_registration_title">アカウントを登録しましょう</string>
     <string name="input_nickname">ニックネームを入力してください(後で変更可能)</string>
