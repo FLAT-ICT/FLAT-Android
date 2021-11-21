@@ -1,21 +1,14 @@
 package com.websarva.wings.android.flat.viewmodel
 
 import android.util.Log
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.*
+import com.websarva.wings.android.flat.FLATApplication
+import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.api.PostData
+import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Exception
-import androidx.lifecycle.MediatorLiveData
-import com.hadilq.liveevent.LiveEvent
-import com.websarva.wings.android.flat.FLATApplication
-import com.websarva.wings.android.flat.FLATApplication.Companion.myId
-import com.websarva.wings.android.flat.api.ResponseData
-import com.websarva.wings.android.flat.view.RejectDialogFragment
-import java.util.*
-import kotlin.properties.Delegates
 
 
 class FriendListViewModel(
@@ -27,7 +20,6 @@ class FriendListViewModel(
 
     val friendsCount: MediatorLiveData<MutableMap<String, Int>> =
         MediatorLiveData<MutableMap<String, Int>>()
-
 
     private val _friends = MutableLiveData<ResponseData.ResponseGetFriends>()
     val friends: LiveData<ResponseData.ResponseGetFriends> get() = _friends
@@ -78,7 +70,7 @@ class FriendListViewModel(
         }
     }
 
-    fun postApproveFriend(targetId: Int) {
+    private fun postApproveFriend(targetId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val postId = PostData.PostFriends(myId, targetId)

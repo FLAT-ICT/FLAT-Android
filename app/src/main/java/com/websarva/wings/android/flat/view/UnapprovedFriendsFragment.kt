@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.websarva.wings.android.flat.R
@@ -15,7 +16,7 @@ import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
 
 class UnapprovedFriendsFragment : Fragment() {
 
-    private val viewModel: FriendListViewModel by viewModels()
+    private val viewModel: FriendListViewModel by activityViewModels()
     private var _binding: FragmentUnapprovedFriendsBinding? = null
     private val binding get() = _binding!!
     private lateinit var unapprovedFriendsAdapter: UnapprovedFriendsAdapter
