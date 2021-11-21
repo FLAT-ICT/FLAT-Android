@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -59,6 +60,7 @@ class UnapprovedFriendsFragment : Fragment() {
                 }
                 else -> {
                     //TODO: 承認失敗時の処理
+                    Toast.makeText(activity, R.string.connection_error.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -70,8 +72,14 @@ class UnapprovedFriendsFragment : Fragment() {
                 }
                 else -> {
                     //TODO: 拒否失敗時の処理
+                    Toast.makeText(activity, R.string.connection_error.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getFriends()
     }
 }

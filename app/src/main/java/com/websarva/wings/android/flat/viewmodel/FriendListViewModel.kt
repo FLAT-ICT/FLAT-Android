@@ -34,8 +34,6 @@ class FriendListViewModel(
     val postRejectFriendCode: LiveData<Int> get() = _postRejectFriendCode
 
     init {
-        getFriends()
-
         friendsCount.addSource(friends) {
             var oneSideCount = 0
             var mutualCount = 0

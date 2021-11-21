@@ -58,14 +58,6 @@ class FriendListFragment : Fragment() {
                     .actionFriendListFragmentToAddFriendFragment()
             view.findNavController().navigate(action)
         }
-
-        viewModel.getFriendsCode.observe(viewLifecycleOwner, {
-            Log.d("getFriendCode", "$it")
-            when (it) {
-                200 -> binding.tvFriendListError.visibility = View.GONE
-//                else -> binding.tvFriendListError.visibility = View.VISIBLE
-            }
-        })
     }
 
     override fun onDestroyView() {
