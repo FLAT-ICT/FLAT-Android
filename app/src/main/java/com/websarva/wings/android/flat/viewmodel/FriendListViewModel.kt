@@ -2,6 +2,7 @@ package com.websarva.wings.android.flat.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.api.PostData
@@ -17,6 +18,7 @@ class FriendListViewModel(
     private val repository = ApiRepository.instance
     private val roomRepository = FLATApplication.userRoomRepository
 
+    val operationUnapprovedFriends: LiveEvent<List<Int>> = LiveEvent()
 
     val friendsCount: MediatorLiveData<MutableMap<String, Int>> =
         MediatorLiveData<MutableMap<String, Int>>()
@@ -28,10 +30,8 @@ class FriendListViewModel(
     val getFriendsCode: LiveData<Int> get() = _getFriendsCode
 
     private val _postApproveFriendCode = MutableLiveData<Int>()
-    val postApproveFriendCode: LiveData<Int> get() = _postApproveFriendCode
 
     private val _postRejectFriendCode = MutableLiveData<Int>()
-    val postRejectFriendCode: LiveData<Int> get() = _postRejectFriendCode
 
     init {
         friendsCount.addSource(friends) {
@@ -49,6 +49,14 @@ class FriendListViewModel(
             friendsCount.postValue(data)
         }
 
+        operationUnapprovedFriends.addSource(_postApproveFriendCode) {
+            val data: List<Int> = listOf(0, _postApproveFriendCode.value!!)
+            operationUnapprovedFriends.postValue(data)
+        }
+        operationUnapprovedFriends.addSource(_postRejectFriendCode) {
+            val data: List<Int> = listOf(1, _postRejectFriendCode.value!!)
+            operationUnapprovedFriends.postValue(data)
+        }
     }
 
     fun getFriends() {

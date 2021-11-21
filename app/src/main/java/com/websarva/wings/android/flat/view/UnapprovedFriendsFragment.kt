@@ -53,25 +53,15 @@ class UnapprovedFriendsFragment : Fragment() {
             unapprovedFriendsAdapter.submitList(it.one_side)
         })
 
-        viewModel.postApproveFriendCode.observe(viewLifecycleOwner, {
-            when (it) {
+        viewModel.operationUnapprovedFriends.observe(viewLifecycleOwner, {
+            when(it[1]) {
                 200 -> {
+                    Log.d("Approve or Reject",
+                        if (it[0] == 0) "ApproveSuccess" else "RejectSuccess"
+                    )
                     viewModel.getFriends()
                 }
                 else -> {
-                    //TODO: 承認失敗時の処理
-                    Toast.makeText(activity, R.string.connection_error.toString(), Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
-
-        viewModel.postRejectFriendCode.observe(viewLifecycleOwner, {
-            when (it) {
-                200 -> {
-                    viewModel.getFriends()
-                }
-                else -> {
-                    //TODO: 拒否失敗時の処理
                     Toast.makeText(activity, R.string.connection_error.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
