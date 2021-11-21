@@ -16,7 +16,7 @@
     <string name="connection_error">通信エラーです。接続状況を確認してください</string>
 
     <!--  RejectDialogFragment  -->
-    <string name="dialog_message">本当に拒否しますか？（間違って拒否した場合は、もう一度友だち申請をする必要があります）</string>
+    <string name="dialog_message">本当に拒否しますか？間違って拒否した場合は、もう一度友だち申請をしてもらう必要があります</string>
     <string name="cancel">キャンセル</string>
     <string name="reject">拒否</string>
 
