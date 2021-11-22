@@ -42,14 +42,29 @@ class FriendsFragment : Fragment() {
         viewModel.friends.observe(viewLifecycleOwner, {
             when {
                 it.mutual.isEmpty() -> {
-                    binding.apply {
-                        rvFriends.visibility = View.INVISIBLE
-                        tvNoHaveFriend.visibility = View.VISIBLE
+                    binding.rvFriends.visibility = View.INVISIBLE
+                    if (it.one_side.isEmpty()) {
+                        binding.apply {
+                            ivRightArrow.visibility = View.GONE
+                            tvSomeUnapprovedFriends.visibility = View.GONE
+                            tvNoHaveFriend.visibility = View.VISIBLE
+                        }
+                    } else {
+                        binding.apply {
+                            tvNoHaveFriend.visibility = View.GONE
+                            tvSomeUnapprovedFriends.apply {
+                                text = "友だち申請が${it.one_side.size}件届いています\n未承認タブに移動しましょう"
+                                visibility = View.VISIBLE
+                            }
+                            ivRightArrow.visibility = View.VISIBLE
+                        }
                     }
                 }
                 else -> {
                     binding.apply {
+                        ivRightArrow.visibility = View.GONE
                         tvNoHaveFriend.visibility = View.GONE
+                        tvSomeUnapprovedFriends.visibility = View.GONE
                         rvFriends.visibility = View.VISIBLE
                     }
                 }
