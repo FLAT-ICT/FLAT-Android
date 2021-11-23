@@ -44,10 +44,10 @@ class UnapprovedFriendsFragment : Fragment() {
         viewModel.friends.observe(viewLifecycleOwner, {
             when {
                 it.one_side.isEmpty() -> {
-                    //TODO: 未承認の友だちがいないときの処理
+                    binding.tvNoUnapprovedFriend.visibility = View.VISIBLE
                 }
                 else -> {
-                    //TODO: 未承認の友だちがいないときに表示したテキスト等を消す
+                    binding.tvNoUnapprovedFriend.visibility = View.GONE
                 }
             }
             unapprovedFriendsAdapter.submitList(it.one_side)

@@ -11,9 +11,10 @@
     <!--  fragment_friend_list  -->
     <string name="no_have_friend">友だちが1人もいないようです。下のボタンから追加してみましょう！</string>
     <string name="disc_fab">友だちを追加する</string>
-    <string name="unapproved_friends">未承認の友だち</string>
-    <string name="friends_list">友だち一覧</string>
+    <string name="unapproved_friends">未承認</string>
+    <string name="friends_list">友だち</string>
     <string name="connection_error">通信エラーです。接続状況を確認してください</string>
+    <string name="no_unapproved_friend">友だち申請は届いていないようです</string>
 
     <!--  RejectDialogFragment  -->
     <string name="dialog_message">本当に拒否しますか？間違って拒否した場合は、もう一度友だち申請をしてもらう必要があります</string>
