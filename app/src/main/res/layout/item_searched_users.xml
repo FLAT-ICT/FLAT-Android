@@ -6,7 +6,7 @@
         <variable
             name="user"
             type="com.websarva.wings.android.flat.api.ResponseData.ResponseSearchUser" />
-        
+
         <variable
             name="viewModel"
             type="com.websarva.wings.android.flat.viewmodel.AddFriendViewModel" />
@@ -56,6 +56,7 @@
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"
             app:cornerRadius="20dp"
+            android:padding="0dp"
             android:textSize="14sp"
             android:onSafeClick="@{() -> viewModel.onClickButton(user)}"
             app:layout_constraintTop_toTopOf="parent"
