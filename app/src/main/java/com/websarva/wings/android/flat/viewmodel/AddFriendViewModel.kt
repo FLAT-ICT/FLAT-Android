@@ -93,6 +93,7 @@ class AddFriendViewModel: ViewModel() {
                 _postCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d("postSuccess", "${response}\n${response.body()}\nmyId=${myId}, targetId=${targetId}")
+                    updateUsers(targetId)
                 } else {
                     Log.d("postFailure", "$response")
                 }
@@ -103,12 +104,24 @@ class AddFriendViewModel: ViewModel() {
         }
     }
 
+    private fun updateUsers(id: Int) {
+        viewModelScope.launch(Dispatchers.Main) {
+            _users.value = _users.value?.map {
+                if (it.id == id) {
+                    it.copy(applied = true)
+                } else {
+                    it
+                }
+            }
+        }
+    }
+
     fun onClickButton(item: ResponseSearchUser) {
         when {
             item.applied -> {
                 //TODO::ダイアログ表示
             }
-            else -> {
+            !item.applied -> {
                 postFriendRequest(item.id)
             }
         }
@@ -117,11 +130,14 @@ class AddFriendViewModel: ViewModel() {
     //ボタンの色、テキスト
     fun setButtonText(item: ResponseSearchUser): Int {
         return when {
-            item.applied -> {
+            item.applied && !item.requested -> {
                 R.string.wait_for_approval
             }
-            else -> {
+            !item.applied -> {
                 R.string.apply_for_friend
+            }
+            else -> {
+                R.string.already_friend
             }
         }
     }
@@ -140,7 +156,7 @@ class AddFriendViewModel: ViewModel() {
     fun setButtonTextColor(item: ResponseSearchUser): Int {
         return when {
             item.applied -> {
-                R.color.middle
+                R.color.primary_solid
             }
             else -> {
                 R.color.white

@@ -41,7 +41,7 @@ class ResponseData {
         @Json(name = "id") val id: Int,
         @Json(name = "name") val name: String,
         @Json(name = "icon_path") val icon_path: String,
-        @Json(name = "applied") val applied: Boolean,
+        @Json(name = "applied") var applied: Boolean,
         @Json(name = "requested") val requested: Boolean
     )
 
