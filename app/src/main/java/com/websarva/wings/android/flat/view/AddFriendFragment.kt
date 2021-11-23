@@ -97,7 +97,7 @@ class AddFriendFragment : Fragment() {
                 // getSearchUsersを呼んで情報を更新
                 // POSTが成功したとき
                 200 -> {
-                    viewModel.getSearchUsers(viewModel.searchWord.value.toString())
+                    //TODO:ここでgetFriendsしちゃう？
                 }
                 // POSTが失敗したとき
                 else -> {

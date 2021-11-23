@@ -27,7 +27,7 @@
     <string name="input_user_name_hint">例：未来太郎</string>
     <string name="apply_for_friend">申請</string>
     <string name="wait_for_approval">承認待ち</string>
-    <string name="already_friend">既に友だちです</string>
+    <string name="already_friend">すでに友だち</string>
     <string name="empty_text">名前を入力してください。</string>
     <string name="not_found_id">見つかりませんでした。もう一度検索してください。</string>
 
