@@ -22,6 +22,7 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
     private val repository = ApiRepository.instance
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.Main + job)
+    private var myId: Int = 0
 
     private lateinit var beaconManager: BeaconManager
     private lateinit var region: Region
@@ -37,8 +38,10 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
             //一番近いものをnearBeaconに持つ
             if (nearBeacon == null) {
                 nearBeacon = beacon
+            }else if (nearBeacon.id2.toInt() != 0 && beacon.id2.toInt() == 0) {
+                nearBeacon = beacon
             }
-            else if (nearBeacon.distance > beacon.distance) {
+            else if (nearBeacon.distance > beacon.distance && beacon.id2.toInt() == 0) {
                 nearBeacon = beacon
             }
         }
@@ -90,6 +93,8 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
 
     override fun onCreate() {
         super.onCreate()
+        Log.d("get my id from application", "$myId")
+        myId = FLATApplication.myId
 
 //        BeaconManager.setDebug(true)
 
