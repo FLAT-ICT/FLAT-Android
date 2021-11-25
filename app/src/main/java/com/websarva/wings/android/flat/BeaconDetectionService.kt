@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.altbeacon.beacon.*
 import android.app.PendingIntent
+import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.CoroutineScope
@@ -21,6 +22,7 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
     private val repository = ApiRepository.instance
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.Main + job)
+    private var myId: Int = 0
 
     private lateinit var beaconManager: BeaconManager
     private lateinit var region: Region
@@ -36,15 +38,17 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
             //一番近いものをnearBeaconに持つ
             if (nearBeacon == null) {
                 nearBeacon = beacon
+            }else if (nearBeacon.id2.toInt() != 0 && beacon.id2.toInt() == 0) {
+                nearBeacon = beacon
             }
-            else if (nearBeacon.distance > beacon.distance) {
+            else if (nearBeacon.distance > beacon.distance && beacon.id2.toInt() == 0) {
                 nearBeacon = beacon
             }
         }
         // TODO:IDをroom等で内部に保存しrepositoryから持ってくる
         if (nearBeacon != null) {
             postData = PostData.PostBeacon(
-                user_id = 1,
+                user_id = myId,
                 major = nearBeacon.id2.toInt(),
                 minor = nearBeacon.id3.toInt(),
                 rssi = nearBeacon.rssi
@@ -66,7 +70,7 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
     override fun didExitRegion(region: Region?) {
         Log.d("iBeacon:Exit", "Region$region")
         postData = PostData.PostBeacon(
-            user_id = 1,
+            user_id = myId,
             major = 0,
             minor = -1,
             rssi = 0,
@@ -89,6 +93,8 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
 
     override fun onCreate() {
         super.onCreate()
+        Log.d("get my id from application", "$myId")
+        myId = FLATApplication.myId
 
 //        BeaconManager.setDebug(true)
 
