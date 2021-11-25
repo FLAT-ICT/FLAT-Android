@@ -32,6 +32,7 @@ class FriendsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.friendsProgress.visibility = View.VISIBLE
         binding.rvFriends.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = FriendsAdapter(viewLifecycleOwner, viewModel).also {
@@ -40,6 +41,7 @@ class FriendsFragment : Fragment() {
         }
 
         viewModel.friends.observe(viewLifecycleOwner, {
+            binding.friendsProgress.visibility = View.GONE
             when {
                 it.mutual.isEmpty() -> {
                     binding.rvFriends.visibility = View.INVISIBLE

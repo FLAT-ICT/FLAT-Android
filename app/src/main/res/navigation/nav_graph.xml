@@ -19,6 +19,7 @@
         tools:layout="@layout/fragment_friend_list" >
         <action
             android:id="@+id/action_friendListFragment_to_addFriendFragment"
+            app:enterAnim="@anim/nav_zoom_enter_anim"
             app:destination="@id/addFriendFragment" />
     </fragment>
     <fragment

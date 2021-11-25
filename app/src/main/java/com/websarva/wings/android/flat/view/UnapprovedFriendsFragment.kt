@@ -33,6 +33,7 @@ class UnapprovedFriendsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.unapprovedFriendsProgress.visibility = View.VISIBLE
         binding.rvUnapprovedFriends.apply {
             layoutManager = LinearLayoutManager(context)
             adapter =
@@ -42,12 +43,15 @@ class UnapprovedFriendsFragment : Fragment() {
         }
 
         viewModel.friends.observe(viewLifecycleOwner, {
+            binding.unapprovedFriendsProgress.visibility = View.GONE
             when {
                 it.one_side.isEmpty() -> {
+                    binding.rvUnapprovedFriends.visibility = View.INVISIBLE
                     binding.tvNoUnapprovedFriend.visibility = View.VISIBLE
                 }
                 else -> {
                     binding.tvNoUnapprovedFriend.visibility = View.GONE
+                    binding.rvUnapprovedFriends.visibility = View.VISIBLE
                 }
             }
             unapprovedFriendsAdapter.submitList(it.one_side)

@@ -23,10 +23,10 @@ class FriendListViewModel(
     val friendsCount: MediatorLiveData<MutableMap<String, Int>> =
         MediatorLiveData<MutableMap<String, Int>>()
 
-    private val _friends = MutableLiveData<ResponseData.ResponseGetFriends>()
+    private val _friends = LiveEvent<ResponseData.ResponseGetFriends>()
     val friends: LiveData<ResponseData.ResponseGetFriends> get() = _friends
 
-    private val _getFriendsCode = MutableLiveData<Int>()
+    private val _getFriendsCode = LiveEvent<Int>()
     val getFriendsCode: LiveData<Int> get() = _getFriendsCode
 
     private val _postApproveFriendCode = MutableLiveData<Int>()
