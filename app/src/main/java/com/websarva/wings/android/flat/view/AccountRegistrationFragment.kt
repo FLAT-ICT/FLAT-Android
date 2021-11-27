@@ -40,12 +40,5 @@ class AccountRegistrationFragment : Fragment() {
         viewModel.userData.observe(viewLifecycleOwner, {
             viewModel.registerUserInRoom()
         })
-
-        binding.btNext.setOnClickListener {
-            requireActivity().startForegroundService(Intent(context, BeaconDetectionService::class.java))
-            val action =
-                AccountRegistrationFragmentDirections.actionAccountRegistrationFragmentToFriendListFragment()
-            view.findNavController().navigate(action)
-        }
     }
 }
