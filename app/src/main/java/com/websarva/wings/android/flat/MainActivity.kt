@@ -113,6 +113,9 @@ class MainActivity : AppCompatActivity() {
                     it.navigationIcon = AppCompatResources.getDrawable(this, R.drawable.ic_delete)
                 }
                 findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.GONE
+            } else if (destination.id == R.id.startupFragment || destination.id == R.id.accountRegistrationFragment || destination.id == R.id.loginFragment) {
+                findViewById<Toolbar>(R.id.toolbar).visibility = View.GONE
+                findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.GONE
             } else {
                 findViewById<Toolbar>(R.id.toolbar).visibility = View.GONE
                 findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
