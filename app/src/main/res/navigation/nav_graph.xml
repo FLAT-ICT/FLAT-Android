@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/accountRegistrationFragment">
+    app:startDestination="@id/startupFragment">
 
     <fragment
         android:id="@+id/addFriendFragment"
@@ -29,6 +29,26 @@
         tools:layout="@layout/fragment_account_registration" >
         <action
             android:id="@+id/action_accountRegistrationFragment_to_friendListFragment"
+            app:destination="@id/friendListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startupFragment"
+        android:name="com.websarva.wings.android.flat.view.StartupFragment"
+        android:label="StartupFragment" >
+        <action
+            android:id="@+id/action_startupFragment_to_accountRegistrationFragment"
+            app:destination="@id/accountRegistrationFragment" />
+        <action
+            android:id="@+id/action_startupFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.websarva.wings.android.flat.view.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_friendListFragment"
             app:destination="@id/friendListFragment" />
     </fragment>
 </navigation>
