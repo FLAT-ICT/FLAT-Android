@@ -34,7 +34,8 @@
     <fragment
         android:id="@+id/startupFragment"
         android:name="com.websarva.wings.android.flat.view.StartupFragment"
-        android:label="StartupFragment" >
+        android:label="StartupFragment"
+        tools:layout="@layout/fragment_startup" >
         <action
             android:id="@+id/action_startupFragment_to_accountRegistrationFragment"
             app:destination="@id/accountRegistrationFragment" />
