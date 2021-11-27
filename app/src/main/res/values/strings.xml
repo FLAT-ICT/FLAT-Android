@@ -46,4 +46,8 @@
     <string name="input_nickname">ニックネームを入力してください(後で変更可能)</string>
     <string name="input_password">パスワードを入力してください</string>
     <string name="register">登録する</string>
+
+    <!--  fragment_startup  -->
+    <string name="login">ログイン</string>
+    <string name="new_account_registration">新規登録</string>
 </resources>
