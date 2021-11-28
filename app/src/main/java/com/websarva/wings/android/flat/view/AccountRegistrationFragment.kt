@@ -91,6 +91,9 @@ class AccountRegistrationFragment : Fragment() {
 
         //TODO: レスポンスメッセージを監視し、名前重複のエラーメッセージを表示するorログイン
         //TODO: ログインする場合、ログイン前にroomに保存
+        viewModel.postCode.observe(viewLifecycleOwner, {
+
+        })
 
         viewModel.userData.observe(viewLifecycleOwner, {
             viewModel.registerUserInRoom()

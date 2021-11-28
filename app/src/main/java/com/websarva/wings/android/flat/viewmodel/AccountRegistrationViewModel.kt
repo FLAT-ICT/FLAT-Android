@@ -17,7 +17,7 @@ class AccountRegistrationViewModel : ViewModel() {
     private val apiRepository = ApiRepository.instance
     private val roomRepository = FLATApplication.userRoomRepository
 
-    private val _postCode = MutableLiveData<Int>()
+    private val _postCode = LiveEvent<Int>()
     val postCode: LiveData<Int> get() = _postCode
 
     private val _userData = MutableLiveData<ResponseData.ResponseGetUser>()
@@ -43,6 +43,22 @@ class AccountRegistrationViewModel : ViewModel() {
     private val _isLengthOk = LiveEvent<UserInputData>()
     val isLengthOk: LiveData<UserInputData> get() = _isLengthOk
 
+    fun checkMatchPassword(inputData: UserInputData) {
+        inputData.isMatch = inputData.pass1 == inputData.pass2
+        _isMatchPassword.postValue(inputData)
+    }
+
+    fun checkCharacter(inputData: UserInputData) {
+        val reAlphaNum = Regex("^[A-Za-z0-9]+$")
+        inputData.isCharaLenOk = inputData.pass1.matches(reAlphaNum)
+        _isCharacterOk.postValue(inputData)
+    }
+
+    fun checkPasswordLength(inputData: UserInputData) {
+        inputData.isCharaLenOk = inputData.pass1.length in 8..256
+        _isLengthOk.postValue(inputData)
+    }
+
     fun registerUser(inputData: UserInputData) {
         if (inputData.name != "") {
             viewModelScope.launch(Dispatchers.IO) {
@@ -67,20 +83,8 @@ class AccountRegistrationViewModel : ViewModel() {
         }
     }
 
-    fun checkMatchPassword(inputData: UserInputData) {
-        inputData.isMatch = inputData.pass1 == inputData.pass2
-        _isMatchPassword.postValue(inputData)
-    }
-
-    fun checkCharacter(inputData: UserInputData) {
-        val reAlphaNum = Regex("^[A-Za-z0-9]+$")
-        inputData.isCharaLenOk = inputData.pass1.matches(reAlphaNum)
-        _isCharacterOk.postValue(inputData)
-    }
-
-    fun checkPasswordLength(inputData: UserInputData) {
-        inputData.isCharaLenOk = inputData.pass1.length in 8..256
-        _isLengthOk.postValue(inputData)
+    fun login(userData: ResponseData.ResponseGetUser) {
+        //TODO: ログイン処理
     }
 
     fun registerUserInRoom() {
