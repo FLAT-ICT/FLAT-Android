@@ -11,17 +11,15 @@ import com.websarva.wings.android.flat.model.User
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.lang.Exception
 
 class AccountRegistrationViewModel : ViewModel() {
     private val apiRepository = ApiRepository.instance
     private val roomRepository = FLATApplication.userRoomRepository
 
-    private val _postCode = LiveEvent<Int>()
-    val postCode: LiveData<Int> get() = _postCode
-
-    private val _userData = MutableLiveData<ResponseData.ResponseGetUser>()
-    val userData: LiveData<ResponseData.ResponseGetUser> get() = _userData
+    private val _postResponse = LiveEvent<Response<ResponseData.ResponseGetUser>>()
+    val postResponse: LiveData<Response<ResponseData.ResponseGetUser>> get() = _postResponse
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
@@ -68,9 +66,8 @@ class AccountRegistrationViewModel : ViewModel() {
                 try {
                     val postData = PostData.RegisterData(inputData.name, inputData.pass1)
                     val response = apiRepository.postRegister(postData)
-                    _postCode.postValue(response.code())
+                    _postResponse.postValue(response)
                     if (response.isSuccessful) {
-                        _userData.postValue(response.body())
                         Log.d(
                             "RegisterSuccess",
                             "${response}\n${response.body()}\nmyId=${response.body()?.id}"
@@ -86,14 +83,14 @@ class AccountRegistrationViewModel : ViewModel() {
         }
     }
 
-    fun registerUserInRoom() {
+    fun registerUserInRoom(userData: ResponseData.ResponseGetUser) {
         val user = User(
-            myId = userData.value!!.id,
-            name = userData.value!!.name,
-            status = userData.value!!.status,
-            spot = userData.value?.spot,
-            iconPath = userData.value!!.icon_path,
-            loggedInAt = userData.value?.logged_in_at
+            myId = userData.id,
+            name = userData.name,
+            status = userData.status,
+            spot = userData.spot,
+            iconPath = userData.icon_path,
+            loggedInAt = userData.logged_in_at
         )
         viewModelScope.launch {
             if (isExistData()) {

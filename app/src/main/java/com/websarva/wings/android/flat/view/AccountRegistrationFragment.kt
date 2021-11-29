@@ -17,6 +17,7 @@ class AccountRegistrationFragment : Fragment() {
     private val viewModel: AccountRegistrationViewModel by viewModels()
     private var _binding: FragmentAccountRegistrationBinding? = null
     private val binding get() = _binding!!
+    lateinit var input: AccountRegistrationViewModel.UserInputData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +32,7 @@ class AccountRegistrationFragment : Fragment() {
 
         binding.apply {
             btRegister.setOnSafeClickListener {
-                val input = AccountRegistrationViewModel.UserInputData(
+                input = AccountRegistrationViewModel.UserInputData(
                     name = etInputNickname.text.toString(),
                     pass1 = etInputPassword.text.toString(),
                     pass2 = etReInputPassword.text.toString(),
@@ -89,20 +90,22 @@ class AccountRegistrationFragment : Fragment() {
             }
         })
 
-        // TODO: レスポンスメッセージを監視し、名前重複のエラーメッセージを表示するorログイン
-        // TODO: サーバー側の実装によって柔軟に変える
-        viewModel.postCode.observe(viewLifecycleOwner, {
-            if (it != 200) {
-                binding.tvAccountRegistrationError.apply {
-                    text = getString(R.string.already_used_nickname_error)
-                    visibility = View.VISIBLE
+        // レスポンスを監視し、名前重複のエラーメッセージを表示するorログイン
+        viewModel.postResponse.observe(viewLifecycleOwner, {
+            when (it.code()) {
+                200 -> {
+                    viewModel.registerUserInRoom(it.body()!!)
+                }
+                400 -> {
+                    binding.tvAccountRegistrationError.apply {
+                        text = getString(R.string.already_used_nickname_error)
+                        visibility = View.VISIBLE
+                    }
+                }
+                else -> {
+                    //TODO: なんかのエラー
                 }
             }
-        })
-
-        // 通信が成功した場合に走る
-        viewModel.userData.observe(viewLifecycleOwner, {
-            viewModel.registerUserInRoom()
         })
 
         viewModel.registerOk.observe(viewLifecycleOwner, {
