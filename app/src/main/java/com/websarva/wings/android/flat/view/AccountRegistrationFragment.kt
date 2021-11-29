@@ -112,5 +112,10 @@ class AccountRegistrationFragment : Fragment() {
             val action = AccountRegistrationFragmentDirections.actionAccountRegistrationFragmentToFriendListFragment()
             view.findNavController().navigate(action)
         })
+
+        binding.tvHasAccountToLogin.setOnSafeClickListener{
+            val action = AccountRegistrationFragmentDirections.actionAccountRegistrationFragmentToLoginFragment()
+            view.findNavController().navigate(action)
+        }
     }
 }

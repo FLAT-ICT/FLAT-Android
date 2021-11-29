@@ -32,6 +32,10 @@
             app:destination="@id/friendListFragment"
             app:popUpTo="@id/startupFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_accountRegistrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/startupFragment" />
     </fragment>
     <fragment
         android:id="@+id/startupFragment"
