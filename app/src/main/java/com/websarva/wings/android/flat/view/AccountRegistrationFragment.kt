@@ -73,9 +73,9 @@ class AccountRegistrationFragment : Fragment() {
         viewModel.isLengthOk.observe(viewLifecycleOwner, {
             if (it.isCharaLenOk) {
                 // エラーを消す
-                    binding.tilInputPassword.apply {
-                        isErrorEnabled = false
-                    }
+                binding.tilInputPassword.apply {
+                    isErrorEnabled = false
+                }
                 if (it.isMatch) {
                     // postする
                     viewModel.registerUser(it)
@@ -89,14 +89,25 @@ class AccountRegistrationFragment : Fragment() {
             }
         })
 
-        //TODO: レスポンスメッセージを監視し、名前重複のエラーメッセージを表示するorログイン
-        //TODO: ログインする場合、ログイン前にroomに保存
+        // TODO: レスポンスメッセージを監視し、名前重複のエラーメッセージを表示するorログイン
+        // TODO: サーバー側の実装によって柔軟に変える
         viewModel.postCode.observe(viewLifecycleOwner, {
-
+            if (it != 200) {
+                binding.tvAccountRegistrationError.apply {
+                    text = getString(R.string.already_used_nickname_error)
+                    visibility = View.VISIBLE
+                }
+            }
         })
 
+        // 通信が成功した場合に走る
         viewModel.userData.observe(viewLifecycleOwner, {
             viewModel.registerUserInRoom()
+        })
+
+        viewModel.registerOk.observe(viewLifecycleOwner, {
+            val action = AccountRegistrationFragmentDirections.actionAccountRegistrationFragmentToFriendListFragment()
+            view.findNavController().navigate(action)
         })
     }
 }

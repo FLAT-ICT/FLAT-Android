@@ -43,6 +43,9 @@ class AccountRegistrationViewModel : ViewModel() {
     private val _isLengthOk = LiveEvent<UserInputData>()
     val isLengthOk: LiveData<UserInputData> get() = _isLengthOk
 
+    private val _registerOk = LiveEvent<Boolean>()
+    val registerOk: LiveData<Boolean> get() = _registerOk
+
     fun checkMatchPassword(inputData: UserInputData) {
         inputData.isMatch = inputData.pass1 == inputData.pass2
         _isMatchPassword.postValue(inputData)
@@ -83,10 +86,6 @@ class AccountRegistrationViewModel : ViewModel() {
         }
     }
 
-    fun login(userData: ResponseData.ResponseGetUser) {
-        //TODO: ログイン処理
-    }
-
     fun registerUserInRoom() {
         val user = User(
             myId = userData.value!!.id,
@@ -102,7 +101,9 @@ class AccountRegistrationViewModel : ViewModel() {
             } else {
                 insertUserData(user)
             }
+            //TODO: アプリケーションクラスに共有変数として持たせるので本当に良いのか吟味する
             myId = roomRepository.getUserData().myId
+            _registerOk.postValue(true)
         }
     }
 
