@@ -94,7 +94,7 @@ class AccountRegistrationViewModel : ViewModel() {
             status = userData.value!!.status,
             spot = userData.value?.spot,
             iconPath = userData.value!!.icon_path,
-            loggedInAt = userData.value?.logedin_at
+            loggedInAt = userData.value?.logged_in_at
         )
         viewModelScope.launch {
             if (isExistData()) {
