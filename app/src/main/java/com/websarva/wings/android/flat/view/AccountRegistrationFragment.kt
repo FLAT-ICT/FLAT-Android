@@ -2,6 +2,7 @@ package com.websarva.wings.android.flat.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,6 @@ class AccountRegistrationFragment : Fragment() {
     private val viewModel: AccountRegistrationViewModel by viewModels()
     private var _binding: FragmentAccountRegistrationBinding? = null
     private val binding get() = _binding!!
-    lateinit var input: AccountRegistrationViewModel.UserInputData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,16 +32,32 @@ class AccountRegistrationFragment : Fragment() {
 
         binding.apply {
             btRegister.setOnSafeClickListener {
-                input = AccountRegistrationViewModel.UserInputData(
+                val input = AccountRegistrationViewModel.UserInputData(
                     name = etInputNickname.text.toString(),
                     pass1 = etInputPassword.text.toString(),
                     pass2 = etReInputPassword.text.toString(),
+                    isNameOk = false,
                     isMatch = false,
                     isCharaLenOk = false
                 )
-                viewModel.checkMatchPassword(input)
+                viewModel.checkAndTrimName(input)
             }
         }
+
+        viewModel.trimmedName.observe(viewLifecycleOwner, {
+            viewModel.checkMatchPassword(it)
+            if (it.isNameOk) {
+                binding.tilInputNickname.apply {
+                    isErrorEnabled = false
+                }
+            } else {
+                binding.tilInputNickname.apply {
+                    error = getString(R.string.input_nickname_error)
+                    isErrorEnabled = true
+                }
+            }
+        })
+
 
         viewModel.isMatchPassword.observe(viewLifecycleOwner, {
             viewModel.checkCharacter(it)
@@ -77,8 +93,9 @@ class AccountRegistrationFragment : Fragment() {
                 binding.tilInputPassword.apply {
                     isErrorEnabled = false
                 }
-                if (it.isMatch) {
+                if (it.isMatch && it.isNameOk) {
                     // postする
+                        Log.d("userData", "$it")
                     viewModel.registerUser(it)
                 }
             } else {

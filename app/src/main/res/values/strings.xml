@@ -44,6 +44,7 @@
     <!--  fragment_account_registration  -->
     <string name="account_registration_title">アカウントを登録しましょう</string>
     <string name="input_nickname">ニックネームを入力してください(重複不可能、変更可能)</string>
+    <string name="input_nickname_error">1文字以上10文字以下で入力してください</string>
     <string name="input_password">パスワードを入力してください(半角英数8文字以上)</string>
     <string name="input_character_error">パスワードは半角英数字で入力してください</string>
     <string name="input_password_length_error">8文字以上256文字以下で入力してください</string>

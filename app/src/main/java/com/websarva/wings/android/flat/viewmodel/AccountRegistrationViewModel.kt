@@ -25,12 +25,16 @@ class AccountRegistrationViewModel : ViewModel() {
     val errorMessage: LiveData<String> get() = _errorMessage
 
     data class UserInputData(
-        val name: String,
+        var name: String,
         val pass1: String,
         val pass2: String,
+        var isNameOk: Boolean,
         var isMatch: Boolean,
         var isCharaLenOk: Boolean
     )
+
+    private val _trimmedName = LiveEvent<UserInputData>()
+    val trimmedName: LiveData<UserInputData> get() = _trimmedName
 
     private val _isMatchPassword = LiveEvent<UserInputData>()
     val isMatchPassword: LiveData<UserInputData> get() = _isMatchPassword
@@ -49,6 +53,17 @@ class AccountRegistrationViewModel : ViewModel() {
         _isMatchPassword.postValue(inputData)
     }
 
+    fun checkAndTrimName(inputData: UserInputData) {
+        val trimName = inputData.name.trim()
+        if (trimName == "") {
+            inputData.isNameOk = false
+        } else {
+            inputData.name = trimName
+            inputData.isNameOk = true
+        }
+        _trimmedName.postValue(inputData)
+    }
+
     fun checkCharacter(inputData: UserInputData) {
         val reAlphaNum = Regex("^[A-Za-z0-9]+$")
         inputData.isCharaLenOk = inputData.pass1.matches(reAlphaNum)
@@ -61,24 +76,22 @@ class AccountRegistrationViewModel : ViewModel() {
     }
 
     fun registerUser(inputData: UserInputData) {
-        if (inputData.name != "") {
-            viewModelScope.launch(Dispatchers.IO) {
-                try {
-                    val postData = PostData.RegisterData(inputData.name, inputData.pass1)
-                    val response = apiRepository.postRegister(postData)
-                    _postResponse.postValue(response)
-                    if (response.isSuccessful) {
-                        Log.d(
-                            "RegisterSuccess",
-                            "${response}\n${response.body()}\nmyId=${response.body()?.id}"
-                        )
-                    } else {
-                        Log.d("RegisterFailure", "$response")
-                    }
-                } catch (e: Exception) {
-                    _errorMessage.postValue(e.message)
-                    e.printStackTrace()
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val postData = PostData.RegisterData(inputData.name, inputData.pass1)
+                val response = apiRepository.postRegister(postData)
+                _postResponse.postValue(response)
+                if (response.isSuccessful) {
+                    Log.d(
+                        "RegisterSuccess",
+                        "${response}\n${response.body()}\nmyId=${response.body()?.id}"
+                    )
+                } else {
+                    Log.d("RegisterFailure", "$response")
                 }
+            } catch (e: Exception) {
+                _errorMessage.postValue(e.message)
+                e.printStackTrace()
             }
         }
     }
