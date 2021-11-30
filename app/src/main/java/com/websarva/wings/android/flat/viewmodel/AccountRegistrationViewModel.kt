@@ -71,7 +71,7 @@ class AccountRegistrationViewModel : ViewModel() {
     }
 
     fun checkPasswordLength(inputData: UserInputData) {
-        inputData.isCharaLenOk = inputData.pass1.length in 8..256
+        inputData.isCharaLenOk = inputData.pass1.length in 8..255
         _isLengthOk.postValue(inputData)
     }
 

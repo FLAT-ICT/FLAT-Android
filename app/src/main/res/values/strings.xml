@@ -47,7 +47,7 @@
     <string name="input_nickname_error">1文字以上10文字以下で入力してください</string>
     <string name="input_password">パスワードを入力してください(半角英数8文字以上)</string>
     <string name="input_character_error">パスワードは半角英数字で入力してください</string>
-    <string name="input_password_length_error">8文字以上256文字以下で入力してください</string>
+    <string name="input_password_length_error">8文字以上255文字以下で入力してください</string>
     <string name="re_input_password">パスワードを再入力してください</string>
     <string name="password_mismatch_error">パスワードが一致していません</string>
     <string name="already_used_nickname_error">その名前はすでに使用されています</string>

@@ -80,7 +80,7 @@
         app:errorEnabled="true"
         app:errorIconDrawable="@null"
         app:counterEnabled="true"
-        app:counterMaxLength="256"
+        app:counterMaxLength="255"
         app:passwordToggleEnabled="true"
         app:layout_constraintStart_toStartOf="@id/tv_input_password"
         app:layout_constraintTop_toBottomOf="@id/tv_input_password">
@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:maxLength="256"
+            android:maxLength="255"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,7 +116,7 @@
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
         app:counterEnabled="true"
-        app:counterMaxLength="256"
+        app:counterMaxLength="255"
         app:passwordToggleEnabled="true"
         app:layout_constraintStart_toStartOf="@id/tv_re_input_password"
         app:layout_constraintTop_toBottomOf="@id/tv_re_input_password">
@@ -126,7 +126,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:maxLength="256"
+            android:maxLength="255"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
