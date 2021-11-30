@@ -56,6 +56,12 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_friendListFragment"
-            app:destination="@id/friendListFragment" />
+            app:destination="@id/friendListFragment"
+            app:popUpTo="@id/startupFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_accountRegistrationFragment"
+            app:destination="@id/accountRegistrationFragment"
+            app:popUpTo="@id/startupFragment" />
     </fragment>
 </navigation>
