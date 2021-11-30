@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -66,12 +67,32 @@ class LoginFragment : Fragment() {
                 }
             }
             if (it.isNameOk && it.isPasswordOk) {
-                //TODO: is_loggedinのPOST
-                Log.d("login", "loginOk")
+                viewModel.preLogin(it)
             }
         })
 
-        //TODO: is_loggedinの結果を監視し、ダイアログ表示orログイン
+        viewModel.preLoginResponse.observe(viewLifecycleOwner, {
+            when (it.code()) {
+                200 -> {
+                    binding.tvLoginError.apply {
+                        visibility = View.GONE
+                    }
+                    if (it.body()!!.others) {
+                        //TODO: showDialog
+                    } else {
+                        //TODO: Login
+                    }
+                }
+                404 -> {
+                    binding.tvLoginError.apply {
+                        visibility = View.VISIBLE
+                    }
+                }
+                else -> {
+                    Toast.makeText(activity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
 
         //TODO: loginの結果を監視し、エラー表示orルームに格納
 

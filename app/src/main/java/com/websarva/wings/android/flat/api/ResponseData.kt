@@ -48,4 +48,7 @@ class ResponseData {
         @Json(name = "requested") val requested: Boolean
     )
 
+    data class ResponsePreLogin(
+        @Json(name = "others") val others: Boolean
+    )
 }

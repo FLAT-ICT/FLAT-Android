@@ -50,6 +50,9 @@ class ApiRepository {
     suspend fun postRegister(postData: PostData.RegisterData): Response<ResponseData.ResponseGetUser> =
         withContext(IO){service.postRegister(postData)}
 
+    suspend fun postPreLogin(postData: PostData.PostPreLogin): Response<ResponseData.ResponsePreLogin> =
+        withContext(IO){service.postPreLogin(postData)}
+
     companion object Factory {
         val instance: ApiRepository
             @Synchronized get() {
