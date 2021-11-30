@@ -38,6 +38,9 @@ class LoginViewModel : ViewModel() {
     private val _roomChanged = LiveEvent<Boolean>()
     val roomChanged: LiveData<Boolean> get() = _roomChanged
 
+    private val _error = LiveEvent<String>()
+    val error: LiveData<String> get() = _error
+
 
     fun checkAndTrim(inputData: LoginInput) {
         val trimName = inputData.name.trim()
@@ -66,6 +69,7 @@ class LoginViewModel : ViewModel() {
                     Log.d("PreLoginFailure", "$response")
                 }
             } catch (e: Exception) {
+                _error.postValue(e.message)
                 e.printStackTrace()
             }
         }
@@ -86,6 +90,7 @@ class LoginViewModel : ViewModel() {
                     Log.d("LoginFailure", "$response")
                 }
             } catch (e: Exception) {
+                _error.postValue(e.message)
                 e.printStackTrace()
             }
         }

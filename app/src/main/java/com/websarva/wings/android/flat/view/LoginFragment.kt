@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentLoginBinding
 import com.websarva.wings.android.flat.viewmodel.LoginViewModel
 
 class LoginFragment : Fragment() {
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by activityViewModels()
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private lateinit var input: LoginViewModel.LoginInput
@@ -77,7 +77,7 @@ class LoginFragment : Fragment() {
                         visibility = View.GONE
                     }
                     if (it.body()!!.others) {
-                        //TODO: showDialog
+                        ForceLoginDialogFragment(input).show(childFragmentManager, "dialog")
                     } else {
                         viewModel.login(input)
                     }
@@ -113,7 +113,11 @@ class LoginFragment : Fragment() {
             }
         })
 
-        //TODO: ルームに格納できたのを確認し、画面遷移
+        viewModel.error.observe(viewLifecycleOwner, {
+            Toast.makeText(activity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+        })
+
+        // ルームに格納できたのを確認し、画面遷移
         viewModel.roomChanged.observe(viewLifecycleOwner, {
             val action = LoginFragmentDirections.actionLoginFragmentToFriendListFragment()
             view.findNavController().navigate(action)
