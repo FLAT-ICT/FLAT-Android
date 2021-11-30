@@ -23,6 +23,7 @@ class PostData {
     data class PostPreLogin(
         @Json(name = "name") val name: String,
         @Json(name = "password") val password: String?,
-        @Json(name = "loggedin_at") val logged_in_at: String?
+        @Json(name = "logged_in_at") val logged_in_at: String?
+
     )
 }
