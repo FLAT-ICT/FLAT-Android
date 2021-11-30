@@ -11,5 +11,6 @@ data class User(
     val name: String,
     val status: Int,
     val spot: String?,
-    @ColumnInfo(name = "icon_path") val iconPath: String
+    @ColumnInfo(name = "icon_path") val iconPath: String,
+    @ColumnInfo(name = "logged_in_at") val loggedInAt: String?
 )

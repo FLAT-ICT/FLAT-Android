@@ -13,7 +13,8 @@ class ResponseData {
         @Json(name = "name") val name: String,
         @Json(name = "status") val status: Int,
         @Json(name = "spot") val spot: String?,
-        @Json(name = "icon_path") val icon_path: String
+        @Json(name = "icon_path") val icon_path: String,
+        @Json(name = "loggedin_at") val logged_in_at: String?
     )
 
     data class ResponseGetFriends(
@@ -26,7 +27,8 @@ class ResponseData {
         @Json(name = "name") val name: String,
         @Json(name = "status") val status: Int,
         @Json(name = "spot") val spot: String,
-        @Json(name = "icon_path") val icon_path: String
+        @Json(name = "icon_path") val icon_path: String,
+        @Json(name = "loggedin_at") val logged_in_at: String?
     )
 
     data class OneSide(
@@ -34,7 +36,8 @@ class ResponseData {
         @Json(name = "name") val name: String,
         @Json(name = "status") val status: Int,
         @Json(name = "spot") val spot: String,
-        @Json(name = "icon_path") val icon_path: String
+        @Json(name = "icon_path") val icon_path: String,
+        @Json(name = "loggedin_at") val logged_in_at: String?
     )
 
     data class ResponseSearchUser(
