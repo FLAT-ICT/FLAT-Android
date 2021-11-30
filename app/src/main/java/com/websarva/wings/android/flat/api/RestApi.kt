@@ -31,4 +31,10 @@ interface RestApi {
 
     @POST("/v1/register")
     suspend fun postRegister(@Body postRegister: RegisterData): Response<ResponseGetUser>
+
+    @POST("/v1/pre_login")
+    suspend fun postPreLogin(@Body postPreLogin: PostPreLogin): Response<ResponsePreLogin>
+
+    @POST("/v1/login")
+    suspend fun postLogin(@Body postLogin: RegisterData): Response<ResponseGetUser>
 }

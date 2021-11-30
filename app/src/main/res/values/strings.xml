@@ -53,6 +53,17 @@
     <string name="already_used_nickname_error">その名前はすでに使用されています</string>
     <string name="register">登録する</string>
     <string name="has_account_to_login">アカウントを持っている人はログインする</string>
+    
+    <!--  fragment_login  -->
+    <string name="login_title">ログイン画面</string>
+    <string name="input_nickname_for_login">ニックネームを入力してください</string>
+    <string name="input_password_for_login">パスワードを入力してください</string>
+    <string name="to_login">ログインする</string>
+    <string name="input_nickname_or_password_error">ニックネームかパスワードが間違っています</string>
+    <string name="to_account_registration">アカウントを新規登録する</string>
+
+    <!--  fragment_force_login_dialog  -->
+    <string name="force_login_dialog_message">他の端末で既にログインしています。ログインしますか？(他の端末からはログアウトされます)</string>
 
     <!--  fragment_startup  -->
     <string name="login">ログイン</string>
