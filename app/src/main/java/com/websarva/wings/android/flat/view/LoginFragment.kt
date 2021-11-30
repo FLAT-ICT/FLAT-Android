@@ -80,7 +80,7 @@ class LoginFragment : Fragment() {
                     if (it.body()!!.others) {
                         //TODO: showDialog
                     } else {
-                        //TODO: Login
+                        viewModel.login(input)
                     }
                 }
                 404 -> {
@@ -94,7 +94,25 @@ class LoginFragment : Fragment() {
             }
         })
 
-        //TODO: loginの結果を監視し、エラー表示orルームに格納
+        // loginの結果を監視し、エラー表示orルームに格納
+        viewModel.loginResponse.observe(viewLifecycleOwner, {
+            when (it.code()) {
+                200 -> {
+                    binding.tvLoginError.apply {
+                        visibility = View.GONE
+                    }
+                    //TODO: roomにit.body()を格納
+                }
+                404 -> {
+                    binding.tvLoginError.apply {
+                        visibility = View.VISIBLE
+                    }
+                }
+                else -> {
+                    Toast.makeText(activity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
 
         //TODO: ルームに格納できたのを確認し、画面遷移
 

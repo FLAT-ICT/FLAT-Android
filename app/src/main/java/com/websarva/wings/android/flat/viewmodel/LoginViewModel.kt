@@ -31,7 +31,9 @@ class LoginViewModel : ViewModel() {
     private val _preLoginResponse = LiveEvent<Response<ResponseData.ResponsePreLogin>>()
     val preLoginResponse: LiveData<Response<ResponseData.ResponsePreLogin>> get() = _preLoginResponse
 
-    //TODO: loginのレスポンスを格納するLiveData
+    private val _loginResponse = LiveEvent<Response<ResponseData.ResponseGetUser>>()
+    val loginResponse: LiveData<Response<ResponseData.ResponseGetUser>> get() = _loginResponse
+
 
     fun checkAndTrim(inputData: LoginInput) {
         val trimName = inputData.name.trim()
@@ -54,7 +56,7 @@ class LoginViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     Log.d(
                         "PreLoginSuccess",
-                        "${response}\n${response.body()}\n"
+                        "${response}\n${response.body()}"
                     )
                 } else {
                     Log.d("PreLoginFailure", "$response")
@@ -65,7 +67,25 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-//TODO: loginのPOST
+    fun login(inputData: LoginInput) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val postData = PostData.RegisterData(inputData.name, inputData.password)
+                val response = apiRepository.postLogin(postData)
+                _loginResponse.postValue(response)
+                if (response.isSuccessful) {
+                    Log.d(
+                        "LoginSuccess",
+                        "${response}\n${response.body()}"
+                    )
+                } else {
+                    Log.d("LoginFailure", "$response")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
 //TODO: login結果を受けて、roomにデータを格納する
 }
