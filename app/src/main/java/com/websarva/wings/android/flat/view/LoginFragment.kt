@@ -1,7 +1,6 @@
 package com.websarva.wings.android.flat.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -101,7 +100,7 @@ class LoginFragment : Fragment() {
                     binding.tvLoginError.apply {
                         visibility = View.GONE
                     }
-                    //TODO: roomにit.body()を格納
+                    viewModel.insertUserIntoRoom(it.body()!!)
                 }
                 404 -> {
                     binding.tvLoginError.apply {
@@ -115,6 +114,10 @@ class LoginFragment : Fragment() {
         })
 
         //TODO: ルームに格納できたのを確認し、画面遷移
+        viewModel.roomChanged.observe(viewLifecycleOwner, {
+            val action = LoginFragmentDirections.actionLoginFragmentToFriendListFragment()
+            view.findNavController().navigate(action)
+        })
 
         binding.tvToAccountRegistration.setOnSafeClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToAccountRegistrationFragment()

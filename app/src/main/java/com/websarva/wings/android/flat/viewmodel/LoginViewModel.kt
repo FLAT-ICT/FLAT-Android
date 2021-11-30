@@ -8,6 +8,7 @@ import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.api.ResponseData
+import com.websarva.wings.android.flat.model.User
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +34,9 @@ class LoginViewModel : ViewModel() {
 
     private val _loginResponse = LiveEvent<Response<ResponseData.ResponseGetUser>>()
     val loginResponse: LiveData<Response<ResponseData.ResponseGetUser>> get() = _loginResponse
+
+    private val _roomChanged = LiveEvent<Boolean>()
+    val roomChanged: LiveData<Boolean> get() = _roomChanged
 
 
     fun checkAndTrim(inputData: LoginInput) {
@@ -87,5 +91,44 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-//TODO: login結果を受けて、roomにデータを格納する
+    fun insertUserIntoRoom(userData: ResponseData.ResponseGetUser) {
+        val user = User(
+            myId = userData.id,
+            name = userData.name,
+            status = userData.status,
+            spot = userData.spot,
+            iconPath = userData.icon_path,
+            loggedInAt = userData.logged_in_at
+        )
+        viewModelScope.launch {
+            if (isExistData()) {
+                updateUserAccount(user)
+            } else {
+                insertUserData(user)
+            }
+            //TODO: アプリケーションクラスに共有変数として持たせるので本当に良いのか吟味する
+            FLATApplication.myId = roomRepository.getUserData().myId
+            _roomChanged.postValue(true)
+        }
+    }
+
+    private suspend fun updateUserAccount(user: User) {
+        deleteUserData()
+        insertUserData(user)
+    }
+
+    private suspend fun insertUserData(user: User) {
+        roomRepository.insert(user)
+    }
+
+    private suspend fun deleteUserData() {
+        roomRepository.deleteAll()
+    }
+
+    private suspend fun isExistData(): Boolean {
+        return when (roomRepository.countData()) {
+            0 -> false
+            else -> true
+        }
+    }
 }
