@@ -24,6 +24,9 @@ class PostData {
         @Json(name = "name") val name: String,
         @Json(name = "password") val password: String?,
         @Json(name = "logged_in_at") val logged_in_at: String?
+    )
 
+    data class PostLogout(
+        @Json(name = "id") val id: Int
     )
 }
