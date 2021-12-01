@@ -68,4 +68,7 @@
     <!--  fragment_startup  -->
     <string name="login">ログイン</string>
     <string name="new_account_registration">新規登録</string>
+
+    <!--  fragment_user_setting  -->
+    <string name="to_logout">ログアウトする</string>
 </resources>
