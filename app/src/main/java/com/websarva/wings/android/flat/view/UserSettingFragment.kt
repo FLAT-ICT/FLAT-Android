@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentLoginBinding
@@ -50,7 +51,8 @@ class UserSettingFragment : Fragment() {
         })
 
         viewModel.roomChanged.observe(viewLifecycleOwner, {
-            //TODO: 画面遷移
+            val action = UserSettingFragmentDirections.actionUserSettingFragmentToStartupFragment()
+            view.findNavController().navigate(action)
         })
 
         viewModel.error.observe(viewLifecycleOwner, {

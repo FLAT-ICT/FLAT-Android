@@ -64,4 +64,16 @@
             app:destination="@id/accountRegistrationFragment"
             app:popUpTo="@id/startupFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userSettingFragment"
+        android:name="com.websarva.wings.android.flat.view.UserSettingFragment"
+        android:label="fragment_user_setting"
+        tools:layout="@layout/fragment_user_setting" >
+        <action
+            android:id="@+id/action_userSettingFragment_to_startupFragment"
+            app:destination="@id/startupFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true" />
+    </fragment>
 </navigation>

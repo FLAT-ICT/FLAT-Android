@@ -13,7 +13,7 @@
         android:title="@string/navigation_title_friends" />
 
     <item
-        android:id="@+id/settingsFragment"
+        android:id="@id/userSettingFragment"
         android:icon="@drawable/ic_nav_settings"
         android:title="@string/navigation_title_settings" />
 </menu>
