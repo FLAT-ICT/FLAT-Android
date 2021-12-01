@@ -37,4 +37,7 @@ interface RestApi {
 
     @POST("/v1/login")
     suspend fun postLogin(@Body postLogin: RegisterData): Response<ResponseGetUser>
+
+    @POST("/v1/logout")
+    suspend fun postLogout(@Body postLogout: PostLogout): Response<ResponsePost>
 }
