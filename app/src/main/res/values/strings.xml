@@ -70,5 +70,9 @@
     <string name="new_account_registration">新規登録</string>
 
     <!--  fragment_user_setting  -->
-    <string name="to_logout">ログアウトする</string>
+    <string name="user_setting">ユーザー設定</string>
+    <string name="change_name">名前を変更</string>
+    <string name="change_icon">アイコンを変更</string>
+    <string name="change_status">ステータスを変更</string>
+    <string name="logout">ログアウト</string>
 </resources>
