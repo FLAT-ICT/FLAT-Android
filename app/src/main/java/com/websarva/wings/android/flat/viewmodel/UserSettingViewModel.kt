@@ -6,13 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication
+import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.api.ResponseData
+import com.websarva.wings.android.flat.model.UserSettingItem
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import java.lang.Exception
 
 class UserSettingViewModel : ViewModel() {
     private val apiRepository = ApiRepository.instance
@@ -52,6 +53,17 @@ class UserSettingViewModel : ViewModel() {
         viewModelScope.launch {
             roomRepository.deleteAll()
             _roomChanged.postValue(true)
+        }
+    }
+
+    fun setColor(item: UserSettingItem): Int {
+        return when (item.id) {
+            3 -> {
+                R.color.red
+            }
+            else -> {
+                R.color.dark
+            }
         }
     }
 }

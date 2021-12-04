@@ -8,14 +8,19 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentUserSettingBinding
+import com.websarva.wings.android.flat.model.UserSettingItem
 import com.websarva.wings.android.flat.viewmodel.UserSettingViewModel
 
 class UserSettingFragment : Fragment() {
     private val viewModel: UserSettingViewModel by activityViewModels()
     private var _binding: FragmentUserSettingBinding? = null
     private val binding get() = _binding!!
+    private lateinit var userSettingAdapter: UserSettingAdapter
+    lateinit var settingList: List<UserSettingItem>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +32,21 @@ class UserSettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        settingList = listOf(
+            UserSettingItem(0,getString(R.string.change_name)),
+            UserSettingItem(1,getString(R.string.change_icon)),
+            UserSettingItem(2, getString(R.string.change_status)),
+            UserSettingItem(3, getString(R.string.logout))
+        )
+        binding.rvUserSettings.apply {
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager(context).orientation))
+            layoutManager = LinearLayoutManager(context)
+            adapter = UserSettingAdapter(viewLifecycleOwner, viewModel).also {
+                userSettingAdapter = it
+            }
+        }
+        userSettingAdapter.submitList(settingList)
 
         viewModel.logoutResponse.observe(viewLifecycleOwner, {
             when (it.code()) {
