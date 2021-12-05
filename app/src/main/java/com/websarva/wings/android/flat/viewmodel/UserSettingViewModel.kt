@@ -9,6 +9,7 @@ import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.api.ResponseData
+import com.websarva.wings.android.flat.model.User
 import com.websarva.wings.android.flat.model.UserSettingItem
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,9 @@ import retrofit2.Response
 class UserSettingViewModel : ViewModel() {
     private val apiRepository = ApiRepository.instance
     private val roomRepository = FLATApplication.userRoomRepository
+
+    private val _user = LiveEvent<User>()
+    val user: LiveData<User> get() = _user
 
     private val _logoutResponse = LiveEvent<Response<ResponseData.ResponsePost>>()
     val logoutResponse: LiveData<Response<ResponseData.ResponsePost>> get() = _logoutResponse
@@ -82,6 +86,12 @@ class UserSettingViewModel : ViewModel() {
             3 -> {
                 _logoutClicked.postValue(true)
             }
+        }
+    }
+
+    fun getUserData() {
+        viewModelScope.launch {
+            _user.postValue(roomRepository.getUserData())
         }
     }
 

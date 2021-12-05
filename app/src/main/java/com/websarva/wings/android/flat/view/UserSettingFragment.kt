@@ -34,6 +34,14 @@ class UserSettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getUserData()
+        viewModel.user.observe(viewLifecycleOwner, {
+            binding.apply {
+                tvUserName.text = it.name
+                //TODO: Status, iconのリソース設定
+            }
+        })
+
         settingList = listOf(
             UserSettingItem(0,getString(R.string.change_name)),
             UserSettingItem(1,getString(R.string.change_icon)),
