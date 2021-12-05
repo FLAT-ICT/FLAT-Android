@@ -75,4 +75,6 @@
     <string name="change_icon">アイコンを変更</string>
     <string name="change_status">ステータスを変更</string>
     <string name="logout">ログアウト</string>
+    <string name="to_logout">ログアウトする</string>
+    <string name="logout_dialog_message">本当にログアウトしますか？</string>
 </resources>

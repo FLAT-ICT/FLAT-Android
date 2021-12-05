@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentUserSettingBinding
 import com.websarva.wings.android.flat.model.UserSettingItem
@@ -20,7 +21,7 @@ class UserSettingFragment : Fragment() {
     private var _binding: FragmentUserSettingBinding? = null
     private val binding get() = _binding!!
     private lateinit var userSettingAdapter: UserSettingAdapter
-    lateinit var settingList: List<UserSettingItem>
+    private lateinit var settingList: List<UserSettingItem>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +50,7 @@ class UserSettingFragment : Fragment() {
         userSettingAdapter.submitList(settingList)
 
         viewModel.logoutClicked.observe(viewLifecycleOwner, {
-            //TODO: showDialog
+            LogoutDialogFragment(myId).show(childFragmentManager, "logoutDialog")
         })
 
         viewModel.logoutResponse.observe(viewLifecycleOwner, {
