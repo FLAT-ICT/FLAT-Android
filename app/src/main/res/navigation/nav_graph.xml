@@ -75,5 +75,13 @@
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"
             app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_userSettingFragment_to_nameChangeFragment"
+            app:destination="@id/nameChangeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/nameChangeFragment"
+        android:name="com.websarva.wings.android.flat.view.NameChangeFragment"
+        android:label="fragment_name_change"
+        tools:layout="@layout/fragment_name_change" />
 </navigation>

@@ -75,7 +75,7 @@ class UserSettingViewModel : ViewModel() {
     fun itemOnClick(item: UserSettingItem) {
         when (item.id) {
             0 -> {
-                //TODO: 名前変更タップ時の処理
+                _nameChangeClicked.postValue(true)
             }
             1 -> {
                 //TODO: アイコン変更タップ時の処理

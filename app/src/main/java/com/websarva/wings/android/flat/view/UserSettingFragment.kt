@@ -61,6 +61,11 @@ class UserSettingFragment : Fragment() {
             LogoutDialogFragment(myId).show(childFragmentManager, "logoutDialog")
         })
 
+        viewModel.nameChangeClicked.observe(viewLifecycleOwner, {
+            val action = UserSettingFragmentDirections.actionUserSettingFragmentToNameChangeFragment()
+            view.findNavController().navigate(action)
+        })
+
         viewModel.logoutResponse.observe(viewLifecycleOwner, {
             when (it.code()) {
                 200 -> {
