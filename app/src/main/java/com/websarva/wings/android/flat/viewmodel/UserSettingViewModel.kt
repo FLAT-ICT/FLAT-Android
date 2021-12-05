@@ -28,6 +28,18 @@ class UserSettingViewModel : ViewModel() {
     private val _error = LiveEvent<String>()
     val error: LiveData<String> get() = _error
 
+    private val _nameChangeClicked = LiveEvent<Boolean>()
+    val nameChangeClicked: LiveData<Boolean> get() = _nameChangeClicked
+
+    private val _iconChangeClicked = LiveEvent<Boolean>()
+    val iconChangeClicked: LiveData<Boolean> get() = _iconChangeClicked
+
+    private val _statusChangeClicked = LiveEvent<Boolean>()
+    val statusChangeClicked: LiveData<Boolean> get() = _statusChangeClicked
+
+    private val _logoutClicked = LiveEvent<Boolean>()
+    val logoutClicked: LiveData<Boolean> get() = _logoutClicked
+
     fun logout(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -53,6 +65,23 @@ class UserSettingViewModel : ViewModel() {
         viewModelScope.launch {
             roomRepository.deleteAll()
             _roomChanged.postValue(true)
+        }
+    }
+
+    fun itemOnClick(item: UserSettingItem) {
+        when (item.id) {
+            0 -> {
+                //TODO: 名前変更タップ時の処理
+            }
+            1 -> {
+                //TODO: アイコン変更タップ時の処理
+            }
+            2 -> {
+                //TODO: ステータス変更タップ時の処理
+            }
+            3 -> {
+                _logoutClicked.postValue(true)
+            }
         }
     }
 

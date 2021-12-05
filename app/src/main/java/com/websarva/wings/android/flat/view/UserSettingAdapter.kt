@@ -24,12 +24,17 @@ private object SettingListDiffCallback : DiffUtil.ItemCallback<UserSettingItem>(
 
 class UserSettingAdapter(
     private val viewLifecycleOwner: LifecycleOwner,
-    private val viewModel: UserSettingViewModel
+    private val viewModel: UserSettingViewModel,
+    private val onClickListener: OnClickListener
 ) : ListAdapter<UserSettingItem, UserSettingAdapter.UserSettingViewHolder>(SettingListDiffCallback) {
 
-    class UserSettingViewHolder(private val binding: ItemUserSettingBinding) :
+    inner class UserSettingViewHolder(private val binding: ItemUserSettingBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: UserSettingItem, viewLifecycleOwner: LifecycleOwner, viewModel: UserSettingViewModel) {
+        fun bind(
+            item: UserSettingItem,
+            viewLifecycleOwner: LifecycleOwner,
+            viewModel: UserSettingViewModel
+        ) {
             binding.run {
                 lifecycleOwner = viewLifecycleOwner
                 content = item
@@ -53,11 +58,18 @@ class UserSettingAdapter(
     override fun onBindViewHolder(holder: UserSettingViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item, viewLifecycleOwner, viewModel)
-        holder.itemView.findViewById<TextView>(R.id.setting_item).apply {
-            viewModel.apply {
-                text = item.settingText
-                setTextColor(context.getColor(setColor(item)))
+        holder.itemView.apply {
+            findViewById<TextView>(R.id.setting_item).apply {
+                viewModel.apply {
+                    text = item.settingText
+                    setTextColor(context.getColor(setColor(item)))
+                }
             }
+            setOnClickListener { onClickListener.onClick(item) }
         }
+    }
+
+    class OnClickListener(val clickListener: (item: UserSettingItem) -> Unit) {
+        fun onClick(item: UserSettingItem) = clickListener(item)
     }
 }

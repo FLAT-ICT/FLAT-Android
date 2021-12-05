@@ -42,11 +42,15 @@ class UserSettingFragment : Fragment() {
         binding.rvUserSettings.apply {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager(context).orientation))
             layoutManager = LinearLayoutManager(context)
-            adapter = UserSettingAdapter(viewLifecycleOwner, viewModel).also {
+            adapter = UserSettingAdapter(viewLifecycleOwner, viewModel, UserSettingAdapter.OnClickListener { item -> viewModel.itemOnClick(item) }).also {
                 userSettingAdapter = it
             }
         }
         userSettingAdapter.submitList(settingList)
+
+        viewModel.logoutClicked.observe(viewLifecycleOwner, {
+            //TODO: showDialog
+        })
 
         viewModel.logoutResponse.observe(viewLifecycleOwner, {
             when (it.code()) {
