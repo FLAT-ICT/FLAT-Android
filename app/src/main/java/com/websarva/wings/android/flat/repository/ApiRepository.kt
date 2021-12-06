@@ -59,6 +59,9 @@ class ApiRepository {
     suspend fun postLogout(postData: PostData.PostLogout): Response<ResponseData.ResponsePost> =
         withContext(IO){service.postLogout(postData)}
 
+    suspend fun updateName(postData: PostData.UpdateName): Response<ResponseData.ResponseGetUser> =
+        withContext(IO){service.updateName(postData)}
+
     companion object Factory {
         val instance: ApiRepository
             @Synchronized get() {

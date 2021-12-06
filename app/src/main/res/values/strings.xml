@@ -80,4 +80,5 @@
 
     <!--  fragment_name_change  -->
     <string name="decision">決定</string>
+    <string name="validation_error">使用できない文字が含まれています</string>
 </resources>

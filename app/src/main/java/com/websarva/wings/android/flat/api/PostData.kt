@@ -29,4 +29,9 @@ class PostData {
     data class PostLogout(
         @Json(name = "id") val id: Int
     )
+
+    data class UpdateName(
+        @Json(name = "my_id") val my_id: Int,
+        @Json(name = "target_name") val target_name: String
+    )
 }
