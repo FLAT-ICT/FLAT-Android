@@ -46,11 +46,11 @@ class NameChangeViewModel: ViewModel() {
                 _postResponse.postValue(response)
                 if (response.isSuccessful) {
                     Log.d(
-                        "RegisterSuccess",
+                        "UpdateNameSuccess",
                         "${response}\n${response.body()}"
                     )
                 } else {
-                    Log.d("RegisterFailure", "$response")
+                    Log.d("UpdateNameFailure", "$response")
                 }
             } catch (e: Exception) {
                 _errorMessage.postValue(e.message)
