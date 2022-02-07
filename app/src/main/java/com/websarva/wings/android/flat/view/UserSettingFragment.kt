@@ -85,6 +85,11 @@ class UserSettingFragment : Fragment() {
         viewModel.error.observe(viewLifecycleOwner, {
             Toast.makeText(activity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
         })
+
+        viewModel.statusChangeClicked.observe(viewLifecycleOwner, {
+            val bottomSheet = StatusChangeFragment()
+            bottomSheet.show(childFragmentManager, StatusChangeFragment.TAG)
+        })
     }
 
 }

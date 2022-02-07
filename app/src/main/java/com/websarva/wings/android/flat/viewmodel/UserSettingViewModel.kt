@@ -81,7 +81,7 @@ class UserSettingViewModel : ViewModel() {
                 //TODO: アイコン変更タップ時の処理
             }
             2 -> {
-                //TODO: ステータス変更タップ時の処理
+                _statusChangeClicked.postValue(true)
             }
             3 -> {
                 _logoutClicked.postValue(true)
