@@ -81,4 +81,11 @@
     <!--  fragment_name_change  -->
     <string name="decision">決定</string>
     <string name="validation_error">使用できない文字が含まれています</string>
+
+    <!--  fragment_status_change  -->
+    <string name="at_school">学校にいる</string>
+    <string name="free">今暇</string>
+    <string name="busy">忙しい</string>
+    <string name="not_at_school">学校にいない</string>
+
 </resources>
