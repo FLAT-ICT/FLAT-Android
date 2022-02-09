@@ -1,9 +1,11 @@
 package com.websarva.wings.android.flat.view
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.websarva.wings.android.flat.R
@@ -54,10 +56,34 @@ class StatusChangeFragment : BottomSheetDialogFragment() {
                 viewModel.postUpdateStatus(0)
             }
         }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) {
+            Toast.makeText(activity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.postResponse.observe(viewLifecycleOwner) {
+            when (it.code()) {
+                200 -> {
+                    viewModel.updateRoom(it.body()!!)
+                }
+                404 -> {
+                    //TODO: Idがない場合の処理?
+                }
+            }
+        }
+
+        viewModel.isUpdated.observe(viewLifecycleOwner) {
+            dismiss()
+        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        _binding = null
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
         _binding = null
     }
 
