@@ -1,6 +1,7 @@
 package com.websarva.wings.android.flat.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,12 +36,28 @@ class UserSettingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getUserData()
-        viewModel.user.observe(viewLifecycleOwner, {
+        viewModel.user.observe(viewLifecycleOwner) {
             binding.apply {
                 tvUserName.text = it.name
                 //TODO: Status, iconのリソース設定
+                ivStatus.apply {
+                    when (it.status) {
+                        0 -> {
+                            setImageResource(R.drawable.ic_not_at_school)
+                        }
+                        1 -> {
+                            setImageResource(R.drawable.ic_at_school)
+                        }
+                        2 -> {
+                            setImageResource(R.drawable.ic_free)
+                        }
+                        3 -> {
+                            setImageResource(R.drawable.ic_busy)
+                        }
+                    }
+                }
             }
-        })
+        }
 
         settingList = listOf(
             UserSettingItem(0,getString(R.string.change_name)),
@@ -90,6 +107,25 @@ class UserSettingFragment : Fragment() {
             val bottomSheet = StatusChangeFragment()
             bottomSheet.show(childFragmentManager, StatusChangeFragment.TAG)
         })
-    }
 
+        childFragmentManager.setFragmentResultListener("statusChanged", viewLifecycleOwner) { _, bundle ->
+            val result = bundle.getInt("status")
+            binding.ivStatus.apply {
+                when(result) {
+                    0 -> {
+                        setImageResource(R.drawable.ic_not_at_school)
+                    }
+                    1 -> {
+                        setImageResource(R.drawable.ic_at_school)
+                    }
+                    2 -> {
+                        setImageResource(R.drawable.ic_free)
+                    }
+                    3 -> {
+                        setImageResource(R.drawable.ic_busy)
+                    }
+                }
+            }
+        }
+    }
 }

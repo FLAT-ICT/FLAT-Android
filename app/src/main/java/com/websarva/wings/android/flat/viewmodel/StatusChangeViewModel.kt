@@ -25,8 +25,8 @@ class StatusChangeViewModel: ViewModel() {
     private val _postResponse = LiveEvent<Response<ResponseData.ResponseGetUser>>()
     val postResponse: LiveData<Response<ResponseData.ResponseGetUser>> get() = _postResponse
 
-    private val _isUpdated = LiveEvent<Boolean>()
-    val isUpdated: LiveData<Boolean> get() = _isUpdated
+    private val _isUpdated = LiveEvent<Int>()
+    val isUpdated: LiveData<Int> get() = _isUpdated
 
     fun postUpdateStatus(status: Int) {
         viewModelScope.launch {
@@ -61,7 +61,7 @@ class StatusChangeViewModel: ViewModel() {
         )
         viewModelScope.launch {
             roomRepository.update(user)
-            _isUpdated.postValue(true)
+            _isUpdated.postValue(user.status)
         }
     }
 }
