@@ -45,8 +45,12 @@
         <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/drawable/ic_reject.xml" value="0.298" />
         <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/drawable/ic_vector_3.xml" value="0.298" />
         <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/layout/fragment_status_change.xml" value="0.3731003039513678" />
+        <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/layout/fragment_unapproved_friends.xml" value="0.4518743667679838" />
+        <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/layout/fragment_user_setting.xml" value="0.4518743667679838" />
+        <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/layout/item_mutual.xml" value="0.47690217391304346" />
         <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/layout/item_one_side.xml" value="0.3731003039513678" />
         <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/layout/item_searched_users.xml" value="0.3731003039513678" />
+        <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/layout/item_user_setting.xml" value="0.4518743667679838" />
         <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/layout/layout_status_change.xml" value="0.3731003039513678" />
       </map>
     </option>
