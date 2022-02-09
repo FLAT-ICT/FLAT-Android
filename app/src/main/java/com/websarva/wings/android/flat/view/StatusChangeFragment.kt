@@ -30,28 +30,28 @@ class StatusChangeFragment : BottomSheetDialogFragment() {
             ivSelectStatus.setImageResource(R.drawable.ic_at_school)
             tvSelectStatus.text = getString(R.string.at_school)
             layoutSelectStatus.setOnClickListener{
-                viewModel.onClickStatusChange(1)
+                viewModel.postUpdateStatus(1)
             }
         }
         binding.layoutFree.apply {
             ivSelectStatus.setImageResource(R.drawable.ic_free)
             tvSelectStatus.text = getString(R.string.free)
             layoutSelectStatus.setOnClickListener{
-                viewModel.onClickStatusChange(2)
+                viewModel.postUpdateStatus(2)
             }
         }
         binding.layoutBusy.apply {
             ivSelectStatus.setImageResource(R.drawable.ic_busy)
             tvSelectStatus.text = getString(R.string.busy)
             layoutSelectStatus.setOnClickListener{
-                viewModel.onClickStatusChange(3)
+                viewModel.postUpdateStatus(3)
             }
         }
         binding.layoutNotAtSchool.apply {
             ivSelectStatus.setImageResource(R.drawable.ic_not_at_school)
             tvSelectStatus.text = getString(R.string.not_at_school)
             layoutSelectStatus.setOnClickListener{
-                viewModel.onClickStatusChange(0)
+                viewModel.postUpdateStatus(0)
             }
         }
     }

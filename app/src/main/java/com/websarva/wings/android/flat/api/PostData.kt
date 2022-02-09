@@ -34,4 +34,9 @@ class PostData {
         @Json(name = "my_id") val my_id: Int,
         @Json(name = "target_name") val target_name: String
     )
+
+    data class UpdateStatus(
+        @Json(name = "id") val id: Int,
+        @Json(name = "status") val status: Int
+    )
 }

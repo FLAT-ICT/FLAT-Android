@@ -1,5 +1,6 @@
 package com.websarva.wings.android.flat.repository
 
+import androidx.room.Update
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.api.RestApi
@@ -61,6 +62,9 @@ class ApiRepository {
 
     suspend fun updateName(postData: PostData.UpdateName): Response<ResponseData.ResponseGetUser> =
         withContext(IO){service.updateName(postData)}
+
+    suspend fun updateStatus(postData: PostData.UpdateStatus): Response<ResponseData.ResponseGetUser> =
+        withContext(IO){service.updateStatus(postData)}
 
     companion object Factory {
         val instance: ApiRepository
