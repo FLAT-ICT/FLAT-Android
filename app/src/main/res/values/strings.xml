@@ -53,7 +53,7 @@
     <string name="already_used_nickname_error">その名前はすでに使用されています</string>
     <string name="register">登録する</string>
     <string name="has_account_to_login">アカウントを持っている人はログインする</string>
-    
+
     <!--  fragment_login  -->
     <string name="login_title">ログイン画面</string>
     <string name="input_nickname_for_login">ニックネームを入力してください</string>
@@ -70,5 +70,22 @@
     <string name="new_account_registration">新規登録</string>
 
     <!--  fragment_user_setting  -->
+    <string name="user_setting">ユーザー設定</string>
+    <string name="change_name">名前を変更</string>
+    <string name="change_icon">アイコンを変更</string>
+    <string name="change_status">ステータスを変更</string>
+    <string name="logout">ログアウト</string>
     <string name="to_logout">ログアウトする</string>
+    <string name="logout_dialog_message">本当にログアウトしますか？</string>
+
+    <!--  fragment_name_change  -->
+    <string name="decision">決定</string>
+    <string name="validation_error">使用できない文字が含まれています</string>
+
+    <!--  fragment_status_change  -->
+    <string name="at_school">学校にいる</string>
+    <string name="free">今暇</string>
+    <string name="busy">忙しい</string>
+    <string name="not_at_school">学校にいない</string>
+
 </resources>

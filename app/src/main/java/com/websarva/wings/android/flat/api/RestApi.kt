@@ -40,4 +40,10 @@ interface RestApi {
 
     @POST("/v1/logout")
     suspend fun postLogout(@Body postLogout: PostLogout): Response<ResponsePost>
+
+    @POST("/v1/user/name")
+    suspend fun updateName(@Body updateName: UpdateName): Response<ResponseGetUser>
+
+    @POST("/v1/user/status")
+    suspend fun updateStatus(@Body updateStatus: UpdateStatus): Response<ResponseGetUser>
 }
