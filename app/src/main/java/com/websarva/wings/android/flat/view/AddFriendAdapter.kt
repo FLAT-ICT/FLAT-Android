@@ -63,6 +63,6 @@ class AddFriendAdapter(
         }
         val ivFriendIcon = holder.itemView.findViewById<ImageView>(R.id.icon)
         val urlString = getItem(position).icon_path
-        Glide.with(holder.itemView.context).load(urlString).into(ivFriendIcon)
+        Glide.with(holder.itemView.context).load(urlString).placeholder(R.drawable.default_user_icon).error(R.drawable.default_user_icon).into(ivFriendIcon)
     }
 }
