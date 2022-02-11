@@ -3,11 +3,13 @@ package com.websarva.wings.android.flat.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.databinding.ItemOneSideBinding
@@ -68,5 +70,8 @@ class UnapprovedFriendsAdapter(
         holder.itemView.findViewById<ImageButton>(R.id.ib_reject).setOnClickListener {
             RejectDialogFragment(item.id).show(fragmentManager, "dialog")
         }
+        val ivFriendIcon = holder.itemView.findViewById<ImageView>(R.id.iv_one_side_icon)
+        val urlString = item.icon_path
+        Glide.with(holder.itemView.context).load(urlString).placeholder(R.drawable.default_user_icon).error(R.drawable.default_user_icon).into(ivFriendIcon)
     }
 }
