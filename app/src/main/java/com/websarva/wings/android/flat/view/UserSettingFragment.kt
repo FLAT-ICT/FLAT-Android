@@ -40,7 +40,6 @@ class UserSettingFragment : Fragment() {
         viewModel.user.observe(viewLifecycleOwner) {
             binding.apply {
                 tvUserName.text = it.name
-                //TODO: Status, iconのリソース設定
                 Glide.with(this@UserSettingFragment).load(it.iconPath).placeholder(R.drawable.default_user_icon).error(R.drawable.default_user_icon).into(ivUserIcon)
                 ivStatus.apply {
                     when (it.status) {

@@ -28,7 +28,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <!--      TODO:icon_pathからアイコンの表示      -->
             <ImageView
                 android:id="@+id/icon"
                 android:layout_width="match_parent"

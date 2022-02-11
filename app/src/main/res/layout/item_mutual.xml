@@ -32,7 +32,6 @@
                 android:layout_height="match_parent"
                 app:cardCornerRadius="25dp">
 
-                <!--       TODO:icon_pathからアイコンの表示        -->
                 <ImageView
                     android:id="@+id/iv_mutual_icon"
                     android:layout_width="match_parent"
