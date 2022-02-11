@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentUserSettingBinding
@@ -40,6 +41,7 @@ class UserSettingFragment : Fragment() {
             binding.apply {
                 tvUserName.text = it.name
                 //TODO: Status, iconのリソース設定
+                Glide.with(this@UserSettingFragment).load(it.iconPath).placeholder(R.drawable.default_user_icon).error(R.drawable.default_user_icon).into(ivUserIcon)
                 ivStatus.apply {
                     when (it.status) {
                         0 -> {
