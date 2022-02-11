@@ -3,10 +3,12 @@ package com.websarva.wings.android.flat.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.databinding.ItemSearchedUsersBinding
@@ -59,6 +61,8 @@ class AddFriendAdapter(
                 setBackgroundColor(context.getColor(setButtonBackgroundColor(getItem(position))))
             }
         }
-
+        val ivFriendIcon = holder.itemView.findViewById<ImageView>(R.id.icon)
+        val urlString = getItem(position).icon_path
+        Glide.with(holder.itemView.context).load(urlString).into(ivFriendIcon)
     }
 }
