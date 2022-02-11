@@ -2,10 +2,13 @@ package com.websarva.wings.android.flat.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.databinding.ItemMutualBinding
 import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
@@ -60,6 +63,9 @@ class FriendsAdapter(
 
     override fun onBindViewHolder(holder: FriendsViewHolder, position: Int) {
         holder.bind(getItem(position), viewLifeCycleOwner, viewModel)
+        val ivFriendIcon = holder.itemView.findViewById<ImageView>(R.id.iv_mutual_icon)
+        val urlString = getItem(position).icon_path
+        Glide.with(holder.itemView.context).load(urlString).placeholder(R.drawable.default_user_icon).error(R.drawable.default_user_icon).into(ivFriendIcon)
         //TODO: アイテムクリック時の処理関数をviewModelから呼び出す
     }
 }
