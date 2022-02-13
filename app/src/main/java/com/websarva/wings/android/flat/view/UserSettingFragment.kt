@@ -128,5 +128,10 @@ class UserSettingFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.iconChangeClicked.observe(viewLifecycleOwner) {
+            val bottomSheet = IconChangeFragment()
+            bottomSheet.show(childFragmentManager, IconChangeFragment.TAG)
+        }
     }
 }

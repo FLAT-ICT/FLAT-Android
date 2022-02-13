@@ -78,7 +78,7 @@ class UserSettingViewModel : ViewModel() {
                 _nameChangeClicked.postValue(true)
             }
             1 -> {
-                //TODO: アイコン変更タップ時の処理
+                _iconChangeClicked.postValue(true)
             }
             2 -> {
                 _statusChangeClicked.postValue(true)

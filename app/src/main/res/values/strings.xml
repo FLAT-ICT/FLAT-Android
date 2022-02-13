@@ -88,4 +88,8 @@
     <string name="busy">忙しい</string>
     <string name="not_at_school">学校にいない</string>
 
+    <!--  fragment_icon_change  -->
+    <string name="select_image">画像を選択</string>
+    <string name="take_picture">カメラで撮影</string>
+    <string name="remove_image">画像を削除</string>
 </resources>
