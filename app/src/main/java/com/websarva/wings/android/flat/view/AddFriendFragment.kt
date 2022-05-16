@@ -146,4 +146,10 @@ class AddFriendFragment : Fragment() {
                 true
             } else false
         }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }

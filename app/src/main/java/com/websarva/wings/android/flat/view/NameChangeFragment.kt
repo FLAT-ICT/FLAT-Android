@@ -89,4 +89,9 @@ class NameChangeFragment : Fragment() {
             view.findNavController().navigate(action)
         })
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

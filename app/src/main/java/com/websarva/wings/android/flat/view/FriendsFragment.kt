@@ -86,4 +86,9 @@ class FriendsFragment : Fragment() {
         super.onResume()
         viewModel.getFriends()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
