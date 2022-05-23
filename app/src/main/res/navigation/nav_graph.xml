@@ -6,6 +6,13 @@
     app:startDestination="@id/startupFragment">
 
     <fragment
+        android:id="@+id/MapFragment"
+        android:name="com.websarva.wings.android.flat.view.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+
+    </fragment>
+    <fragment
         android:id="@+id/addFriendFragment"
         android:name="com.websarva.wings.android.flat.view.AddFriendFragment"
         android:label="fragment_add_friend"

@@ -87,5 +87,11 @@
     <string name="free">今暇</string>
     <string name="busy">忙しい</string>
     <string name="not_at_school">学校にいない</string>
+    <string name="_1F">1F</string>
+    <string name="_5f">5F</string>
+    <string name="_1f">1F</string>
+    <string name="_2f">2F</string>
+    <string name="_3f">3F</string>
+    <string name="_4f">4F</string>
 
 </resources>
