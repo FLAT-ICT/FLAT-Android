@@ -119,4 +119,5 @@ dependencies {
     // When using a AppCompat theme
     implementation "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
 
+    implementation("com.mxalbert.zoomable:zoomable:1.4.2")
 }

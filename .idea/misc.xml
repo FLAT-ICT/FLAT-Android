@@ -53,6 +53,8 @@
         <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/layout/item_user_setting.xml" value="0.4518743667679838" />
         <entry key="..\:/Users/sora/AndroidStudioProjects/FLAT-Android/app/src/main/res/layout/layout_status_change.xml" value="0.3731003039513678" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_friend_list.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.184375" />
         <entry key="app/src/main/res/layout/fragment_user_setting.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/item_mutual.xml" value="0.184375" />

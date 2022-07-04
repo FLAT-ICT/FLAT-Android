@@ -93,5 +93,7 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.websarva.wings.android.flat.view.MapFragment"
-        android:label="MapFragment" />
+        android:label="MapFragment"
+        tools:layout="@layout/fragment_map"
+    />
 </navigation>
