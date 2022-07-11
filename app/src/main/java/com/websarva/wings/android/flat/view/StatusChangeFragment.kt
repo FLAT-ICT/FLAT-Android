@@ -29,11 +29,14 @@ class StatusChangeFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var status : Int = 0
+
         binding.layoutAtSchool.apply {
             ivSelectStatus.setImageResource(R.drawable.ic_at_school)
             tvSelectStatus.text = getString(R.string.at_school)
             layoutSelectStatus.setOnClickListener{
                 viewModel.postUpdateStatus(1)
+                status = 1
             }
         }
         binding.layoutFree.apply {
@@ -41,6 +44,7 @@ class StatusChangeFragment : BottomSheetDialogFragment() {
             tvSelectStatus.text = getString(R.string.free)
             layoutSelectStatus.setOnClickListener{
                 viewModel.postUpdateStatus(2)
+                status = 2
             }
         }
         binding.layoutBusy.apply {
@@ -48,6 +52,7 @@ class StatusChangeFragment : BottomSheetDialogFragment() {
             tvSelectStatus.text = getString(R.string.busy)
             layoutSelectStatus.setOnClickListener{
                 viewModel.postUpdateStatus(3)
+                status = 3
             }
         }
         binding.layoutNotAtSchool.apply {
@@ -55,6 +60,7 @@ class StatusChangeFragment : BottomSheetDialogFragment() {
             tvSelectStatus.text = getString(R.string.not_at_school)
             layoutSelectStatus.setOnClickListener{
                 viewModel.postUpdateStatus(0)
+                status = 0
             }
         }
 
@@ -65,7 +71,7 @@ class StatusChangeFragment : BottomSheetDialogFragment() {
         viewModel.postResponse.observe(viewLifecycleOwner) {
             when (it.code()) {
                 200 -> {
-                    viewModel.updateRoom(it.body()!!)
+                    viewModel.updateRoom(it.body()!!, status)
                 }
                 404 -> {
                     //TODO: Idがない場合の処理?

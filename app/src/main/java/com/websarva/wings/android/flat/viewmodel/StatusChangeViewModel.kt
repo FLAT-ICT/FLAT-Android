@@ -50,11 +50,11 @@ class StatusChangeViewModel: ViewModel() {
         }
     }
 
-    fun updateRoom(userData: ResponseData.ResponseGetUser) {
+    fun updateRoom(userData: ResponseData.ResponseGetUser, status: Int) {
         val user = User(
             myId = userData.id,
             name = userData.name,
-            status = userData.status,
+            status = status,
             spot = userData.spot,
             iconPath = userData.icon_path,
             loggedInAt = userData.logged_in_at
