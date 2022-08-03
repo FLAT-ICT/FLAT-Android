@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication
+import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.model.User
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.launch
@@ -15,6 +16,9 @@ class MapViewModel : ViewModel() {
 
     private val _user = LiveEvent<User>()
     val user: LiveData<User> get() = _user
+
+    private val _isUpdated = LiveEvent<Int>()
+    val isUpdated: LiveData<Int> get() = _isUpdated
 
     private val _roomChanged = LiveEvent<Boolean>()
     val roomChanged: LiveData<Boolean> get() = _roomChanged

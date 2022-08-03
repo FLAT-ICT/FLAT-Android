@@ -41,6 +41,7 @@ class MapFragment : Fragment() {
         viewModel.getUserData()
         viewModel.user.observe(viewLifecycleOwner) {
             binding.apply {
+                Log.d("spot", "spot = $it")
                 if (it.spot == "132教員室") {
                     ivPin0.visibility = View.VISIBLE
                 } else {
