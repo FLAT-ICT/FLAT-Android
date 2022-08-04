@@ -34,9 +34,6 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
     private lateinit var region: Region
     private lateinit var postData: PostData.PostBeacon
 
-    private val _postResponse = LiveEvent<Response<ResponseData.ResponseGetUser>>()
-    val postResponse: LiveData<Response<ResponseData.ResponseGetUser>> get() = _postResponse
-
     // public interface RangeNotifierのメンバ関数
     // Beaconの情報を取得する
     override fun didRangeBeaconsInRegion(beacons: MutableCollection<Beacon>?, region: Region?) {
