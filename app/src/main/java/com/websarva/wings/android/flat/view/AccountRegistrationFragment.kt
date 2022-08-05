@@ -40,6 +40,12 @@ class AccountRegistrationFragment : Fragment() {
                     isNameOk = false,
                     isMatch = false,
                     isCharaLenOk = false
+//                    name = "aaaa",
+//                    pass1 = "aaaaaaaa",
+//                    pass2 = "aaaaaaaa",
+//                    isNameOk = true,
+//                    isMatch = true,
+//                    isCharaLenOk = true
                 )
                 viewModel.checkAndTrimName(input)
             }
