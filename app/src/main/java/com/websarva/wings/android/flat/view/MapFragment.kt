@@ -18,14 +18,46 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.w3c.dom.Node
 import android.view.ViewGroup.LayoutParams
+import android.widget.ImageView
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
+
+data class Pin (val pin: ImageView, val name: String)
+
 class MapFragment : Fragment() {
-//    private val viewModel: MapViewModel by viewModels()
+    //    private val viewModel: MapViewModel by viewModels()
     private val viewModel: FriendListViewModel by viewModels()
     private var _binding: FragmentMapBinding? = null
-    private val binding get()= _binding!!
+    private val binding get() = _binding!!
+
+    private val arrayOfPins = arrayOf(
+        Pin(this.binding.ivPin0, "132教室"),
+        Pin(this.binding.ivPin1, "364コンピュータ教室"),
+        Pin(this.binding.ivPin2, "363コンピュータ教室"),
+        Pin(this.binding.ivPin3, "工房"),
+        Pin(this.binding.ivPin4, "体育館"),
+        Pin(this.binding.ivPin5, "トレーニングルーム"),
+        Pin(this.binding.ivPin6, "367大講義室"),
+        Pin(this.binding.ivPin7, "368大講義室"),
+        Pin(this.binding.ivPin8, "332教員室"),
+        Pin(this.binding.ivPin9, "社会連携センタ"),
+        Pin(this.binding.ivPin10, "ミュージアム"),
+        Pin(this.binding.ivPin11, "モール"),
+        Pin(this.binding.ivPin12, "3階エントランスホール"),
+        Pin(this.binding.ivPin13, "127教員室"),
+        Pin(this.binding.ivPin14, "ラウンジ1階西側"),
+        Pin(this.binding.ivPin15, "124教員室"),
+        Pin(this.binding.ivPin16, "プレゼンベイ／スタジオ1階"),
+        Pin(this.binding.ivPin17, "食堂"),
+        Pin(this.binding.ivPin18, "126教員室"),
+        Pin(this.binding.ivPin19, "1階エントランスホール"),
+        Pin(this.binding.ivPin20, "売店"),
+        Pin(this.binding.ivPin21, "223教員室"),
+        Pin(this.binding.ivPin22, "OSS研究室")
+        )
+
+    private var floor = 1 // TODO: 現在の階層を保存．これだとMap呼ぶたびにリセットされてしまうので，上で管理する
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,258 +73,54 @@ class MapFragment : Fragment() {
 
         viewModel.friends.observe(viewLifecycleOwner) {
             binding.apply {
+
+
+                val spots = it.mutual.map { it.spot }
+
+                arrayOfPins.forEach {
+                    if (it.pin.visibility == View.VISIBLE){
+                        it.pin.visibility = View.GONE
+                    }
+                }
+
+                arrayOfPins.forEach {
+                    if (it.name in spots) {
+                        it.pin.visibility = View.VISIBLE
+                    }
+                }
+
                 Log.d("friendSpot", "friendSpot = ${it.mutual.map { it.id }}")
 //                if (it.mutual.map { it.spot[0] }.toString() == "132教員室") {
 //                    ivPin0.visibility = View.VISIBLE
 //                } else {
 //                    ivPin0.visibility = View.INVISIBLE
 //                }
-//                if (it.mutual.map { it.spot[0] }.toString() == "364コンピュータ教室") {
-//                    ivPin1.visibility = View.VISIBLE
-//                } else {
-//                    ivPin1.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot[0] }.toString() == "363コンピュータ教室") {
-//                    ivPin2.visibility = View.VISIBLE
-//                } else {
-//                    ivPin2.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "工房") {
-//                    ivPin3.visibility = View.VISIBLE
-//                } else {
-//                    ivPin3.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "体育館") {
-//                    ivPin4.visibility = View.VISIBLE
-//                } else {
-//                    ivPin4.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "トレーニングルーム") {
-//                    ivPin5.visibility = View.VISIBLE
-//                } else {
-//                    ivPin5.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "367大講義室") {
-//                    ivPin6.visibility = View.VISIBLE
-//                } else {
-//                    ivPin6.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "368大講義室") {
-//                    ivPin7.visibility = View.VISIBLE
-//                } else {
-//                    ivPin7.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "332教員室") {
-//                    ivPin8.visibility = View.VISIBLE
-//                } else {
-//                    ivPin8.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "社会連携センタ") {
-//                    ivPin9.visibility = View.VISIBLE
-//                } else {
-//                    ivPin9.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "ミュージアム") {
-//                    ivPin10.visibility = View.VISIBLE
-//                } else {
-//                    ivPin10.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "モール") {
-//                    ivPin11.visibility = View.VISIBLE
-//                } else {
-//                    ivPin11.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "3階エントランスホール") {
-//                    ivPin12.visibility = View.VISIBLE
-//                } else {
-//                    ivPin12.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }[1] == "127教員室") {
-//                    ivPin13.visibility = View.VISIBLE
-//                } else {
-//                    ivPin13.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "ラウンジ1階西側") {
-//                    ivPin14.visibility = View.VISIBLE
-//                } else {
-//                    ivPin14.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "124教員室") {
-//                    ivPin15.visibility = View.VISIBLE
-//                } else {
-//                    ivPin15.visibility = View.INVISIBLE
-//                }
-                if (it.mutual.map { it.spot }[0] == "プレゼンベイ／スタジオ1階") {
-                    ivPin16.visibility = View.VISIBLE
-                } else {
-                    ivPin16.visibility = View.INVISIBLE
-                }
-//                if (it.mutual.map { it.spot }.toString() == "食堂") {
-//                    ivPin17.visibility = View.VISIBLE
-//                } else {
-//                    ivPin17.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "126教員室") {
-//                    ivPin18.visibility = View.VISIBLE
-//                } else {
-//                    ivPin18.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "1階エントランスホール") {
-//                    ivPin19.visibility = View.VISIBLE
-//                } else {
-//                    ivPin19.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "売店") {
-//                    ivPin20.visibility = View.VISIBLE
-//                } else {
-//                    ivPin20.visibility = View.INVISIBLE
-//                }
-//                if (it.mutual.map { it.spot }.toString() == "223教員室") {
-//                    ivPin21.visibility = View.VISIBLE
-//                } else {
-//                    ivPin21.visibility = View.INVISIBLE
-//                }
-                if (it.mutual.map { it.spot }[1] == "OSS研究室") {
-                    ivPin22.visibility = View.VISIBLE
-                } else {
-                    ivPin22.visibility = View.INVISIBLE
-                }
-
             }
+            Log.d("check", "L99 apply complete")
         }
-//        viewModel.getUserData()
-//        viewModel.user.observe(viewLifecycleOwner) {
-//            binding.apply {
-//                Log.d("spot", "spot = $it")
-//                if (it.spot == "132教員室") {
-//                    ivPin0.visibility = View.VISIBLE
-//                } else {
-//                    ivPin0.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "364コンピュータ教室") {
-//                    ivPin1.visibility = View.VISIBLE
-//                } else {
-//                    ivPin1.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "363コンピュータ教室") {
-//                    ivPin2.visibility = View.VISIBLE
-//                } else {
-//                    ivPin2.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "工房") {
-//                    ivPin3.visibility = View.VISIBLE
-//                } else {
-//                    ivPin3.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "体育館") {
-//                    ivPin4.visibility = View.VISIBLE
-//                } else {
-//                    ivPin4.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "トレーニングルーム") {
-//                    ivPin5.visibility = View.VISIBLE
-//                } else {
-//                    ivPin5.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "367大講義室") {
-//                    ivPin6.visibility = View.VISIBLE
-//                } else {
-//                    ivPin6.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "368大講義室") {
-//                    ivPin7.visibility = View.VISIBLE
-//                } else {
-//                    ivPin7.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "332教員室") {
-//                    ivPin8.visibility = View.VISIBLE
-//                } else {
-//                    ivPin8.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "社会連携センタ") {
-//                    ivPin9.visibility = View.VISIBLE
-//                } else {
-//                    ivPin9.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "ミュージアム") {
-//                    ivPin10.visibility = View.VISIBLE
-//                } else {
-//                    ivPin10.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "モール") {
-//                    ivPin11.visibility = View.VISIBLE
-//                } else {
-//                    ivPin11.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "3階エントランスホール") {
-//                    ivPin12.visibility = View.VISIBLE
-//                } else {
-//                    ivPin12.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "127教員室") {
-//                    ivPin13.visibility = View.VISIBLE
-//                } else {
-//                    ivPin13.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "ラウンジ1階西側") {
-//                    ivPin14.visibility = View.VISIBLE
-//                } else {
-//                    ivPin14.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "124教員室") {
-//                    ivPin15.visibility = View.VISIBLE
-//                } else {
-//                    ivPin15.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "プレゼンベイ／スタジオ1階") {
-//                    ivPin16.visibility = View.VISIBLE
-//                } else {
-//                    ivPin16.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "食堂") {
-//                    ivPin17.visibility = View.VISIBLE
-//                } else {
-//                    ivPin17.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "126教員室") {
-//                    ivPin18.visibility = View.VISIBLE
-//                } else {
-//                    ivPin18.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "1階エントランスホール") {
-//                    ivPin19.visibility = View.VISIBLE
-//                } else {
-//                    ivPin19.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "売店") {
-//                    ivPin20.visibility = View.VISIBLE
-//                } else {
-//                    ivPin20.visibility = View.INVISIBLE
-//                }
-//                if (it.spot == "223教員室") {
-//                    ivPin21.visibility = View.VISIBLE
-//                } else {
-//                    ivPin21.visibility = View.INVISIBLE
-//                }
-//
-//            }
-//        }
 
-        binding.btMap1.setOnClickListener{
+        Log.d("check", "L101")
+        binding.btMap1.setOnClickListener {
             binding.ivMap.setImageResource(R.drawable.map1f)
+            floor = 1
         }
-        binding.btMap2.setOnClickListener{
+        binding.btMap2.setOnClickListener {
             binding.ivMap.setImageResource(R.drawable.map2f)
+            floor = 2
         }
-        binding.btMap3.setOnClickListener{
+        binding.btMap3.setOnClickListener {
             binding.ivMap.setImageResource(R.drawable.map3f)
+            floor = 3
         }
-        binding.btMap4.setOnClickListener{
+        binding.btMap4.setOnClickListener {
             binding.ivMap.setImageResource(R.drawable.map4f)
+            floor = 4
         }
-        binding.btMap5.setOnClickListener{
+        binding.btMap5.setOnClickListener {
             binding.ivMap.setImageResource(R.drawable.map5f)
+            floor = 5
         }
+        Log.d("check", "L122")
     }
 
     override fun onResume() {
@@ -300,3 +128,4 @@ class MapFragment : Fragment() {
         viewModel.getFriends()
     }
 }
+

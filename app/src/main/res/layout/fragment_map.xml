@@ -8,12 +8,12 @@
         android:id="@+id/iv_map"
         android:layout_width="400dp"
         android:layout_height="400dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:src="@drawable/map1f"
-        />
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <!--jsonの座標を4倍して－10するとちょうどよい-->
     <ImageView
         android:id="@+id/iv_pin_0"
@@ -23,18 +23,6 @@
         app:layout_constraintTop_toTopOf="@+id/iv_map"
         android:layout_marginStart="119.120088dp"
         android:layout_marginTop="180.968872dp"
-        android:visibility="invisible"
-        android:src="@drawable/pin"
-        />
-
-    <ImageView
-        android:id="@+id/iv_pin_1"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:layout_constraintStart_toStartOf="@+id/iv_map"
-        app:layout_constraintTop_toTopOf="@+id/iv_map"
-        android:layout_marginStart="202.376556dp"
-        android:layout_marginTop="177.763032dp"
         android:visibility="invisible"
         android:src="@drawable/pin"
         />
@@ -50,6 +38,17 @@
         android:visibility="invisible"
         android:src="@drawable/pin"
         />
+
+    <ImageView
+        android:id="@+id/iv_pin_1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="202.376556dp"
+        android:layout_marginTop="177.763032dp"
+        android:src="@drawable/pin"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/iv_map"
+        app:layout_constraintTop_toTopOf="@+id/iv_map" />
 
     <ImageView
         android:id="@+id/iv_pin_3"
@@ -199,25 +198,23 @@
         android:id="@+id/iv_pin_15"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        app:layout_constraintStart_toStartOf="@+id/iv_map"
-        app:layout_constraintTop_toTopOf="@+id/iv_map"
         android:layout_marginStart="252.570952dp"
         android:layout_marginTop="191.285368dp"
-        android:visibility="invisible"
         android:src="@drawable/pin"
-        />
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/iv_map"
+        app:layout_constraintTop_toTopOf="@+id/iv_map" />
 
     <ImageView
         android:id="@+id/iv_pin_16"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        app:layout_constraintStart_toStartOf="@+id/iv_map"
-        app:layout_constraintTop_toTopOf="@+id/iv_map"
         android:layout_marginStart="227.923448dp"
         android:layout_marginTop="254.415284dp"
-        android:visibility="invisible"
         android:src="@drawable/pin"
-        />
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/iv_map"
+        app:layout_constraintTop_toTopOf="@+id/iv_map" />
 
     <ImageView
         android:id="@+id/iv_pin_17"
