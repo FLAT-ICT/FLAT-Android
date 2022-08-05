@@ -98,17 +98,7 @@ class MapFragment : Fragment() {
         binding.btMap2.setOnClickListener {
             binding.ivMap.setImageResource(R.drawable.map2f)
             floor = 2
-            arrayOfPins.value.forEach {
-                if (it.pin.visibility == View.VISIBLE) {
-                    it.pin.visibility = View.GONE
-                }
-            }
-
-            arrayOfPins.value.forEach {
-                if (it.name in spots && it.floor == floor) {
-                    it.pin.visibility = View.VISIBLE
-                }
-            }
+            updateMap()
 
         }
         binding.btMap3.setOnClickListener {
@@ -139,7 +129,7 @@ class MapFragment : Fragment() {
         _binding = null
     }
 
-    fun updateMap() {
+    private fun updateMap() {
         arrayOfPins.value.forEach {
             Log.d("MapFragment", "$floor, $it")
             if (it.pin.visibility == View.VISIBLE) {
