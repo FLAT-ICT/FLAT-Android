@@ -31,7 +31,7 @@ class MapFragment : Fragment() {
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
 
-    private val arrayOfPins = arrayOf(
+    private val arrayOfPins = lazy { arrayOf(
         Pin(this.binding.ivPin0, "132教室"),
         Pin(this.binding.ivPin1, "364コンピュータ教室"),
         Pin(this.binding.ivPin2, "363コンピュータ教室"),
@@ -55,7 +55,7 @@ class MapFragment : Fragment() {
         Pin(this.binding.ivPin20, "売店"),
         Pin(this.binding.ivPin21, "223教員室"),
         Pin(this.binding.ivPin22, "OSS研究室")
-        )
+        )}
 
     private var floor = 1 // TODO: 現在の階層を保存．これだとMap呼ぶたびにリセットされてしまうので，上で管理する
 
@@ -77,13 +77,13 @@ class MapFragment : Fragment() {
 
                 val spots = it.mutual.map { it.spot }
 
-                arrayOfPins.forEach {
+                arrayOfPins.value.forEach {
                     if (it.pin.visibility == View.VISIBLE){
                         it.pin.visibility = View.GONE
                     }
                 }
 
-                arrayOfPins.forEach {
+                arrayOfPins.value.forEach {
                     if (it.name in spots) {
                         it.pin.visibility = View.VISIBLE
                     }
