@@ -280,6 +280,18 @@
         />
 
     <ImageView
+        android:id="@+id/iv_pin_22"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toStartOf="@+id/iv_map"
+        app:layout_constraintTop_toTopOf="@+id/iv_map"
+        android:layout_marginStart="190.923448dp"
+        android:layout_marginTop="254.415284dp"
+        android:visibility="invisible"
+        android:src="@drawable/pin"
+        />
+
+    <ImageView
         android:id="@+id/background_button"
         android:layout_width="62dp"
         android:layout_height="292dp"

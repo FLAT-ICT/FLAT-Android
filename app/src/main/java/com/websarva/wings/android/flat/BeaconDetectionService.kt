@@ -28,7 +28,6 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
     private val repository = ApiRepository.instance
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.Main + job)
-    private var myId: Int = 0
 
     private lateinit var beaconManager: BeaconManager
     private lateinit var region: Region
