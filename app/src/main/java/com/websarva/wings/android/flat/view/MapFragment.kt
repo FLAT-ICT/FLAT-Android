@@ -33,33 +33,38 @@ class MapFragment : Fragment() {
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
 
-    private val arrayOfPins = lazy {
-        arrayOf(
-            Pin(this.binding.ivPin0, "132教室", 1),
-            Pin(this.binding.ivPin1, "364コンピュータ教室", 3),
-            Pin(this.binding.ivPin2, "363コンピュータ教室", 3),
-            Pin(this.binding.ivPin3, "工房", 3),
-            Pin(this.binding.ivPin4, "体育館", 3),
-            Pin(this.binding.ivPin5, "トレーニングルーム", 3),
-            Pin(this.binding.ivPin6, "367大講義室", 3),
-            Pin(this.binding.ivPin7, "368大講義室", 3),
-            Pin(this.binding.ivPin8, "332教員室", 3),
-            Pin(this.binding.ivPin9, "社会連携センタ", 3),
-            Pin(this.binding.ivPin10, "ミュージアム", 3),
-            Pin(this.binding.ivPin11, "モール", 3),
-            Pin(this.binding.ivPin12, "3階エントランスホール", 3),
-            Pin(this.binding.ivPin13, "127教員室", 1),
-            Pin(this.binding.ivPin14, "ラウンジ1階西側", 1),
-            Pin(this.binding.ivPin15, "124教員室", 1),
-            Pin(this.binding.ivPin16, "プレゼンベイ／スタジオ1階", 1),
-            Pin(this.binding.ivPin17, "食堂", 1),
-            Pin(this.binding.ivPin18, "126教員室", 1),
-            Pin(this.binding.ivPin19, "1階エントランスホール", 1),
-            Pin(this.binding.ivPin20, "売店", 2),
-            Pin(this.binding.ivPin21, "223教員室", 2),
-            Pin(this.binding.ivPin22, "OSS研究室", 1)
-        )
-    }
+    private val arrayOfPins = lazy {arrayOf(
+        Pin(this.binding.ivPin1, "127教員室", 1),
+        Pin(this.binding.ivPin22, "132教員室", 1),
+        Pin(this.binding.ivPin69, "ラウンジ1階西側", 1),
+        Pin(this.binding.ivPin101, "124教員室", 1),
+        Pin(this.binding.ivPin169, "プレゼンベイ／スタジオ1階", 1),
+        Pin(this.binding.ivPin42, "食堂", 1),
+        Pin(this.binding.ivPin61, "126教員室", 1),
+        Pin(this.binding.ivPin62, "1階エントランスホール", 1),
+        Pin(this.binding.ivPin21, "OSS研究室", 1),
+        Pin(this.binding.ivPin104, "売店", 2),
+        Pin(this.binding.ivPin4, "223教員室", 2),
+        Pin(this.binding.ivPin24, "大場研究室／スタジオ2階東側", 2),
+        Pin(this.binding.ivPin105, "スタジオ2階東側", 2),
+        Pin(this.binding.ivPin48, "スタジオ2階東側", 2),
+        Pin(this.binding.ivPin150, "岡本研究室／スタジオ2階西側", 2),
+        Pin(this.binding.ivPin44, "243/244実験室", 2),
+        Pin(this.binding.ivPin26, "365コンピュータ教室", 3),
+        Pin(this.binding.ivPin183, "364コンピュータ教室", 3),
+        Pin(this.binding.ivPin46, "363コンピュータ教室", 3),
+        Pin(this.binding.ivPin43, "工房", 3),
+        Pin(this.binding.ivPin181, "体育館", 3),
+        Pin(this.binding.ivPin82, "トレーニングルーム", 3),
+        Pin(this.binding.ivPin141, "367大講義室", 3),
+        Pin(this.binding.ivPin142, "368大講義室", 3),
+        Pin(this.binding.ivPin5, "332教員室", 3),
+        Pin(this.binding.ivPin89, "社会連携センタ", 3),
+        Pin(this.binding.ivPin149, "ミュージアム", 3),
+        Pin(this.binding.ivPin102, "モール", 3),
+        Pin(this.binding.ivPin121, "3階エントランスホール", 3),
+        Pin(this.binding.ivPin103, "モール", 3)
+    )}
 
     private lateinit var spots: List<String>
 
