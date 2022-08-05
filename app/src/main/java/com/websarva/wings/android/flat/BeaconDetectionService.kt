@@ -8,13 +8,19 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.altbeacon.beacon.*
 import android.app.PendingIntent
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.api.PostData
+import com.websarva.wings.android.flat.api.ResponseData
+import com.websarva.wings.android.flat.model.User
 import com.websarva.wings.android.flat.repository.ApiRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.lang.Exception
 
 
@@ -22,12 +28,10 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
     private val repository = ApiRepository.instance
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.Main + job)
-    private var myId: Int = 0
 
     private lateinit var beaconManager: BeaconManager
     private lateinit var region: Region
     private lateinit var postData: PostData.PostBeacon
-
 
     // public interface RangeNotifierのメンバ関数
     // Beaconの情報を取得する

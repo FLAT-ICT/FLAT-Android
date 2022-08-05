@@ -90,4 +90,11 @@
             app:popUpTo="@id/nameChangeFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@id/mapFragment"
+        android:name="com.websarva.wings.android.flat.view.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map">
+
+    </fragment>
 </navigation>

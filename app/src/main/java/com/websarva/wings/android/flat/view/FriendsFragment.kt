@@ -63,6 +63,7 @@ class FriendsFragment : Fragment() {
                     }
                 }
                 else -> {
+                    Log.d("mutual", it.mutual.toString())
                     binding.apply {
                         ivRightArrow.visibility = View.GONE
                         tvNoHaveFriend.visibility = View.GONE

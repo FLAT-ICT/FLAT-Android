@@ -67,6 +67,7 @@ class FriendListViewModel(
                 _getFriendsCode.postValue(response.code())
                 if (response.isSuccessful) {
                     Log.d("getFriendSuccess", "$response")
+                    Log.d("getFriendSuccess", "${response.body()}")
                     _friends.postValue(response.body())
                 } else {
                     Log.d("getFriendFailure", "${response}\n${response.body()}")
