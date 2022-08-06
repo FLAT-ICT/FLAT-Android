@@ -40,7 +40,7 @@ class FriendsFragment : Fragment() {
             }
         }
 
-        viewModel.friends.observe(viewLifecycleOwner, {
+        viewModel.friends.observe(viewLifecycleOwner) {
             binding.friendsProgress.visibility = View.GONE
             when {
                 it.mutual.isEmpty() -> {
@@ -73,14 +73,15 @@ class FriendsFragment : Fragment() {
                 }
             }
             friendsAdapter.submitList(it.mutual)
-        })
+        }
 
-        viewModel.getFriendsCode.observe(viewLifecycleOwner, {
+        viewModel.getFriendsCode.observe(viewLifecycleOwner) {
             Log.d("getFriendCode", "$it")
             if (it != 200) {
-                Toast.makeText(activity, R.string.connection_error.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, R.string.connection_error.toString(), Toast.LENGTH_SHORT)
+                    .show()
             }
-        })
+        }
     }
 
     override fun onResume() {
@@ -90,6 +91,7 @@ class FriendsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.rvFriends.adapter = null
         _binding = null
     }
 }
