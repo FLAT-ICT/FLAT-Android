@@ -51,6 +51,8 @@ class UserSettingViewModel : ViewModel() {
                 val response = apiRepository.postLogout(postData)
                 _logoutResponse.postValue(response)
                 if (response.isSuccessful) {
+                    // FLATApplication.userId = 0
+                    FLATApplication.myId = 0
                     Log.d(
                         "LogoutSuccess",
                         "${response}\n${response.body()}"
