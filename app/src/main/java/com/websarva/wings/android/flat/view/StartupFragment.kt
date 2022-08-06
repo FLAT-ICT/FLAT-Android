@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.databinding.FragmentStartupBinding
 import com.websarva.wings.android.flat.viewmodel.StartupViewModel
 
@@ -27,6 +28,12 @@ class StartupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // roomにユーザーデータが入ってたら，FriendListFragmentに遷移させる
+        if (FLATApplication.myId != 0) {
+            val action = StartupFragmentDirections.actionStartupFragmentToFriendListFragment2()
+            view.findNavController().navigate(action)
+        }
 
         binding.btLogin.setOnSafeClickListener {
             val action = StartupFragmentDirections.actionStartupFragmentToLoginFragment()
