@@ -169,6 +169,7 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
         }
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()

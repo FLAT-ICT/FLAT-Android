@@ -93,4 +93,8 @@ class StatusChangeFragment : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "StatusChangeFragment"
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

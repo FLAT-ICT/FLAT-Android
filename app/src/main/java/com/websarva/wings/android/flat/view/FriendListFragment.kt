@@ -63,6 +63,7 @@ class FriendListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         Log.d("destroy", "FriendListFragment")
+        binding.pager.adapter = null
         _binding = null
     }
 

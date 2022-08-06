@@ -33,7 +33,7 @@ class MapFragment : Fragment() {
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
 
-    private val arrayOfPins = lazy {arrayOf(
+    private val arrayOfPins: Array<Pin> by lazy{ arrayOf(
         Pin(this.binding.ivPin1, "127教員室", 1),
         Pin(this.binding.ivPin22, "132教員室", 1),
         Pin(this.binding.ivPin69, "ラウンジ1階西側", 1),
@@ -95,7 +95,7 @@ class MapFragment : Fragment() {
             }
         }
 
-        binding.btMap1.setOnClickListener { it ->
+        binding.btMap1.setOnClickListener {
             binding.ivMap.setImageResource(R.drawable.map1f)
             floor = 1
             updateMap()
@@ -135,14 +135,14 @@ class MapFragment : Fragment() {
     }
 
     private fun updateMap() {
-        arrayOfPins.value.forEach {
+        arrayOfPins.forEach {
             Log.d("MapFragment", "$floor, $it")
             if (it.pin.visibility == View.VISIBLE) {
                 it.pin.visibility = View.GONE
             }
         }
 
-        arrayOfPins.value.forEach {
+        arrayOfPins.forEach {
             if (it.name in spots && it.floor == floor) {
                 it.pin.visibility = View.VISIBLE
             }
