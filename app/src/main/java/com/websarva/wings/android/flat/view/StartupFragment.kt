@@ -29,7 +29,8 @@ class StartupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // roomにユーザーデータが入ってたら，FriendListFragmentに遷移させる
+        // Login時にmyId設定，FriendListFragmentに遷移させる
+        // Logout処理時に0にする．IDはサーバーの実装的に1スタート．実装が微妙だと思ったら書き換える
         if (FLATApplication.myId != 0) {
             val action = StartupFragmentDirections.actionStartupFragmentToFriendListFragment2()
             view.findNavController().navigate(action)
