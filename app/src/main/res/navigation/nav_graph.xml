@@ -48,6 +48,11 @@
         <action
             android:id="@+id/action_startupFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_startupFragment_to_friendListFragment2"
+            app:destination="@id/friendListFragment"
+            app:popUpTo="@id/startupFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -89,5 +94,12 @@
             app:destination="@id/userSettingFragment"
             app:popUpTo="@id/nameChangeFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@id/mapFragment"
+        android:name="com.websarva.wings.android.flat.view.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map">
+
     </fragment>
 </navigation>

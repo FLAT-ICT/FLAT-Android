@@ -128,4 +128,10 @@ class UserSettingFragment : Fragment() {
             }
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvUserSettings.adapter = null
+        _binding = null
+    }
 }

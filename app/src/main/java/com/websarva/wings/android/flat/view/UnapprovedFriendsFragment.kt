@@ -42,7 +42,7 @@ class UnapprovedFriendsFragment : Fragment() {
                 }
         }
 
-        viewModel.friends.observe(viewLifecycleOwner, {
+        viewModel.friends.observe(viewLifecycleOwner) {
             binding.unapprovedFriendsProgress.visibility = View.GONE
             when {
                 it.one_side.isEmpty() -> {
@@ -55,25 +55,36 @@ class UnapprovedFriendsFragment : Fragment() {
                 }
             }
             unapprovedFriendsAdapter.submitList(it.one_side)
-        })
+        }
 
-        viewModel.operationUnapprovedFriends.observe(viewLifecycleOwner, {
-            when(it[1]) {
+        viewModel.operationUnapprovedFriends.observe(viewLifecycleOwner) {
+            when (it[1]) {
                 200 -> {
-                    Log.d("Approve or Reject",
+                    Log.d(
+                        "Approve or Reject",
                         if (it[0] == 0) "ApproveSuccess" else "RejectSuccess"
                     )
                     viewModel.getFriends()
                 }
                 else -> {
-                    Toast.makeText(activity, R.string.connection_error.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        R.string.connection_error.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-        })
+        }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.getFriends()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvUnapprovedFriends.adapter = null
+        _binding = null
     }
 }
