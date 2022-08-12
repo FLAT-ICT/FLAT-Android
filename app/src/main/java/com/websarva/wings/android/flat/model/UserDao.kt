@@ -1,5 +1,6 @@
 package com.websarva.wings.android.flat.model
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -16,9 +17,12 @@ interface UserDao {
     @Query("DELETE FROM user_table")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM user_table")
-    suspend fun getUserData(): User
+    @Query("SELECT * FROM user_table LIMIT 1")
+    suspend fun getUserData(): User?
 
     @Query("SELECT COUNT(*) FROM user_table")
     suspend fun countData(): Int
+
+    @Query("SELECT id FROM user_table LIMIT 1")
+    fun getUserIdLiveData(): LiveData<Int?>
 }
