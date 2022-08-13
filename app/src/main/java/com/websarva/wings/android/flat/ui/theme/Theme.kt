@@ -1,51 +1,65 @@
 package com.websarva.wings.android.flat.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+//private val DarkColorPalette = darkColors(
+//    primary = PrimarySolid,
+//    primaryVariant = PrimaryPale,
+//    secondary =
+//)
+//
+//private val LightColorPalette = lightColors(
+//    primary = PrimarySolid,
+//    primaryVariant = PrimaryPale,
+//    secondary = Teal200
+
+/* Other default colors to override
+background = Color.White,
+surface = Color.White,
+onPrimary = Color.White,
+onSecondary = Color.Black,
+onBackground = Color.Black,
+onSurface = Color.Black,
+*/
+
+@Immutable
+data class FLATColors(
+    val primary: Color,
+    val primaryVariant: Color
 )
 
-private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
-)
-
-@Composable
-fun FLATTheme(content: @Composable () -> Unit) {
-    val colors = if (isSystemInDarkTheme()) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
+val LocalFLATColors = staticCompositionLocalOf {
+    FLATColors(
+        primary = PrimarySolid,
+        primaryVariant = PrimaryPale
     )
 }
 
+@Composable
+fun FLATTheme(
+    /* ... */
+    content: @Composable () -> Unit
+) {
+    val FLATColors = FLATColors(
+        primary = PrimarySolid,
+        primaryVariant = PrimaryPale
+    )
+    CompositionLocalProvider(LocalFLATColors provides FLATColors) {
+        MaterialTheme(
+            /* colors = ..., typography = ..., shapes = ... */
+            content = content
+        )
+    }
+}
+
+// Use with eg. FLATTheme.colors.primary
 object FLATTheme {
-    val colors: Colors
+    val colors: FLATColors
         @Composable
-        get() = FLATTheme.colors
+        get() = LocalFLATColors.current
 }

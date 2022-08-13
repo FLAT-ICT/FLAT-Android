@@ -2,14 +2,15 @@ package com.websarva.wings.android.flat.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+//val Purple200 = Color(0xFFBB86FC)
+//val Purple500 = Color(0xFF6200EE)
+//val Purple700 = Color(0xFF3700B3)
+//val Teal200 = Color(0xFF03DAC5)
 
 val PrimarySolid = Color(0xFF18D7C3)
 val PrimaryPale = Color(0xFFE4F9F7)
 
+// マテリアルテーマから色取ってくるほうがいいかも
 val Red = Color(0xFFF44336)
 val Blue = Color(0xFF2196F3)
 val Green = Color(0xFF4CAF50)
