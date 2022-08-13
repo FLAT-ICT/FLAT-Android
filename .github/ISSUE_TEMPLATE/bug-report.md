@@ -2,7 +2,7 @@
 name: Bug Report
 about: 確認したバグとその改善策
 title: ''
-labels: bug
+labels: Android, bug
 assignees: ''
 
 ---
