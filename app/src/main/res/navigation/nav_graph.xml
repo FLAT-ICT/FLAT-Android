@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountRegistrationFragment"
-        android:name="com.websarva.wings.android.flat.view.AccountRegistrationFragment"
+        android:name="com.websarva.wings.android.flat.ui.startup.accountRegistration.AccountRegistrationFragment"
         android:label="fragment_account_registration"
         tools:layout="@layout/fragment_account_registration" >
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/startupFragment"
-        android:name="com.websarva.wings.android.flat.view.StartupFragment"
+        android:name="com.websarva.wings.android.flat.ui.startup.StartupFragment"
         android:label="StartupFragment"
         tools:layout="@layout/fragment_startup" >
         <action
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.websarva.wings.android.flat.view.LoginFragment"
+        android:name="com.websarva.wings.android.flat.ui.startup.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action

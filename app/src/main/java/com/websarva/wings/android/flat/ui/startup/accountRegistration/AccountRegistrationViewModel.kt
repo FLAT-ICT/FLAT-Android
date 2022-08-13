@@ -1,10 +1,9 @@
-package com.websarva.wings.android.flat.viewmodel
+package com.websarva.wings.android.flat.ui.startup.accountRegistration
 
 import android.util.Log
 import androidx.lifecycle.*
 import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication
-import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.model.User
@@ -112,7 +111,7 @@ class AccountRegistrationViewModel : ViewModel() {
                 insertUserData(user)
             }
             //TODO: アプリケーションクラスに共有変数として持たせるので本当に良いのか吟味する
-            myId = roomRepository.getUserData().myId
+//            myId = roomRepository.getUserData()!!.myId
             _registerOk.postValue(true)
         }
     }

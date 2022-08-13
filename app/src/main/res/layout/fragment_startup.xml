@@ -6,13 +6,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.websarva.wings.android.flat.viewmodel.StartupViewModel" />
+            type="com.websarva.wings.android.flat.startup.StartupViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.StartupFragment">
+        tools:context=".ui.startup.StartupFragment">
 
         <TextView
             android:id="@+id/tv_app_name"

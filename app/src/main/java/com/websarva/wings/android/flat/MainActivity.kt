@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    private val roomRepository = FLATApplication.userRoomRepository
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +95,13 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         val serviceIntent = Intent(this, BeaconDetectionService::class.java)
         startForegroundService(serviceIntent)
+
+
+
+//        val userId = roomRepository.getUserIdLiveData().value
+
+//        FLATApplication.myId = roomRepository.getUserIdLiveData().value ?: 0
+//        Log.d("userId", "${FLATApplication.myId}")
 
         // 全体の画面遷移を制御
         val navHostFragment =

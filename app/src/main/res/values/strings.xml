@@ -87,5 +87,7 @@
     <string name="free">今暇</string>
     <string name="busy">忙しい</string>
     <string name="not_at_school">学校にいない</string>
+    <string name="title_activity_startup">StartupActivity</string>
+    <string name="title_activity_main2">MainActivity2</string>
 
 </resources>

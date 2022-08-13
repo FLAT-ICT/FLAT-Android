@@ -1,12 +1,13 @@
 package com.websarva.wings.android.flat.repository
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import com.websarva.wings.android.flat.model.User
 import com.websarva.wings.android.flat.model.UserDao
 
 class UserRoomRepository(private val dao: UserDao) {
 
-    suspend fun getUserData(): User {
+    suspend fun getUserData(): User? {
         return dao.getUserData()
     }
 
@@ -28,5 +29,9 @@ class UserRoomRepository(private val dao: UserDao) {
 
     suspend fun countData(): Int {
         return dao.countData()
+    }
+
+    fun getUserIdLiveData(): LiveData<Int?> {
+        return dao.getUserIdLiveData()
     }
 }

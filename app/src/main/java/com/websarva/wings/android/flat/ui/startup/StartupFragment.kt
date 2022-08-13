@@ -1,4 +1,4 @@
-package com.websarva.wings.android.flat.view
+package com.websarva.wings.android.flat.ui.startup
 
 import android.os.Bundle
 import android.util.Log
@@ -10,13 +10,20 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.databinding.FragmentStartupBinding
-import com.websarva.wings.android.flat.viewmodel.StartupViewModel
+import com.websarva.wings.android.flat.view.setOnSafeClickListener
 
 class StartupFragment : Fragment() {
 
     private val viewModel: StartupViewModel by viewModels()
     private var _binding: FragmentStartupBinding? = null
     private val binding get() = _binding!!
+    private var userId: Int? = null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        userId = MainActivity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,10 +38,18 @@ class StartupFragment : Fragment() {
 
         // Login時にmyId設定，FriendListFragmentに遷移させる
         // Logout処理時に0にする．IDはサーバーの実装的に1スタート．実装が微妙だと思ったら書き換える
-        if (FLATApplication.myId != 0) {
-            val action = StartupFragmentDirections.actionStartupFragmentToFriendListFragment2()
-            view.findNavController().navigate(action)
-        }
+//        if (FLATApplication.myId != 0) {
+//            val action = StartupFragmentDirections.actionStartupFragmentToFriendListFragment2()
+//            view.findNavController().navigate(action)
+//        }
+        Log.d("userId FLATApp", "${FLATApplication.myId}")
+//        Log.d("userId", "$userId")
+//        if (userId != null && userId !=0){
+//            val action = StartupFragmentDirections.actionStartupFragmentToFriendListFragment2()
+//            view.findNavController().navigate(action)
+//        }
+
+        Log.d("userId", "${viewModel.getUserId()}")
 
         binding.btLogin.setOnSafeClickListener {
             val action = StartupFragmentDirections.actionStartupFragmentToLoginFragment()
