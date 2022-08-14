@@ -30,13 +30,14 @@ onSurface = Color.Black,
 @Immutable
 data class FLATColors(
     val primary: Color,
-    val primaryVariant: Color
+    val primaryVariant: Color,
+
 )
 
 val LocalFLATColors = staticCompositionLocalOf {
     FLATColors(
         primary = PrimarySolid,
-        primaryVariant = PrimaryPale
+        primaryVariant = PrimaryPale,
     )
 }
 

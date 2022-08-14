@@ -4,9 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.websarva.wings.android.flat.startup.StartupViewModel" />
+            type="com.websarva.wings.android.flat.ui.startup.StartupViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

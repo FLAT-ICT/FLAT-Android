@@ -31,7 +31,7 @@ class UserRoomRepository(private val dao: UserDao) {
         return dao.countData()
     }
 
-    fun getUserIdLiveData(): LiveData<Int?> {
-        return dao.getUserIdLiveData()
-    }
+//    fun getUserIdLiveData(): LiveData<Int?> {
+//        return dao.getUserIdLiveData()
+//    }
 }

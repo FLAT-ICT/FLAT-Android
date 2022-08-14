@@ -65,14 +65,29 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "androidx.compose.ui:ui:1.2.1"
-    implementation "androidx.compose.material:material:1.2.1"
-    implementation "androidx.compose.ui:ui-tooling-preview:1.2.1"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.activity:activity-compose:1.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.2.1"
-    debugImplementation "androidx.compose.ui:ui-tooling:1.2.1"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:1.2.1"
+
+    // Compose
+    def compose_version = '1.2.1'
+    implementation("androidx.compose.ui:ui:$compose_version")
+    // Tooling support (Previews, etc.)
+    implementation("androidx.compose.ui:ui-tooling:$compose_version")
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    implementation("androidx.compose.foundation:foundation:$compose_version")
+    // Material Design
+    implementation("androidx.compose.material:material:$compose_version")
+    // Material design icons
+    implementation("androidx.compose.material:material-icons-core:$compose_version")
+    implementation("androidx.compose.material:material-icons-extended:$compose_version")
+    // Integration with observables
+    implementation("androidx.compose.runtime:runtime-livedata:$compose_version")
+    implementation("androidx.compose.runtime:runtime-rxjava2:$compose_version")
+
+    // UI Tests
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
+    
     // Navigation
     def nav_version = '2.3.5'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -108,12 +123,12 @@ dependencies {
     def permissionsDispatcher_version = "4.8.0"
     implementation 'org.altbeacon:android-beacon-library:2+'
     implementation "org.permissionsdispatcher:permissionsdispatcher:$permissionsDispatcher_version"
-    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:$permissionsDispatcher_version"
+    annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:$permissionsDispatcher_version"
 
     // room
     def room_version = '2.4.3'
     implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

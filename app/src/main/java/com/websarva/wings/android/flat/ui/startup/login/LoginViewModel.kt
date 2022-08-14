@@ -125,7 +125,7 @@ class LoginViewModel : ViewModel() {
     private suspend fun insertUserData(user: User) {
         roomRepository.insert(user)
         Log.d("userId", "${roomRepository.getUserData()}")
-        Log.d("userId liveData", "${roomRepository.getUserIdLiveData().value}")
+//        Log.d("userId liveData", "${roomRepository.getUserIdLiveData().value}")
     }
 
     private suspend fun deleteUserData() {

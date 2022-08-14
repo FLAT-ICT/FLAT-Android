@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.websarva.wings.android.flat">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -26,12 +25,7 @@
         android:theme="@style/Theme.FLAT"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MainActivity2"
-            android:exported="false"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/Theme.FLAT" />
-        <activity
-            android:name=".StartupActivity"
+            android:name=".ui.startup.StartupActivity"
             android:exported="false"
             android:label="@string/title_activity_startup"
             android:theme="@style/Theme.FLAT" />
