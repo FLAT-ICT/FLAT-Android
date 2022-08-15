@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -20,34 +21,42 @@ class StartupFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentStartupBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // Login時にmyId設定，FriendListFragmentに遷移させる
-        // Logout処理時に0にする．IDはサーバーの実装的に1スタート．実装が微妙だと思ったら書き換える
-        if (FLATApplication.myId != 0) {
-            val action = StartupFragmentDirections.actionStartupFragmentToFriendListFragment2()
-            view.findNavController().navigate(action)
-        }
-
-        binding.btLogin.setOnSafeClickListener {
-            val action = StartupFragmentDirections.actionStartupFragmentToLoginFragment()
-            view.findNavController().navigate(action)
-        }
-
-        binding.btNewAccountRegistration.setOnSafeClickListener {
-            val action = StartupFragmentDirections.actionStartupFragmentToAccountRegistrationFragment()
-            view.findNavController().navigate(action)
+    ): View = ComposeView(inflater.context).apply {
+        setContent {
+            StartupScreen(/*navController = findNavController()*/)
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+//    {
+//        _binding = FragmentStartupBinding.inflate(inflater, container, false).apply {
+////            composeView.setContent{}
+//        }
+//        return binding.root
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        // Login時にmyId設定，FriendListFragmentに遷移させる
+//        // Logout処理時に0にする．IDはサーバーの実装的に1スタート．実装が微妙だと思ったら書き換える
+//        if (FLATApplication.myId != 0) {
+//            val action = StartupFragmentDirections.actionStartupFragmentToFriendListFragment2()
+//            view.findNavController().navigate(action)
+//        }
+//
+//        binding.btLogin.setOnSafeClickListener {
+//            val action = StartupFragmentDirections.actionStartupFragmentToLoginFragment()
+//            view.findNavController().navigate(action)
+//        }
+//
+//        binding.btNewAccountRegistration.setOnSafeClickListener {
+//            val action = StartupFragmentDirections.actionStartupFragmentToAccountRegistrationFragment()
+//            view.findNavController().navigate(action)
+//        }
+//    }
+//
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 }
+
