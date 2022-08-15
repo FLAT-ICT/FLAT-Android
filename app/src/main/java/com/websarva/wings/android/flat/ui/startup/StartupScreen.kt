@@ -1,18 +1,15 @@
 package com.websarva.wings.android.flat.ui.startup
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.ButtonDefaults.textButtonColors
+import androidx.compose.material.Divider
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.ui.startup.components.LoginAndSignUpButtons
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 
@@ -20,7 +17,16 @@ import com.websarva.wings.android.flat.ui.theme.FLATTheme
 fun StartupScreen(
     onNavigate: (Int) -> Unit
 /*navController: NavController*/
-){
+) {
+//    val navController = rememberNavController()
+//    NavHost(navController = navController, startDestination = "startup") {
+//        composable("startup") {
+//            StartupScreen(onNavigate)
+//        }
+//        composable("login") {
+//            LoginScreen()
+//        }
+//    }
     FLATTheme {
         Surface() {
             Column(modifier = Modifier.fillMaxSize()) {
@@ -33,13 +39,15 @@ fun StartupScreen(
                     textAlign = TextAlign.Center,
                 )
                 Divider(
-                    color=FLATTheme.colors.primary,
+                    color = FLATTheme.colors.primary,
                     thickness = 4.dp,
-                    modifier = Modifier.padding(start = 70.dp, end = 70.dp))
+                    modifier = Modifier.padding(start = 70.dp, end = 70.dp)
+                )
                 Spacer(Modifier.weight(1f))
                 LoginAndSignUpButtons(
                     onNavigate = onNavigate
-                /*navController*/)
+                    /*navController*/
+                )
                 Spacer(Modifier.padding(vertical = 16.dp))
             }
         }
