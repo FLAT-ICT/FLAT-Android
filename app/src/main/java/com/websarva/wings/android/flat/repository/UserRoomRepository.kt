@@ -6,7 +6,7 @@ import com.websarva.wings.android.flat.model.UserDao
 
 class UserRoomRepository(private val dao: UserDao) {
 
-    suspend fun getUserData(): User {
+    suspend fun getUserData(): User ?{
         return dao.getUserData()
     }
 

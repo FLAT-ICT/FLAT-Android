@@ -112,7 +112,7 @@ class LoginViewModel : ViewModel() {
                 insertUserData(user)
             }
             //TODO: アプリケーションクラスに共有変数として持たせるので本当に良いのか吟味する
-            FLATApplication.myId = roomRepository.getUserData().myId
+//            FLATApplication.myId = roomRepository.getUserData().myId
             _roomChanged.postValue(true)
         }
     }

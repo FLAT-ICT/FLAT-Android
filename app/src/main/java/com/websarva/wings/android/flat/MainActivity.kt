@@ -29,8 +29,11 @@ import android.content.IntentFilter
 
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.view.ViewTreeObserver
+import androidx.activity.viewModels
 import androidx.room.Room
 import com.websarva.wings.android.flat.model.UserRoomDatabase
+import com.websarva.wings.android.flat.ui.startup.StartupViewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -93,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         val serviceIntent = Intent(this, BeaconDetectionService::class.java)
         startForegroundService(serviceIntent)
+
 
         // 全体の画面遷移を制御
         val navHostFragment =
