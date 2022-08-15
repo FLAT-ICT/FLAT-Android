@@ -23,7 +23,9 @@ class StartupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = ComposeView(inflater.context).apply {
         setContent {
-            StartupScreen(/*navController = findNavController()*/)
+            StartupScreen(
+                onNavigate = {dest -> findNavController().navigate(dest)},
+            /*navController = findNavController()*/)
         }
     }
 //    {
