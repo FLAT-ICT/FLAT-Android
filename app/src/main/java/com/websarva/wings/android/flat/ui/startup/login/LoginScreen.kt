@@ -1,8 +1,7 @@
 package com.websarva.wings.android.flat.ui.startup.login
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -15,10 +14,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 
@@ -28,15 +29,21 @@ fun LoginScreen(onNavigate: (Int) -> Unit) {
         Surface() {
             Column(modifier = Modifier.fillMaxSize()) {
                 // Text: ログイン画面 // これ多分別のテキスト
-                Text(text = "ログイン")
+                Spacer(modifier = Modifier.padding(top = 25.dp))
+                Text(text = "ログイン", Modifier.padding(start = 24.dp))
                 // CustomTextField: ユーザー名
+                Spacer(modifier = Modifier.padding(top = 48.dp))
                 TextFieldWithErrorState()
                 // CustomTextField: パスワード
+                Spacer(modifier = Modifier.padding(top = 18.dp))
                 PasswordTextField()
                 // Button: ログイン
+                Spacer(modifier = Modifier.padding(top = 48.dp))
                 ConfirmButton()
                 // Text: アカウントを新規登録する
+                Spacer(modifier = Modifier.weight(1f))
                 ToSignUpText(onNavigate)
+                Spacer(modifier = Modifier.padding(top = 32.dp))
             }
         }
     }
@@ -61,10 +68,20 @@ fun TextFieldWithErrorState() {
         label = { Text(if (isError) "UserName*" else "UserName") },
         isError = isError,
         keyboardActions = KeyboardActions { validate(text) },
-        modifier = Modifier.semantics {
-            // Provide localized description of the error
-            if (isError) error("Email format is invalid.")
-        }
+        modifier = Modifier
+//            .semantics {
+//                // Provide localized description of the error
+//                if (isError) error("Email format is invalid.")
+//            }
+            .fillMaxWidth()
+            .padding(start = 24.dp, end = 24.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = if (isError) Color.Red else Color.Black,
+            backgroundColor = Color.Transparent,
+            focusedIndicatorColor = FLATTheme.colors.primary,
+            focusedLabelColor = FLATTheme.colors.primary,
+            cursorColor = FLATTheme.colors.primary,
+        )
     )
 }
 
@@ -89,14 +106,37 @@ fun PasswordTextField() {
                 val description = if (passwordHidden) "Show password" else "Hide password"
                 Icon(imageVector = visibilityIcon, contentDescription = description)
             }
-        }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 24.dp, end = 24.dp
+            ),
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = Color.Black,
+            backgroundColor = Color.Transparent,
+            focusedIndicatorColor = FLATTheme.colors.primary,
+            focusedLabelColor = FLATTheme.colors.primary,
+            cursorColor = FLATTheme.colors.primary,
+        )
     )
 }
 
 @Composable
 fun ConfirmButton() {
     var isConfirmed by rememberSaveable { mutableStateOf(false) }
-    Button(onClick = { isConfirmed = true }) {
+    Button(
+        onClick = { isConfirmed = true },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 24.dp, end = 24.dp
+            ),
+        colors = ButtonDefaults.textButtonColors(
+            backgroundColor = FLATTheme.colors.primary,
+            contentColor = Color.White
+        )
+    ) {
         Text("Confirm")
     }
 }
@@ -105,7 +145,10 @@ fun ConfirmButton() {
 fun ToSignUpText(onNavigate: (Int) -> Unit) {
     Text(
         "アカウントを新規登録する",
-        modifier = Modifier.clickable(onClick = { onNavigate(R.id.accountRegistrationFragment) })
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .clickable(onClick = { onNavigate(R.id.accountRegistrationFragment) })
+            .fillMaxWidth(),
     )
 }
 
