@@ -29,8 +29,14 @@ import android.content.IntentFilter
 
 import android.content.BroadcastReceiver
 import android.content.Context
+import androidx.activity.compose.setContent
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.websarva.wings.android.flat.model.UserRoomDatabase
+import com.websarva.wings.android.flat.ui.startup.StartupScreen
+import com.websarva.wings.android.flat.ui.startup.accountRegistration.AccountRegistrationScreen
 
 
 class MainActivity : AppCompatActivity() {
@@ -113,7 +119,19 @@ class MainActivity : AppCompatActivity() {
         // Toolbarに戻るボタンを表示し、グラフを渡して遷移を管理する
         setupActionBarWithNavController(navController, AppBarConfiguration(navController.graph))
 
-        // DestinationによってBottomNavigationを消したり、Toolbarを書き換えたりする
+
+
+//        setContent {
+//            val navController = rememberNavController()
+//            NavHost(navController = navController, startDestination = "startup"){
+//                composable("startup"){ StartupScreen(navController) }
+////                composable("login"){ LoginScreen(navController)}
+//                composable("register"){ AccountRegistrationScreen(navController) }
+//            }
+////            StartupScreen(navController)
+//        }
+
+//         DestinationによってBottomNavigationを消したり、Toolbarを書き換えたりする
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.addFriendFragment) {
                 findViewById<Toolbar>(R.id.toolbar).also {

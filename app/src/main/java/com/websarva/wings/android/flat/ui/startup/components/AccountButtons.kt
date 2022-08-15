@@ -11,10 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 
 @Composable
-fun Buttons() {
+fun Buttons(navController: NavController) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
@@ -22,7 +23,7 @@ fun Buttons() {
         horizontalArrangement = Arrangement.SpaceBetween
             ){
         LoginButton()
-        SignUpButton()
+        SignUpButton(navController)
     }
 
 }
@@ -47,9 +48,9 @@ fun LoginButton() {
 
 
 @Composable
-fun SignUpButton() {
+fun SignUpButton(navController: NavController) {
     Button(
-        onClick = { /*TODO*/ },
+        onClick = { navController.navigate("signup") },
         shape = RoundedCornerShape(20.dp),
         colors = textButtonColors(
                 backgroundColor = FLATTheme.colors.primary,
@@ -73,8 +74,8 @@ fun SignUpButton() {
 //
 //    }
 //}
-@Preview
-@Composable
-fun PreviewButtons() {
-    Buttons()
-}
+//@Preview
+//@Composable
+//fun PreviewButtons() {
+//    Buttons()
+//}

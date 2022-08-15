@@ -11,11 +11,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.websarva.wings.android.flat.ui.startup.components.Buttons
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 
 @Composable
-fun StartupScreen(){
+fun StartupScreen(navController: NavController){
     FLATTheme {
         Surface() {
             Column(modifier = Modifier.fillMaxSize()) {
@@ -32,7 +34,7 @@ fun StartupScreen(){
                     thickness = 4.dp,
                     modifier = Modifier.padding(start = 70.dp, end = 70.dp))
                 Spacer(Modifier.weight(1f))
-                Buttons()
+                Buttons(navController)
                 Spacer(Modifier.padding(vertical = 16.dp))
             }
         }
@@ -42,5 +44,5 @@ fun StartupScreen(){
 @Preview
 @Composable
 fun DefaultPreview(){
-    StartupScreen()
+    StartupScreen(navController = rememberNavController())
 }

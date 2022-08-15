@@ -23,9 +23,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun AccountRegistrationScreen() {
+fun AccountRegistrationScreen(navController: NavController) {
     var name by remember { mutableStateOf("") }
     var pass1 by remember { mutableStateOf("") }
     var pass2 by remember { mutableStateOf("") }
@@ -98,5 +100,6 @@ fun RegisterButton(name: String, pass1: String, pass2: String) {
 @Preview
 @Composable
 fun AccountRegistrationScreenPreview() {
-    AccountRegistrationScreen()
+
+    AccountRegistrationScreen(navController = rememberNavController())
 }
