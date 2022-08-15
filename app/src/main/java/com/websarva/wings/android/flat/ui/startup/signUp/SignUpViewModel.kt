@@ -1,4 +1,4 @@
-package com.websarva.wings.android.flat.viewmodel
+package com.websarva.wings.android.flat.ui.startup.signUp
 
 import android.util.Log
 import androidx.lifecycle.*

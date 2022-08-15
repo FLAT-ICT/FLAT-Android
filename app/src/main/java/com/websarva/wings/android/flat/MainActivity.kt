@@ -117,7 +117,8 @@ class MainActivity : AppCompatActivity() {
                 findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.GONE
                 findViewById<Toolbar>(R.id.toolbar).also {
                     it.title = getString(R.string.change_name)
-                    it.navigationIcon = AppCompatResources.getDrawable(this, R.drawable.ic_baseline_arrow_back_24)
+                    it.navigationIcon =
+                        AppCompatResources.getDrawable(this, R.drawable.ic_baseline_arrow_back_24)
                     it.visibility = View.VISIBLE
                 }
             } else if (destination.id == R.id.startupFragment || destination.id == R.id.accountRegistrationFragment || destination.id == R.id.loginFragment) {

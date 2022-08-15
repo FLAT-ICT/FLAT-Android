@@ -1,7 +1,6 @@
-package com.websarva.wings.android.flat.view
+package com.websarva.wings.android.flat.ui.startup
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.databinding.FragmentStartupBinding
-import com.websarva.wings.android.flat.viewmodel.StartupViewModel
+import com.websarva.wings.android.flat.view.setOnSafeClickListener
 
 class StartupFragment : Fragment() {
 
