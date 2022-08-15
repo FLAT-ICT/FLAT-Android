@@ -1,5 +1,6 @@
 package com.websarva.wings.android.flat.model
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao

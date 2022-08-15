@@ -1,6 +1,7 @@
 package com.websarva.wings.android.flat.repository
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import com.websarva.wings.android.flat.model.User
 import com.websarva.wings.android.flat.model.UserDao
 

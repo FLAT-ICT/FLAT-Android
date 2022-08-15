@@ -49,10 +49,13 @@
             android:id="@+id/action_startupFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_startupFragment_to_friendListFragment2"
+            android:id="@+id/action_startupFragment_to_friendListFragment"
             app:destination="@id/friendListFragment"
             app:popUpTo="@id/startupFragment"
             app:popUpToInclusive="true" />
+<!--        <action-->
+<!--            android:id="@+id/action_startupFragment_to_friendListFragment"-->
+<!--            app:destination="@id/friendListFragment" />-->
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
