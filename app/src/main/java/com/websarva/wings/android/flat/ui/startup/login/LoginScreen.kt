@@ -19,11 +19,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onNavigate: (Int) -> Unit) {
     FLATTheme {
         Surface() {
             Column(modifier = Modifier.fillMaxSize()) {
@@ -36,7 +36,7 @@ fun LoginScreen() {
                 // Button: ログイン
                 ConfirmButton()
                 // Text: アカウントを新規登録する
-                ToSignUpText()
+                ToSignUpText(onNavigate)
             }
         }
     }
@@ -102,12 +102,15 @@ fun ConfirmButton() {
 }
 
 @Composable
-fun ToSignUpText() {
-    Text("アカウントを新規登録する", modifier = Modifier.clickable(onClick = { /* TODO */ }))
+fun ToSignUpText(onNavigate: (Int) -> Unit) {
+    Text(
+        "アカウントを新規登録する",
+        modifier = Modifier.clickable(onClick = { onNavigate(R.id.accountRegistrationFragment) })
+    )
 }
 
-@Preview
-@Composable
-fun PreviewLoginScreen() {
-    LoginScreen()
-}
+//@Preview
+//@Composable
+//fun PreviewLoginScreen() {
+//    LoginScreen()
+//}

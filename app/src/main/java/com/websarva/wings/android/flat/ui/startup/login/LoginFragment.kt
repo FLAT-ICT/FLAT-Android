@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import com.websarva.wings.android.flat.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
@@ -20,7 +21,9 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = ComposeView(inflater.context).apply {
         setContent {
-            LoginScreen()
+            LoginScreen(
+                onNavigate = { dest -> findNavController().navigate(dest) }
+            )
         }
     }
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

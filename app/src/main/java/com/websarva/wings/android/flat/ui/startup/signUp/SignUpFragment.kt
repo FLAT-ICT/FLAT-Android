@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.websarva.wings.android.flat.databinding.FragmentAccountRegistrationBinding
 
 class SignUpFragment : Fragment() {
@@ -19,7 +20,9 @@ class SignUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = ComposeView(inflater.context).apply {
         setContent {
-            SignUpScreen()
+            SignUpScreen(
+                onNavigate = { dest -> findNavController().navigate(dest) }
+            )
         }
     }
 
