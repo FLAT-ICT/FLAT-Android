@@ -1,25 +1,17 @@
 package com.websarva.wings.android.flat.ui.startup.signUp
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.websarva.wings.android.flat.R
+import com.websarva.wings.android.flat.ui.startup.components.ConfirmButton
+import com.websarva.wings.android.flat.ui.startup.components.PasswordTextField
+import com.websarva.wings.android.flat.ui.startup.components.TextFieldWithErrorState
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 
 @Composable
@@ -28,84 +20,37 @@ fun SignUpScreen(onNavigate: (Int) -> Unit) {
         Surface() {
             Column(modifier = Modifier.fillMaxSize()) {
                 // Text: アカウントを登録しましょう
-                Text(
-                    text = "アカウントを登録しましょう"
-                )
-                // CustomTextBox: ユーザー名
+                Spacer(modifier = Modifier.padding(top = 25.dp))
+                Text(text = "アカウントを登録しましょう", Modifier.padding(start = 24.dp))
+                // CustomTextField: ユーザー名
+                Spacer(modifier = Modifier.padding(top = 48.dp))
                 TextFieldWithErrorState()
-                // CustomTextBox: パスワード
+                // CustomTextField: パスワード
+                Spacer(modifier = Modifier.padding(top = 18.dp))
                 PasswordTextField()
-                // CustomTextBox: パスワード（確認）
+                // CustomTextField: パスワード (確認)
+                Spacer(modifier = Modifier.padding(top = 18.dp))
                 PasswordTextField()
-                // Button: 登録する
+                // Button: 登録
+                Spacer(modifier = Modifier.padding(top = 48.dp))
                 ConfirmButton()
+                // Text: アカウントを新規登録する
+                Spacer(modifier = Modifier.weight(1f))
                 // Text: アカウントを持っている人はログインする
                 ToLoginText(onNavigate)
+                Spacer(modifier = Modifier.padding(top = 32.dp))
             }
         }
-    }
-}
-
-@Composable
-fun TextFieldWithErrorState() {
-    var text by rememberSaveable { mutableStateOf("") }
-    var isError by rememberSaveable { mutableStateOf(false) }
-
-    fun validate(text: String) {
-        isError = text.count() < 5
-    }
-
-    TextField(
-        value = text,
-        onValueChange = {
-            text = it
-            isError = false
-        },
-        singleLine = true,
-        label = { Text(if (isError) "UserName*" else "UserName") },
-        isError = isError,
-        keyboardActions = KeyboardActions { validate(text) },
-        modifier = Modifier.semantics {
-            // Provide localized description of the error
-            if (isError) error("Email format is invalid.")
-        }
-    )
-}
-
-
-@Composable
-fun PasswordTextField() {
-    var password by rememberSaveable { mutableStateOf("") }
-    var passwordHidden by rememberSaveable { mutableStateOf(true) }
-    TextField(
-        value = password,
-        onValueChange = { password = it },
-        singleLine = true,
-        label = { Text("Enter password") },
-        visualTransformation =
-        if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        trailingIcon = {
-            IconButton(onClick = { passwordHidden = !passwordHidden }) {
-                val visibilityIcon =
-                    if (passwordHidden) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                // Please provide localized description for accessibility services
-                val description = if (passwordHidden) "Show password" else "Hide password"
-                Icon(imageVector = visibilityIcon, contentDescription = description)
-            }
-        }
-    )
-}
-
-@Composable
-fun ConfirmButton() {
-    var isConfirmed by rememberSaveable { mutableStateOf(false) }
-    Button(onClick = { isConfirmed = true }) {
-        Text("Confirm")
     }
 }
 
 @Composable
 fun ToLoginText(onNavigate: (Int) -> Unit) {
-    Text("ログインする", modifier = Modifier.clickable(onClick = { onNavigate(R.id.loginFragment) }))
+    Text(
+        "ログインする",
+        modifier = Modifier
+            .clickable(onClick = { onNavigate(R.id.accountRegistrationFragment) })
+            .fillMaxWidth(),
+        textAlign = TextAlign.Center
+    )
 }
