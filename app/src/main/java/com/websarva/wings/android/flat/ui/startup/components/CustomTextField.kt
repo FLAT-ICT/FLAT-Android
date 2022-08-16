@@ -22,22 +22,22 @@ import androidx.compose.ui.unit.dp
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 
 @Composable
-fun TextFieldWithErrorState() {
-    var text by rememberSaveable { mutableStateOf("") }
-    var isError by rememberSaveable { mutableStateOf(false) }
-
+fun NameTextField(
+    text: String,
+    isError: Boolean,
+    onErrorChange: (Boolean) -> Unit,
+    onValueChange: (String) -> Unit
+) {
     fun validate(text: String) {
-        isError = text.count() < 5
+        onErrorChange(text.isEmpty() || text.length >= 10)
     }
+
 
     TextField(
         value = text,
-        onValueChange = {
-            text = it
-            isError = false
-        },
+        onValueChange = onValueChange,
         singleLine = true,
-        label = { Text(if (isError) "UserName*" else "UserName") },
+        label = { Text(text = if (isError) "UserName*" else "UserName") },
         isError = isError,
         keyboardActions = KeyboardActions { validate(text) },
         modifier = Modifier
@@ -55,12 +55,17 @@ fun TextFieldWithErrorState() {
 
 
 @Composable
-fun PasswordTextField() {
-    var password by rememberSaveable { mutableStateOf("") }
+fun PasswordTextField(
+    password: String,
+    isError: Boolean,
+    onValueChange: (String) -> Unit,
+    onErrorChange: (Boolean) -> Unit
+) {
+//    var password by rememberSaveable { mutableStateOf("") }
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
     TextField(
         value = password,
-        onValueChange = { password = it },
+        onValueChange = onValueChange,
         singleLine = true,
         label = { Text("Enter password") },
         visualTransformation =

@@ -63,7 +63,7 @@ fun SignUpButton(onNavigate: (Int) -> Unit) {
 
 
 @Composable
-fun ConfirmButton() {
+fun ConfirmButton(flags: List<Boolean>) {
     var isConfirmed by rememberSaveable { mutableStateOf(false) }
     Button(
         onClick = { isConfirmed = true },
@@ -75,7 +75,8 @@ fun ConfirmButton() {
         colors = ButtonDefaults.textButtonColors(
             backgroundColor = FLATTheme.colors.primary,
             contentColor = Color.White
-        )
+        ),
+        enabled = flags.all { it }
     ) {
         Text("Confirm")
     }
