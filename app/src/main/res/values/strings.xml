@@ -87,5 +87,12 @@
     <string name="free">今暇</string>
     <string name="busy">忙しい</string>
     <string name="not_at_school">学校にいない</string>
+    <string name="name_too_long">名前が長すぎます</string>
+    <string name="name_empty">名前を入力してください</string>
+    <string name="success">ok(tmp)</string>
+    <string name="name">tmp</string>
+    <string name="credit_card_number">tmp</string>
+    <string name="password_too_short">パスワードは8文字以上で入力してください</string>
+    <string name="password_too_long">パスワードは255文字以下で入力してください</string>
 
 </resources>
