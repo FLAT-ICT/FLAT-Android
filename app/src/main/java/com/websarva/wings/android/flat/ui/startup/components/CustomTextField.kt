@@ -61,7 +61,11 @@ fun PasswordTextField(
     onValueChange: (String) -> Unit,
     onErrorChange: (Boolean) -> Unit
 ) {
-//    var password by rememberSaveable { mutableStateOf("") }
+
+    fun validate(text: String) {
+        onErrorChange(text.length !in 8..255)
+    }
+
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
     TextField(
         value = password,
@@ -71,6 +75,7 @@ fun PasswordTextField(
         visualTransformation =
         if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardActions = KeyboardActions { validate(password) },
         trailingIcon = {
             IconButton(onClick = { passwordHidden = !passwordHidden }) {
                 val visibilityIcon =
@@ -86,7 +91,7 @@ fun PasswordTextField(
                 start = 24.dp, end = 24.dp
             ),
         colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.Black,
+            textColor = if (isError) Color.Red else Color.Black,
             backgroundColor = Color.Transparent,
             focusedIndicatorColor = FLATTheme.colors.primary,
             focusedLabelColor = FLATTheme.colors.primary,

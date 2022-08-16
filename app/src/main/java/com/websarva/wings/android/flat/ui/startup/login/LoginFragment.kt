@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import com.websarva.wings.android.flat.databinding.FragmentLoginBinding
+
+//import com.websarva.wings.android.flat.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
-    private val viewModel: LoginViewModel by activityViewModels()
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var input: LoginViewModel.LoginInput
+//    private val viewModel: LoginViewModel by activityViewModels()
+//    private var _binding: FragmentLoginBinding? = null
+//    private val binding get() = _binding!!
+//    private lateinit var input: LoginViewModel.LoginInput
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
