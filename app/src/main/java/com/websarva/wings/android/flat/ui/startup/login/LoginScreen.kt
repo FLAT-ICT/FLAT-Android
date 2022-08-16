@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.websarva.wings.android.flat.R
+import com.websarva.wings.android.flat.ui.startup.components.NameTextField
 import com.websarva.wings.android.flat.ui.startup.inputValidations.*
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -71,25 +72,17 @@ fun InputValidationAutoScreen(viewModel: InputValidationAutoViewModel = hiltView
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CustomTextField(
-            modifier = Modifier
-                .focusRequester(nameFocusRequester)
-                .onFocusChanged { focusState ->
-                    viewModel.onTextFieldFocusChanged(
-                        key = FocusedTextFieldKey.NAME,
-                        isFocused = focusState.isFocused
-                    )
-                },
-            labelResId = R.string.name,
-            keyboardOptions = remember {
-                KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next
+        NameTextField(
+            nameFocusRequester = nameFocusRequester,
+            onFocusChanged = { focusState ->
+                viewModel.onTextFieldFocusChanged(
+                    key = FocusedTextFieldKey.NAME,
+                    isFocused = focusState.isFocused
                 )
             },
             inputWrapper = name,
             onValueChange = viewModel::onNameEntered,
-            onImeKeyAction = viewModel::onNameImeActionClick
+            onImeAction = viewModel::onNameImeActionClick
         )
         Spacer(Modifier.height(16.dp))
         CustomTextField(

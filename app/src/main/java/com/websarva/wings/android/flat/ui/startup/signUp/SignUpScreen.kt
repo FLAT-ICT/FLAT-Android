@@ -10,8 +10,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.ui.startup.components.ConfirmButton
-import com.websarva.wings.android.flat.ui.startup.components.NameTextField
-import com.websarva.wings.android.flat.ui.startup.components.PasswordTextField
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 
 @Composable
@@ -47,25 +45,25 @@ fun SignUpScreen(onNavigate: (Int) -> Unit) {
                 Text(text = "アカウントを登録しましょう", Modifier.padding(start = 24.dp))
                 // CustomTextField: ユーザー名
                 Spacer(modifier = Modifier.padding(top = 48.dp))
-                NameTextField(
-                    text = name,
-                    isError = isInvalidName,
-                    onValueChange = { name = it },
-                    onErrorChange = { isInvalidName = it })
-                // CustomTextField: パスワード
-                Spacer(modifier = Modifier.padding(top = 18.dp))
-                PasswordTextField(
-                    password = pass1,
-                    isError = isInvalidPass1,
-                    onValueChange = { pass1 = it },
-                    onErrorChange = { isInvalidPass1 = it })
-                // CustomTextField: パスワード (確認)
-                Spacer(modifier = Modifier.padding(top = 18.dp))
-                PasswordTextField(
-                    password = pass2,
-                    isError = isInvalidPass2,
-                    onValueChange = { pass2 = it },
-                    onErrorChange = { isInvalidPass2 = it })
+//                NameTextField(
+//                    text = name,
+//                    isError = isInvalidName,
+//                    onValueChange = { name = it },
+//                    onErrorChange = { isInvalidName = it })
+//                // CustomTextField: パスワード
+//                Spacer(modifier = Modifier.padding(top = 18.dp))
+//                PasswordTextField(
+//                    password = pass1,
+//                    isError = isInvalidPass1,
+//                    onValueChange = { pass1 = it },
+//                    onErrorChange = { isInvalidPass1 = it })
+//                // CustomTextField: パスワード (確認)
+//                Spacer(modifier = Modifier.padding(top = 18.dp))
+//                PasswordTextField(
+//                    password = pass2,
+//                    isError = isInvalidPass2,
+//                    onValueChange = { pass2 = it },
+//                    onErrorChange = { isInvalidPass2 = it })
                 // Button: 登録
                 Spacer(modifier = Modifier.padding(top = 48.dp))
                 ConfirmButton(
