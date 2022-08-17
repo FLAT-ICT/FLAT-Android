@@ -16,16 +16,27 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+const val NAME = "name"
+const val CREDIT_CARD_NUMBER = "ccNumber"
+const val PASSWORD = "password"
+
+class InputErrors(
+    val nameErrorId: Int?,
+    val cardErrorId: Int?
+)
+
 @HiltViewModel
 class InputValidationAutoViewModel @Inject constructor(
     private val handle: SavedStateHandle
 ) : ViewModel() {
 
     val name = handle.getStateFlow(NAME, InputWrapper())
-    val creditCardNumber = handle.getStateFlow(CREDIT_CARD_NUMBER, InputWrapper())
-    val areInputsValid = combine(name, creditCardNumber) { name, cardNumber ->
+
+    //    val creditCardNumber = handle.getStateFlow(CREDIT_CARD_NUMBER, InputWrapper())
+    val password = handle.getStateFlow(PASSWORD, InputWrapper())
+    val areInputsValid = combine(name, password) { name, password ->
         name.value.isNotEmpty() && name.errorId == null &&
-                cardNumber.value.isNotEmpty() && cardNumber.errorId == null
+                password.value.isNotEmpty() && password.errorId == null
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
     private var focusedTextField = handle["focusedTextField"] ?: FocusedTextFieldKey.NAME
         set(value) {
@@ -45,9 +56,14 @@ class InputValidationAutoViewModel @Inject constructor(
         handle[NAME] = name.value.copy(value = input, errorId = errorId)
     }
 
-    fun onCardNumberEntered(input: String) {
-        val errorId = InputValidator.getCardNumberErrorIdOrNull(input)
-        handle[CREDIT_CARD_NUMBER] = creditCardNumber.value.copy(value = input, errorId = errorId)
+//    fun onCardNumberEntered(input: String) {
+//        val errorId = InputValidator.getCardNumberErrorIdOrNull(input)
+//        handle[CREDIT_CARD_NUMBER] = creditCardNumber.value.copy(value = input, errorId = errorId)
+//    }
+
+    fun onPasswordEntered(input: String) {
+        val errorId = InputValidator.getPasswordErrorIdOrNull(input)
+        handle[PASSWORD] = password.value.copy(value = input, errorId = errorId)
     }
 
     fun onTextFieldFocusChanged(key: FocusedTextFieldKey, isFocused: Boolean) {
@@ -55,6 +71,12 @@ class InputValidationAutoViewModel @Inject constructor(
     }
 
     fun onNameImeActionClick() {
+        viewModelScope.launch(Dispatchers.Default) {
+            _events.send(ScreenEvent.MoveFocus())
+        }
+    }
+
+    fun onPasswordImeActionClick() {
         viewModelScope.launch(Dispatchers.Default) {
             _events.send(ScreenEvent.MoveFocus())
         }

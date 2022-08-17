@@ -3,8 +3,13 @@ package com.websarva.wings.android.flat.ui.startup.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.FocusState
@@ -12,6 +17,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.ui.startup.inputValidations.CustomTextField
@@ -21,7 +28,7 @@ import com.websarva.wings.android.flat.ui.startup.inputValidations.OnValueChange
 
 @Composable
 fun NameTextField(
-    nameFocusRequester: FocusRequester,
+    focusRequester: FocusRequester,
     onFocusChanged: (FocusState) -> Unit,
     inputWrapper: InputWrapper,
     onValueChange: OnValueChange,
@@ -29,52 +36,79 @@ fun NameTextField(
 ) {
     CustomTextField(
         modifier = Modifier
-            .focusRequester(nameFocusRequester)
+            .focusRequester(focusRequester)
             .onFocusChanged {
                 onFocusChanged(it)
-            },
-        labelResId = R.string.name,
+            }
+            .fillMaxWidth()
+            .padding(
+                start = 24.dp, end = 24.dp
+            ),
+        labelResId = R.string.input_nickname_for_login,
         keyboardOptions = remember {
             KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             )
         },
+        onValueChange = onValueChange,
+        onImeKeyAction = onImeAction,
+        inputWrapper = inputWrapper
+    )
+}
+
+@Composable
+fun PasswordTextField(
+    focusRequester: FocusRequester,
+    onFocusChanged: (FocusState) -> Unit,
+    inputWrapper: InputWrapper,
+    onValueChange: OnValueChange,
+    onImeAction: OnImeKeyAction
+) {
+    var passwordHidden by rememberSaveable { mutableStateOf(true) }
+    CustomTextField(
+        modifier = Modifier
+            .focusRequester(focusRequester)
+            .onFocusChanged {
+                onFocusChanged(it)
+            }
+            .fillMaxWidth()
+            .padding(
+                start = 24.dp, end = 24.dp
+            ),
+        labelResId = R.string.input_password_for_login,
+        keyboardOptions = remember {
+            KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Next
+            )
+        },
+        visualTransformation =
+        if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
+        trailingIcon = {
+            IconButton(onClick = { passwordHidden = !passwordHidden }) {
+                val visibilityIcon =
+                    if (passwordHidden) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                // Please provide localized description for accessibility services
+                val description = if (passwordHidden) "Show password" else "Hide password"
+                Icon(imageVector = visibilityIcon, contentDescription = description)
+            }
+        },
         inputWrapper = inputWrapper,
         onValueChange = onValueChange,
         onImeKeyAction = onImeAction
     )
 }
-//
-//CustomTextField(
-//modifier = Modifier
-//.focusRequester(nameFocusRequester)
-//.onFocusChanged { focusState ->
-//    viewModel.onTextFieldFocusChanged(
-//        key = FocusedTextFieldKey.NAME,
-//        isFocused = focusState.isFocused
-//    )
-//},
-//labelResId = R.string.name,
-//keyboardOptions = remember {
-//    KeyboardOptions(
-//        keyboardType = KeyboardType.Text,
-//        imeAction = ImeAction.Next
-//    )
-//},
-//inputWrapper = name,
-//onValueChange = viewModel::onNameEntered,
-//onImeKeyAction = viewModel::onNameImeActionClick
-//)
 
 @Composable
-fun PasswordTextField(
+fun PasswordRetypeTextField(
     nameFocusRequester: FocusRequester,
     onFocusChanged: (FocusState) -> Unit,
     inputWrapper: InputWrapper,
     onValueChange: OnValueChange,
     onImeAction: OnImeKeyAction
 ) {
+    var passwordHidden by rememberSaveable { mutableStateOf(true) }
     CustomTextField(
         modifier = Modifier
             .focusRequester(nameFocusRequester)
@@ -85,7 +119,8 @@ fun PasswordTextField(
             .padding(
                 start = 24.dp, end = 24.dp
             ),
-        
+
+        inputWrapper = inputWrapper,
         labelResId = R.string.name,
         keyboardOptions = remember {
             KeyboardOptions(
@@ -93,9 +128,17 @@ fun PasswordTextField(
                 imeAction = ImeAction.Next
             )
         },
-        inputWrapper = inputWrapper,
         onValueChange = onValueChange,
-        onImeKeyAction = onImeAction
+        onImeKeyAction = onImeAction,
+        trailingIcon = {
+            IconButton(onClick = { passwordHidden = !passwordHidden }) {
+                val visibilityIcon =
+                    if (passwordHidden) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                // Please provide localized description for accessibility services
+                val description = if (passwordHidden) "Show password" else "Hide password"
+                Icon(imageVector = visibilityIcon, contentDescription = description)
+            }
+        }
     )
 }
 

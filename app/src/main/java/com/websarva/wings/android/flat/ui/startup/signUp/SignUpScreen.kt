@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.websarva.wings.android.flat.R
-import com.websarva.wings.android.flat.ui.startup.components.ConfirmButton
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 
 @Composable
@@ -66,14 +65,14 @@ fun SignUpScreen(onNavigate: (Int) -> Unit) {
 //                    onErrorChange = { isInvalidPass2 = it })
                 // Button: 登録
                 Spacer(modifier = Modifier.padding(top = 48.dp))
-                ConfirmButton(
-                    flags = listOf(
-                        !isInvalidName,
-                        !isInvalidPass1,
-                        !isInvalidPass2,
-                        pass1 == pass2
-                    ),
-                )
+//                ConfirmButton(
+//                    flags = listOf(
+//                        !isInvalidName,
+//                        !isInvalidPass1,
+//                        !isInvalidPass2,
+//                        pass1 == pass2
+//                    ),
+//                )
                 // Text: アカウントを新規登録する
                 Spacer(modifier = Modifier.weight(1f))
                 // Text: アカウントを持っている人はログインする
@@ -89,7 +88,7 @@ fun ToLoginText(onNavigate: (Int) -> Unit) {
     Text(
         "ログインする",
         modifier = Modifier
-            .clickable(onClick = { onNavigate(R.id.accountRegistrationFragment) })
+            .clickable(onClick = { onNavigate(R.id.loginFragment) })
             .fillMaxWidth(),
         textAlign = TextAlign.Center
     )

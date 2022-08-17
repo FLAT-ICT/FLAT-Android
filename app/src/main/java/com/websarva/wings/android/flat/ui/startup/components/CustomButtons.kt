@@ -8,12 +8,9 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.ui.parts.MidiumRoundedButton
@@ -63,10 +60,9 @@ fun SignUpButton(onNavigate: (Int) -> Unit) {
 
 
 @Composable
-fun ConfirmButton(flags: List<Boolean>) {
-    var isConfirmed by rememberSaveable { mutableStateOf(false) }
+fun ConfirmButton(onCLick: () -> Unit, enabled: Boolean, labelResId: Int) {
     Button(
-        onClick = { isConfirmed = true },
+        onClick = onCLick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(
@@ -76,8 +72,8 @@ fun ConfirmButton(flags: List<Boolean>) {
             backgroundColor = FLATTheme.colors.primary,
             contentColor = Color.White
         ),
-        enabled = flags.all { it }
+        enabled = enabled
     ) {
-        Text("Confirm")
+        Text(stringResource(labelResId))
     }
 }

@@ -13,15 +13,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-const val NAME = "name"
-const val CREDIT_CARD_NUMBER = "ccNumber"
-
-class InputErrors(
-    val nameErrorId: Int?,
-    val cardErrorId: Int?
-)
-
-
 @HiltViewModel
 class FormValidationManualViewModel @Inject constructor(
     private val handle: SavedStateHandle

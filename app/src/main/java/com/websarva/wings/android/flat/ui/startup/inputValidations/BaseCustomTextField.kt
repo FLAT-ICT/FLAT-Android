@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -33,21 +33,26 @@ fun CustomTextField(
         VisualTransformation.None
     },
     onValueChange: (String) -> Unit,
-    onImeKeyAction: OnImeKeyAction
-
+    onImeKeyAction: OnImeKeyAction,
+    trailingIcon: @Composable() (() -> Unit)? = null,
 ) {
     val fieldValue = remember {
         mutableStateOf(TextFieldValue(inputWrapper.value, TextRange(inputWrapper.value.length)))
     }
     Column {
-        TextField(
+        Text(
+            modifier = modifier,
+            text = stringResource(labelResId),
+            style = MaterialTheme.typography.caption
+        )
+        OutlinedTextField(
             modifier = modifier,
             value = fieldValue.value,
             onValueChange = {
                 fieldValue.value = it
                 onValueChange(it.text)
             },
-            label = { Text(stringResource(labelResId)) },
+//            label = { Text(stringResource(labelResId)) },
             isError = inputWrapper.errorId != null,
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
@@ -60,7 +65,8 @@ fun CustomTextField(
                 focusedIndicatorColor = FLATTheme.colors.primary,
                 focusedLabelColor = FLATTheme.colors.primary,
                 cursorColor = FLATTheme.colors.primary,
-            )
+            ),
+            trailingIcon = trailingIcon,
         )
         if (inputWrapper.errorId != null) {
             Text(
