@@ -29,7 +29,7 @@ import com.websarva.wings.android.flat.ui.startup.inputValidations.toast
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun InputValidationAutoScreen(
+fun LoginScreen(
     viewModel: InputValidationAutoViewModel = hiltViewModel(),
     onNavigate: (Int) -> Unit
 ) {
@@ -73,18 +73,18 @@ fun InputValidationAutoScreen(
     }
 
     Surface() {
-
-
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.padding(top = 25.dp))
-            Text(text = "ログイン",
+            Text(
+                text = "ログイン",
                 Modifier
                     .fillMaxWidth()
-                    .padding(start = 24.dp))
+                    .padding(start = 24.dp)
+            )
             // CustomTextField: ユーザー名
             Spacer(modifier = Modifier.padding(top = 48.dp))
             NameTextField(
@@ -115,9 +115,6 @@ fun InputValidationAutoScreen(
             )
 
             Spacer(Modifier.height(32.dp))
-//            Button(onClick = viewModel::onContinueClick, enabled = areInputsValid) {
-//                Text(text = "Continue")
-//            }
             ConfirmButton(
                 onCLick = { /*TODO*/ },
                 enabled = areInputsValid,
