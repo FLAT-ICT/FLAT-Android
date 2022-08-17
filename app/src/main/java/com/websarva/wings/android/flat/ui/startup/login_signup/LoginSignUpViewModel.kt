@@ -1,10 +1,13 @@
-package com.websarva.wings.android.flat.ui.startup.inputValidations
+package com.websarva.wings.android.flat.ui.startup.login_signup
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.websarva.wings.android.flat.R
-
+import com.websarva.wings.android.flat.ui.startup.inputValidations.FocusedTextFieldKey
+import com.websarva.wings.android.flat.ui.startup.inputValidations.InputValidator
+import com.websarva.wings.android.flat.ui.startup.inputValidations.InputWrapper
+import com.websarva.wings.android.flat.ui.startup.inputValidations.ScreenEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -25,14 +28,21 @@ class InputErrors(
     val cardErrorId: Int?
 )
 
+data class LoginInput(
+    var name: String,
+    val password: String,
+    var isNameOk: Boolean,
+    var isPasswordOk: Boolean
+)
+
 @HiltViewModel
-class InputValidationAutoViewModel @Inject constructor(
+class LoginSignUpViewModel @Inject constructor(
     private val handle: SavedStateHandle
+//    @Assisted private val handle: SavedStateHandle
 ) : ViewModel() {
 
-    val name = handle.getStateFlow(NAME, InputWrapper())
 
-    //    val creditCardNumber = handle.getStateFlow(CREDIT_CARD_NUMBER, InputWrapper())
+    val name = handle.getStateFlow(NAME, InputWrapper())
     val password = handle.getStateFlow(PASSWORD, InputWrapper())
     val areInputsValid = combine(name, password) { name, password ->
         name.value.isNotEmpty() && name.errorId == null &&
@@ -55,11 +65,6 @@ class InputValidationAutoViewModel @Inject constructor(
         val errorId = InputValidator.getNameErrorIdOrNull(input)
         handle[NAME] = name.value.copy(value = input, errorId = errorId)
     }
-
-//    fun onCardNumberEntered(input: String) {
-//        val errorId = InputValidator.getCardNumberErrorIdOrNull(input)
-//        handle[CREDIT_CARD_NUMBER] = creditCardNumber.value.copy(value = input, errorId = errorId)
-//    }
 
     fun onPasswordEntered(input: String) {
         val errorId = InputValidator.getPasswordErrorIdOrNull(input)

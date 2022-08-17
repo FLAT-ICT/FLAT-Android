@@ -9,14 +9,14 @@
         android:id="@+id/addFriendFragment"
         android:name="com.websarva.wings.android.flat.view.AddFriendFragment"
         android:label="fragment_add_friend"
-        tools:layout="@layout/fragment_add_friend" >
+        tools:layout="@layout/fragment_add_friend">
 
     </fragment>
     <fragment
         android:id="@+id/friendListFragment"
         android:name="com.websarva.wings.android.flat.view.FriendListFragment"
         android:label="fragment_friend_list"
-        tools:layout="@layout/fragment_friend_list" >
+        tools:layout="@layout/fragment_friend_list">
         <action
             android:id="@+id/action_friendListFragment_to_addFriendFragment"
             app:enterAnim="@anim/nav_zoom_enter_anim"
@@ -24,9 +24,9 @@
     </fragment>
     <fragment
         android:id="@+id/accountRegistrationFragment"
-        android:name="com.websarva.wings.android.flat.ui.startup.signUp.SignUpFragment"
+        android:name="com.websarva.wings.android.flat.ui.startup.login_signup.SignUpFragment"
         android:label="fragment_account_registration"
-        tools:layout="@layout/fragment_account_registration" >
+        tools:layout="@layout/fragment_account_registration">
         <action
             android:id="@+id/action_accountRegistrationFragment_to_friendListFragment"
             app:destination="@id/friendListFragment"
@@ -41,7 +41,7 @@
         android:id="@+id/startupFragment"
         android:name="com.websarva.wings.android.flat.ui.startup.StartupFragment"
         android:label="StartupFragment"
-        tools:layout="@layout/fragment_startup" >
+        tools:layout="@layout/fragment_startup">
         <action
             android:id="@+id/action_startupFragment_to_accountRegistrationFragment"
             app:destination="@id/accountRegistrationFragment" />
@@ -56,9 +56,9 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.websarva.wings.android.flat.ui.startup.login.LoginFragment"
+        android:name="com.websarva.wings.android.flat.ui.startup.login_signup.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_friendListFragment"
             app:destination="@id/friendListFragment"
@@ -73,7 +73,7 @@
         android:id="@+id/userSettingFragment"
         android:name="com.websarva.wings.android.flat.view.UserSettingFragment"
         android:label="fragment_user_setting"
-        tools:layout="@layout/fragment_user_setting" >
+        tools:layout="@layout/fragment_user_setting">
         <action
             android:id="@+id/action_userSettingFragment_to_startupFragment"
             app:destination="@id/startupFragment"
@@ -88,7 +88,7 @@
         android:id="@+id/nameChangeFragment"
         android:name="com.websarva.wings.android.flat.view.NameChangeFragment"
         android:label="fragment_name_change"
-        tools:layout="@layout/fragment_name_change" >
+        tools:layout="@layout/fragment_name_change">
         <action
             android:id="@+id/action_nameChangeFragment_to_userSettingFragment"
             app:destination="@id/userSettingFragment"

@@ -4,7 +4,10 @@ import android.Manifest
 import android.annotation.TargetApi
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -25,17 +28,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LOCATION
 import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LOCATION_BACKGROUND
-import android.content.IntentFilter
-
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.view.ViewTreeObserver
-import androidx.activity.viewModels
-import androidx.room.Room
-import com.websarva.wings.android.flat.model.UserRoomDatabase
-import com.websarva.wings.android.flat.ui.startup.StartupViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     // BluetoothAdapterを予め宣言

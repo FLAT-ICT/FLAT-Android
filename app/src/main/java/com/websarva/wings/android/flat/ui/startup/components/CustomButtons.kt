@@ -1,13 +1,12 @@
 package com.websarva.wings.android.flat.ui.startup.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -15,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.ui.parts.MidiumRoundedButton
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginAndSignUpButtons(
@@ -61,8 +61,17 @@ fun SignUpButton(onNavigate: (Int) -> Unit) {
 
 @Composable
 fun ConfirmButton(onCLick: () -> Unit, enabled: Boolean, labelResId: Int) {
+
+    var isBusy by rememberSaveable { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
+
     Button(
-        onClick = onCLick,
+        onClick = {
+            isBusy = true
+            scope.launch { onCLick() }
+            isBusy = false
+        },
         modifier = Modifier
             .fillMaxWidth()
             .padding(
@@ -72,8 +81,16 @@ fun ConfirmButton(onCLick: () -> Unit, enabled: Boolean, labelResId: Int) {
             backgroundColor = FLATTheme.colors.primary,
             contentColor = Color.White
         ),
-        enabled = enabled
+        enabled = enabled && !isBusy,
     ) {
-        Text(stringResource(labelResId))
+        if (isBusy) {
+            CircularProgressIndicator(
+                strokeWidth = 2.dp,
+                modifier = Modifier.size(24.dp)
+            )
+        } else {
+            Text(stringResource(labelResId))
+        }
+
     }
 }
