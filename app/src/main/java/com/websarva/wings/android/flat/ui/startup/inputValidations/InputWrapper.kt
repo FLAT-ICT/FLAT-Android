@@ -4,4 +4,9 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class InputWrapper(val value: String = "", val errorId: Int? = null) : Parcelable
+data class InputWrapper(
+    val value: String = "",
+    val value2: String? = null,
+    val errorId: Int? = null
+) :
+    Parcelable
