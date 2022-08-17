@@ -13,16 +13,24 @@ import kotlinx.coroutines.launch
 class StartupViewModel(
     saveStateHandle: SavedStateHandle
 ) : ViewModel() {
-    var isReady = false
     private val roomRepository = FLATApplication.userRoomRepository
 
-    var user: User? = null
+
+    private var _user = LiveEvent<User?>()
+    val user: LiveEvent<User?> get() = _user
+
     init {
         viewModelScope.launch {
-            // Coroutine that will be canceled when the ViewModel is cleared.
-            user = roomRepository.getUserData()
-            isReady = true
-            Log.d("UserId in ViewModel: ", "${user?.myId}")
+            _user.value = getUserData()
         }
+    }
+
+
+//    suspend fun getUserData(): LiveData<User?> {
+//        return roomRepository.getUserLiveData()
+//    }
+
+    suspend fun getUserData(): User? {
+        return roomRepository.getUserData()
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 
 class StartupFragment : Fragment() {
 
@@ -19,15 +20,24 @@ class StartupFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = ComposeView(inflater.context).apply {
+
         setContent {
-            if (viewModel.user != null && viewModel.user!!.myId != 0) {
-                Log.d("StartupFragment", "user is not null")
-            }
-            Log.d("UserId in Fragment", "${viewModel.user}")
+            observeIsLoggedIn()
             StartupScreen(
                 onNavigate = { dest -> findNavController().navigate(dest) },
             )
         }
     }
+
+    private fun observeIsLoggedIn(){
+        viewModel.user.observe(viewLifecycleOwner) {
+            if (it != null) {
+                if(it.myId != 0){
+                    findNavController().navigate(StartupFragmentDirections.actionStartupFragmentToFriendListFragment())
+                }
+            }
+        }
+    }
+
 }
 
