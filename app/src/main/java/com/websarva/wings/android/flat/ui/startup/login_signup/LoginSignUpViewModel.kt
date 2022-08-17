@@ -1,9 +1,17 @@
 package com.websarva.wings.android.flat.ui.startup.login_signup
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hadilq.liveevent.LiveEvent
+import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.R
+import com.websarva.wings.android.flat.api.PostData
+import com.websarva.wings.android.flat.api.ResponseData
+import com.websarva.wings.android.flat.model.User
+import com.websarva.wings.android.flat.repository.ApiRepository
 import com.websarva.wings.android.flat.ui.startup.inputValidations.FocusedTextFieldKey
 import com.websarva.wings.android.flat.ui.startup.inputValidations.InputValidator
 import com.websarva.wings.android.flat.ui.startup.inputValidations.InputWrapper
@@ -17,6 +25,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 const val NAME = "name"
@@ -28,11 +37,12 @@ class InputErrors(
     val cardErrorId: Int?
 )
 
-data class LoginInput(
+data class LoginInputData(
     var name: String,
     val password: String,
-    var isNameOk: Boolean,
-    var isPasswordOk: Boolean
+//    var isNameOk: Boolean,
+//    var isPasswordOk: Boolean
+    val areInputsValid: Boolean
 )
 
 @HiltViewModel
@@ -40,7 +50,105 @@ class LoginSignUpViewModel @Inject constructor(
     private val handle: SavedStateHandle
 //    @Assisted private val handle: SavedStateHandle
 ) : ViewModel() {
+    // Login and SignUp
 
+    private val apiRepository = ApiRepository.instance
+    private val roomRepository = FLATApplication.userRoomRepository
+
+    private val _checkResult = LiveEvent<LoginInputData>()
+    val checkResult: LiveData<LoginInputData> get() = _checkResult
+
+    private val _preLoginResponse = LiveEvent<Response<ResponseData.ResponsePreLogin>>()
+    val preLoginResponse: LiveData<Response<ResponseData.ResponsePreLogin>> get() = _preLoginResponse
+
+    private val _loginResponse = LiveEvent<Response<ResponseData.ResponseGetUser>>()
+    val loginResponse: LiveData<Response<ResponseData.ResponseGetUser>> get() = _loginResponse
+
+    private val _roomChanged = LiveEvent<Boolean>()
+    val roomChanged: LiveData<Boolean> get() = _roomChanged
+
+    private val _error = LiveEvent<String>()
+    val error: LiveData<String> get() = _error
+
+    fun preLogin(inputData: LoginInputData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val postData = PostData.PostPreLogin(inputData.name, inputData.password, null)
+                val response = apiRepository.postPreLogin(postData)
+                _preLoginResponse.postValue(response)
+                if (response.isSuccessful) {
+                    Log.d(
+                        "PreLoginSuccess",
+                        "${response}\n${response.body()}"
+                    )
+                } else {
+                    Log.d("PreLoginFailure", "$response")
+                }
+            } catch (e: Exception) {
+                _error.postValue(e.message)
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun login(inputData: LoginInputData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val postData = PostData.RegisterData(inputData.name, inputData.password)
+                val response = apiRepository.postLogin(postData)
+                _loginResponse.postValue(response)
+                Log.d("LoginSuccess", "$response")
+                if (response.isSuccessful) {
+                    Log.d(
+                        "LoginSuccess",
+                        "${response}\n${response.body()}"
+                    )
+                } else {
+                    Log.d("LoginFailure", "$response")
+                }
+            } catch (e: Exception) {
+                _error.postValue(e.message)
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun upsertUserIntoRoom(userData: ResponseData.ResponseGetUser) {
+        val user = User(
+            myId = userData.id,
+            name = userData.name,
+            status = userData.status,
+            spot = userData.spot,
+            iconPath = userData.icon_path,
+            loggedInAt = userData.logged_in_at
+        )
+        viewModelScope.launch {
+            upsertUserData(user)
+            _roomChanged.postValue(true)
+        }
+    }
+
+//    private suspend fun updateUserAccount(user: User) {
+//        deleteUserData()
+//        insertUserData(user)
+//    }
+
+    private suspend fun upsertUserData(user: User) {
+        roomRepository.upsert(user)
+    }
+
+    private suspend fun deleteUserData() {
+        roomRepository.deleteAll()
+    }
+
+    private suspend fun isExistData(): Boolean {
+        return when (roomRepository.countData()) {
+            0 -> false
+            else -> true
+        }
+    }
+
+    // Input validation
 
     val name = handle.getStateFlow(NAME, InputWrapper())
     val password = handle.getStateFlow(PASSWORD, InputWrapper())

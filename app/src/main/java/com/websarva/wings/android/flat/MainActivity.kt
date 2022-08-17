@@ -28,10 +28,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LOCATION
 import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LOCATION_BACKGROUND
-import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     // BluetoothAdapterを予め宣言

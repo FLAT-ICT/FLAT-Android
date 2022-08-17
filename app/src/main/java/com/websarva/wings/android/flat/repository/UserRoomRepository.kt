@@ -1,19 +1,24 @@
 package com.websarva.wings.android.flat.repository
 
-import android.app.Application
 import com.websarva.wings.android.flat.model.User
 import com.websarva.wings.android.flat.model.UserDao
 
 class UserRoomRepository(private val dao: UserDao) {
 
-    suspend fun getUserData(): User ?{
+    suspend fun getUserData(): User? {
         return dao.getUserData()
     }
 
+    suspend fun upsert(user: User) {
+        return dao.insert(user)
+    }
+
+    // TODO delete
     suspend fun insert(user: User) {
         return dao.insert(user)
     }
 
+    // TODO delete
     suspend fun update(user: User) {
         return dao.update(user)
     }

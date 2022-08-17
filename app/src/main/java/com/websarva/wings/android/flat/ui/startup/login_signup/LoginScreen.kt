@@ -29,7 +29,7 @@ import com.websarva.wings.android.flat.ui.startup.inputValidations.toast
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
-    validationViewModel: LoginSignUpViewModel = hiltViewModel(),
+    viewModel: LoginSignUpViewModel = hiltViewModel(),
     onNavigate: (Int) -> Unit
 ) {
     val context = LocalContext.current
@@ -37,20 +37,22 @@ fun LoginScreen(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-//    val validationViewModel: InputValidationAutoViewModel = hiltViewModel()
-//    val loginViewModel: LoginViewModel = hiltViewModel()
+    // val validationViewModel: InputValidationAutoViewModel = hiltViewModel()
+    // val loginViewModel: LoginViewModel = hiltViewModel()
 
 
-    val events = remember(validationViewModel.events, lifecycleOwner) {
-        validationViewModel.events.flowWithLifecycle(
+    val events = remember(viewModel.events, lifecycleOwner) {
+        viewModel.events.flowWithLifecycle(
             lifecycleOwner.lifecycle,
             Lifecycle.State.STARTED
         )
     }
 
-    val name by validationViewModel.name.collectAsState()
-    val password by validationViewModel.password.collectAsState()
-    val areInputsValid by validationViewModel.areInputsValid.collectAsState()
+    // val loginResponse = viewModel.loginResponse.observeAsState()
+
+    val name by viewModel.name.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val areInputsValid by viewModel.areInputsValid.collectAsState()
 
     val nameFocusRequester = remember { FocusRequester() }
     val passwordFocusRequester = remember { FocusRequester() }
@@ -93,33 +95,51 @@ fun LoginScreen(
             NameTextField(
                 focusRequester = nameFocusRequester,
                 onFocusChanged = { focusState ->
-                    validationViewModel.onTextFieldFocusChanged(
+                    viewModel.onTextFieldFocusChanged(
                         key = FocusedTextFieldKey.NAME,
                         isFocused = focusState.isFocused
                     )
                 },
                 inputWrapper = name,
-                onValueChange = validationViewModel::onNameEntered,
-                onImeAction = validationViewModel::onNameImeActionClick
+                onValueChange = viewModel::onNameEntered,
+                onImeAction = viewModel::onNameImeActionClick
             )
             Spacer(Modifier.height(16.dp))
 
             PasswordTextField(
                 focusRequester = passwordFocusRequester,
                 onFocusChanged = { focusState ->
-                    validationViewModel.onTextFieldFocusChanged(
+                    viewModel.onTextFieldFocusChanged(
                         key = FocusedTextFieldKey.PASSWORD,
                         isFocused = focusState.isFocused
                     )
                 },
                 inputWrapper = password,
-                onValueChange = validationViewModel::onPasswordEntered,
-                onImeAction = validationViewModel::onPasswordImeActionClick
+                onValueChange = viewModel::onPasswordEntered,
+                onImeAction = viewModel::onPasswordImeActionClick
             )
 
             Spacer(Modifier.height(32.dp))
             ConfirmButton(
-                onCLick = { /*TODO*/ },
+                onCLick = {
+                    viewModel.login(
+                        inputData = LoginInputData(
+                            name.value,
+                            password.value,
+                            areInputsValid
+                        )
+                    )
+                    viewModel.loginResponse.observe(lifecycleOwner) { response ->
+                        when (response.code()) {
+                            200 -> {
+                                onNavigate(R.id.friendListFragment)
+                            }
+                            else -> {
+                                context.toast(R.string.connection_error)
+                            }
+                        }
+                    }
+                },
                 enabled = areInputsValid,
                 labelResId = R.string.login
             )
