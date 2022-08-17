@@ -1,6 +1,5 @@
-package com.websarva.wings.android.flat.view
+package com.websarva.wings.android.flat.ui.startup.signUp
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,12 +9,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import com.websarva.wings.android.flat.BeaconDetectionService
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentAccountRegistrationBinding
-import com.websarva.wings.android.flat.viewmodel.AccountRegistrationViewModel
+import com.websarva.wings.android.flat.view.setOnSafeClickListener
 
-class AccountRegistrationFragment : Fragment() {
+class SignUpFragment : Fragment() {
     private val viewModel: AccountRegistrationViewModel by viewModels()
     private var _binding: FragmentAccountRegistrationBinding? = null
     private val binding get() = _binding!!
@@ -40,18 +38,12 @@ class AccountRegistrationFragment : Fragment() {
                     isNameOk = false,
                     isMatch = false,
                     isCharaLenOk = false
-//                    name = "aaaa",
-//                    pass1 = "aaaaaaaa",
-//                    pass2 = "aaaaaaaa",
-//                    isNameOk = true,
-//                    isMatch = true,
-//                    isCharaLenOk = true
                 )
                 viewModel.checkAndTrimName(input)
             }
         }
 
-        viewModel.trimmedName.observe(viewLifecycleOwner, {
+        viewModel.trimmedName.observe(viewLifecycleOwner) {
             viewModel.checkMatchPassword(it)
             if (it.isNameOk) {
                 binding.tilInputNickname.apply {
@@ -63,10 +55,10 @@ class AccountRegistrationFragment : Fragment() {
                     isErrorEnabled = true
                 }
             }
-        })
+        }
 
 
-        viewModel.isMatchPassword.observe(viewLifecycleOwner, {
+        viewModel.isMatchPassword.observe(viewLifecycleOwner) {
             viewModel.checkCharacter(it)
             if (it.isMatch) {
                 // エラーを消す
@@ -80,9 +72,9 @@ class AccountRegistrationFragment : Fragment() {
                     visibility = View.VISIBLE
                 }
             }
-        })
+        }
 
-        viewModel.isCharacterOk.observe(viewLifecycleOwner, {
+        viewModel.isCharacterOk.observe(viewLifecycleOwner) {
             if (it.isCharaLenOk) {
                 viewModel.checkPasswordLength(it)
             } else {
@@ -92,9 +84,9 @@ class AccountRegistrationFragment : Fragment() {
                     isErrorEnabled = true
                 }
             }
-        })
+        }
 
-        viewModel.isLengthOk.observe(viewLifecycleOwner, {
+        viewModel.isLengthOk.observe(viewLifecycleOwner) {
             if (it.isCharaLenOk) {
                 // エラーを消す
                 binding.tilInputPassword.apply {
@@ -102,7 +94,7 @@ class AccountRegistrationFragment : Fragment() {
                 }
                 if (it.isMatch && it.isNameOk) {
                     // postする
-                        Log.d("userData", "$it")
+                    Log.d("userData", "$it")
                     viewModel.registerUser(it)
                 }
             } else {
@@ -112,10 +104,10 @@ class AccountRegistrationFragment : Fragment() {
                     isErrorEnabled = true
                 }
             }
-        })
+        }
 
         // レスポンスを監視し、名前重複のエラーメッセージを表示するorログイン
-        viewModel.postResponse.observe(viewLifecycleOwner, {
+        viewModel.postResponse.observe(viewLifecycleOwner) {
             when (it.code()) {
                 200 -> {
                     viewModel.registerUserInRoom(it.body()!!)
@@ -127,18 +119,23 @@ class AccountRegistrationFragment : Fragment() {
                     }
                 }
                 else -> {
-                    Toast.makeText(activity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        getString(R.string.connection_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-        })
+        }
 
-        viewModel.registerOk.observe(viewLifecycleOwner, {
-            val action = AccountRegistrationFragmentDirections.actionAccountRegistrationFragmentToFriendListFragment()
+        viewModel.registerOk.observe(viewLifecycleOwner) {
+            val action =
+                SignUpFragmentDirections.actionAccountRegistrationFragmentToFriendListFragment()
             view.findNavController().navigate(action)
-        })
+        }
 
         binding.tvHasAccountToLogin.setOnSafeClickListener{
-            val action = AccountRegistrationFragmentDirections.actionAccountRegistrationFragmentToLoginFragment()
+            val action = SignUpFragmentDirections.actionAccountRegistrationFragmentToLoginFragment()
             view.findNavController().navigate(action)
         }
     }

@@ -1,4 +1,4 @@
-package com.websarva.wings.android.flat.view
+package com.websarva.wings.android.flat.ui.startup.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentLoginBinding
-import com.websarva.wings.android.flat.viewmodel.LoginViewModel
+import com.websarva.wings.android.flat.view.setOnSafeClickListener
 
 class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by activityViewModels()

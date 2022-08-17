@@ -29,8 +29,11 @@ import android.content.IntentFilter
 
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.view.ViewTreeObserver
+import androidx.activity.viewModels
 import androidx.room.Room
 import com.websarva.wings.android.flat.model.UserRoomDatabase
+import com.websarva.wings.android.flat.ui.startup.StartupViewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -94,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         val serviceIntent = Intent(this, BeaconDetectionService::class.java)
         startForegroundService(serviceIntent)
 
+
         // 全体の画面遷移を制御
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment
@@ -117,7 +121,8 @@ class MainActivity : AppCompatActivity() {
                 findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.GONE
                 findViewById<Toolbar>(R.id.toolbar).also {
                     it.title = getString(R.string.change_name)
-                    it.navigationIcon = AppCompatResources.getDrawable(this, R.drawable.ic_baseline_arrow_back_24)
+                    it.navigationIcon =
+                        AppCompatResources.getDrawable(this, R.drawable.ic_baseline_arrow_back_24)
                     it.visibility = View.VISIBLE
                 }
             } else if (destination.id == R.id.startupFragment || destination.id == R.id.accountRegistrationFragment || destination.id == R.id.loginFragment) {

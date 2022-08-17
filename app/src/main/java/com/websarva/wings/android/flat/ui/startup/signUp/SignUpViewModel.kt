@@ -1,4 +1,4 @@
-package com.websarva.wings.android.flat.viewmodel
+package com.websarva.wings.android.flat.ui.startup.signUp
 
 import android.util.Log
 import androidx.lifecycle.*
@@ -112,7 +112,7 @@ class AccountRegistrationViewModel : ViewModel() {
                 insertUserData(user)
             }
             //TODO: アプリケーションクラスに共有変数として持たせるので本当に良いのか吟味する
-            myId = roomRepository.getUserData().myId
+//            myId = roomRepository.getUserData().myId
             _registerOk.postValue(true)
         }
     }

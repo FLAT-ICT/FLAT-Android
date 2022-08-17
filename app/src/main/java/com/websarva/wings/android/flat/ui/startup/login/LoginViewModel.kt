@@ -1,4 +1,4 @@
-package com.websarva.wings.android.flat.viewmodel
+package com.websarva.wings.android.flat.ui.startup.login
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -112,7 +112,7 @@ class LoginViewModel : ViewModel() {
                 insertUserData(user)
             }
             //TODO: アプリケーションクラスに共有変数として持たせるので本当に良いのか吟味する
-            FLATApplication.myId = roomRepository.getUserData().myId
+//            FLATApplication.myId = roomRepository.getUserData().myId
             _roomChanged.postValue(true)
         }
     }
