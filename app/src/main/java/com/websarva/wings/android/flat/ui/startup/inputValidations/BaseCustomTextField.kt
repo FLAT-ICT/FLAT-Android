@@ -67,6 +67,7 @@ fun CustomTextField(
                 cursorColor = FLATTheme.colors.primary,
             ),
             trailingIcon = trailingIcon,
+            singleLine = true,
         )
         if (inputWrapper.errorId != null) {
             Text(
