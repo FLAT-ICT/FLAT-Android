@@ -20,13 +20,13 @@ class StartupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = ComposeView(inflater.context).apply {
         setContent {
-            if (viewModel.user != null && viewModel.user!!.myId != 0){
+            if (viewModel.user != null && viewModel.user!!.myId != 0) {
                 Log.d("StartupFragment", "user is not null")
             }
             Log.d("UserId in Fragment", "${viewModel.user}")
             StartupScreen(
-                onNavigate = {dest -> findNavController().navigate(dest)},
-            /*navController = findNavController()*/)
+                onNavigate = { dest -> findNavController().navigate(dest) },
+            )
         }
     }
 }
