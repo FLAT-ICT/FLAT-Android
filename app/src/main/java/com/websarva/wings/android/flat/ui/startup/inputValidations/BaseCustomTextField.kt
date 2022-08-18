@@ -69,13 +69,12 @@ fun CustomTextField(
             trailingIcon = trailingIcon,
             singleLine = true,
         )
-        if (inputWrapper.errorId != null) {
-            Text(
-                text = stringResource(inputWrapper.errorId),
-                color = MaterialTheme.colors.error,
-                style = MaterialTheme.typography.caption,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
+        Text(
+            text = if (inputWrapper.errorId != null) stringResource(inputWrapper.errorId) else "",
+            color = MaterialTheme.colors.error,
+            style = MaterialTheme.typography.caption,
+            modifier = Modifier.padding(start = 24.dp)
+        )
+        
     }
 }
