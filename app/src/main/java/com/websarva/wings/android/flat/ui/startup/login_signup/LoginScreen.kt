@@ -1,6 +1,5 @@
 package com.websarva.wings.android.flat.ui.startup.login_signup
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -13,7 +12,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -22,6 +20,7 @@ import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.ui.startup.components.ConfirmButton
 import com.websarva.wings.android.flat.ui.startup.components.NameTextField
 import com.websarva.wings.android.flat.ui.startup.components.PasswordTextField
+import com.websarva.wings.android.flat.ui.startup.components.ToSignUpText
 import com.websarva.wings.android.flat.ui.startup.inputValidations.FocusedTextFieldKey
 import com.websarva.wings.android.flat.ui.startup.inputValidations.ScreenEvent
 import com.websarva.wings.android.flat.ui.startup.inputValidations.toast
@@ -156,16 +155,6 @@ fun LoginScreen(
     }
 }
 
-@Composable
-fun ToSignUpText(onNavigate: (Int) -> Unit) {
-    Text(
-        "アカウントを登録していない方はこちら",
-        modifier = Modifier
-            .clickable(onClick = { onNavigate(R.id.accountRegistrationFragment) })
-            .fillMaxWidth(),
-        textAlign = TextAlign.Center
-    )
-}
 
 //@Preview
 //@Composable
