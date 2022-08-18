@@ -66,31 +66,36 @@ fun ConfirmButton(onCLick: () -> Unit, enabled: Boolean, labelResId: Int) {
     val scope = rememberCoroutineScope()
 
 
-    Button(
-        onClick = {
-            isBusy = true
-            scope.launch { onCLick() }
-            isBusy = false
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                start = 24.dp, end = 24.dp
+    Column() {
+        Button(
+            onClick = {
+                isBusy = true
+                scope.launch { onCLick() }
+                isBusy = false
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 24.dp, end = 24.dp
+                ),
+            colors = ButtonDefaults.textButtonColors(
+                backgroundColor = FLATTheme.colors.primary,
+                contentColor = Color.White
             ),
-        colors = ButtonDefaults.textButtonColors(
-            backgroundColor = FLATTheme.colors.primary,
-            contentColor = Color.White
-        ),
-        enabled = enabled && !isBusy,
-    ) {
-        if (isBusy) {
-            CircularProgressIndicator(
-                strokeWidth = 2.dp,
-                modifier = Modifier.size(24.dp)
-            )
-        } else {
-            Text(stringResource(labelResId))
-        }
+            enabled = enabled && !isBusy,
+        ) {
+            if (isBusy) {
+                CircularProgressIndicator(
+                    strokeWidth = 2.dp,
+                    modifier = Modifier.size(24.dp)
+                )
+            } else {
+                Text(stringResource(labelResId))
+            }
 
+        }
+        // エラーメッセージ出力用
+        Text(text = "")
     }
+
 }
