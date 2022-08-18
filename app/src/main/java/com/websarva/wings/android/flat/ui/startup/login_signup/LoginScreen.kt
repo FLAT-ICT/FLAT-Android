@@ -36,8 +36,9 @@ fun LoginScreen(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    // val validationViewModel: InputValidationAutoViewModel = hiltViewModel()
-    // val loginViewModel: LoginViewModel = hiltViewModel()
+    val (isOpenDialog, setIsOpenDialog) = remember {
+        mutableStateOf(false)
+    }
 
 
     val events = remember(viewModel.events, lifecycleOwner) {
@@ -151,6 +152,20 @@ fun LoginScreen(
             // Text: アカウントを持っている人はログインする
             ToSignUpText(onNavigate = onNavigate)
             Spacer(modifier = Modifier.padding(top = 32.dp))
+        }
+        if (isOpenDialog) {
+            ForceLoginDialog(
+                isOpen = isOpenDialog,
+                setIsOpen = setIsOpenDialog,
+                onConfirm = {
+                    viewModel.login(
+                        inputData = LoginInputData(
+                            name.value,
+                            password.value,
+                            areInputsValid
+                        )
+                    )
+                })
         }
     }
 }
