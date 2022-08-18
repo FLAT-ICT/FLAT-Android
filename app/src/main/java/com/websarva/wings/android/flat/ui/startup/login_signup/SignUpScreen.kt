@@ -173,7 +173,7 @@ fun SignUpScreen(onNavigate: (Int) -> Unit) {
 @Composable
 fun ToLoginText(onNavigate: (Int) -> Unit) {
     Text(
-        "ログインする",
+        "アカウントを持っている人はログインする",
         modifier = Modifier
             .clickable(onClick = { onNavigate(R.id.loginFragment) })
             .fillMaxWidth(),

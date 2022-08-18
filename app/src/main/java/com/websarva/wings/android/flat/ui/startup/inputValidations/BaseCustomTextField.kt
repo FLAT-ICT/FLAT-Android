@@ -75,6 +75,5 @@ fun CustomTextField(
             style = MaterialTheme.typography.caption,
             modifier = Modifier.padding(start = 24.dp)
         )
-        
     }
 }
