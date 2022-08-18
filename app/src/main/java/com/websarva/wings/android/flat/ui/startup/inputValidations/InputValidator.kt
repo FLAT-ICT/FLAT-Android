@@ -33,7 +33,7 @@ object InputValidator {
         }
     }
 
-    fun getPasswordRetypeErrorIdOrNull(input: String, other: String): Int? {
+    fun getPasswordConfirmErrorIdOrNull(input: String, other: String): Int? {
         val alphaNumeric = Regex("[a-zA-Z0-9]+")
         return when {
             input != other -> R.string.password_retype_mismatch

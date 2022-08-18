@@ -52,7 +52,7 @@ fun LoginScreen(
 
     val name by viewModel.name.collectAsState()
     val password by viewModel.password.collectAsState()
-    val areInputsValid by viewModel.areInputsValid.collectAsState()
+    val areInputsValid by viewModel.areLoginInputsValid.collectAsState()
 
     val nameFocusRequester = remember { FocusRequester() }
     val passwordFocusRequester = remember { FocusRequester() }
@@ -132,7 +132,12 @@ fun LoginScreen(
                     viewModel.loginResponse.observe(lifecycleOwner) { response ->
                         when (response.code()) {
                             200 -> {
-                                onNavigate(R.id.friendListFragment)
+                                viewModel.roomChanged.observe(lifecycleOwner) { room ->
+                                    when (room) {
+                                        true -> onNavigate(R.id.friendListFragment)
+                                        false -> context.toast(R.string.connection_error)
+                                    }
+                                }
                             }
                             else -> {
                                 context.toast(R.string.connection_error)

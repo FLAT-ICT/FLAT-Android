@@ -31,6 +31,7 @@ import javax.inject.Inject
 const val NAME = "name"
 const val CREDIT_CARD_NUMBER = "ccNumber"
 const val PASSWORD = "password"
+const val PASSWORD_CONFIRM = "confirmPassword"
 
 class InputErrors(
     val nameErrorId: Int?,
@@ -42,6 +43,13 @@ data class LoginInputData(
     val password: String,
 //    var isNameOk: Boolean,
 //    var isPasswordOk: Boolean
+    val areInputsValid: Boolean
+)
+
+data class SignupInputData(
+    val name: String,
+    val password: String,
+    val passwordConfirm: String,
     val areInputsValid: Boolean
 )
 
@@ -103,8 +111,32 @@ class LoginSignUpViewModel @Inject constructor(
                         "LoginSuccess",
                         "${response}\n${response.body()}"
                     )
+                    upsertUserIntoRoom(response.body()!!)
                 } else {
                     Log.d("LoginFailure", "$response")
+                }
+            } catch (e: Exception) {
+                _error.postValue(e.message)
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun signUp(inputData: SignupInputData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val postData = PostData.RegisterData(inputData.name, inputData.password)
+                val response = apiRepository.postRegister(postData)
+                _loginResponse.postValue(response)
+                Log.d("SignUpSuccess", "$response")
+                if (response.isSuccessful) {
+                    Log.d(
+                        "SignUpSuccess",
+                        "${response}\n${response.body()}"
+                    )
+                    upsertUserIntoRoom(response.body()!!)
+                } else {
+                    Log.d("SignUpFailure", "$response")
                 }
             } catch (e: Exception) {
                 _error.postValue(e.message)
@@ -152,10 +184,20 @@ class LoginSignUpViewModel @Inject constructor(
 
     val name = handle.getStateFlow(NAME, InputWrapper())
     val password = handle.getStateFlow(PASSWORD, InputWrapper())
-    val areInputsValid = combine(name, password) { name, password ->
+    val passwordConfirm = handle.getStateFlow(PASSWORD_CONFIRM, InputWrapper())
+    val areLoginInputsValid = combine(name, password) { name, password ->
         name.value.isNotEmpty() && name.errorId == null &&
                 password.value.isNotEmpty() && password.errorId == null
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val areSignUpInputsValid =
+        combine(name, password, passwordConfirm) { name, password, passwordConfirm ->
+            name.value.isNotEmpty() &&
+                    name.errorId == null &&
+                    password.value.isNotEmpty() &&
+                    password.errorId == null &&
+                    passwordConfirm.value.isNotEmpty() &&
+                    passwordConfirm.errorId == null
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
     private var focusedTextField = handle["focusedTextField"] ?: FocusedTextFieldKey.NAME
         set(value) {
             field = value
@@ -179,6 +221,11 @@ class LoginSignUpViewModel @Inject constructor(
         handle[PASSWORD] = password.value.copy(value = input, errorId = errorId)
     }
 
+    fun onPasswordConfirmEntered(input: String) {
+        val errorId = InputValidator.getPasswordConfirmErrorIdOrNull(input, password.value.value)
+        handle[PASSWORD_CONFIRM] = passwordConfirm.value.copy(value = input, errorId = errorId)
+    }
+
     fun onTextFieldFocusChanged(key: FocusedTextFieldKey, isFocused: Boolean) {
         focusedTextField = if (isFocused) key else FocusedTextFieldKey.NONE
     }
@@ -197,8 +244,9 @@ class LoginSignUpViewModel @Inject constructor(
 
     fun onContinueClick() {
         viewModelScope.launch(Dispatchers.Default) {
-            if (areInputsValid.value) clearFocusAndHideKeyboard()
-            val resId = if (areInputsValid.value) R.string.success else R.string.validation_error
+            if (areLoginInputsValid.value) clearFocusAndHideKeyboard()
+            val resId =
+                if (areLoginInputsValid.value) R.string.success else R.string.validation_error
             _events.send(ScreenEvent.ShowToast(resId))
         }
     }
