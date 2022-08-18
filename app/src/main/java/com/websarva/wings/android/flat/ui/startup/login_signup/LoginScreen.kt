@@ -40,9 +40,8 @@ fun LoginScreen(
         mutableStateOf(false)
     }
 
-
-    val events = remember(viewModel.events, lifecycleOwner) {
-        viewModel.events.flowWithLifecycle(
+    val keyboardEvents = remember(viewModel.keyboardEvents, lifecycleOwner) {
+        viewModel.keyboardEvents.flowWithLifecycle(
             lifecycleOwner.lifecycle,
             Lifecycle.State.STARTED
         )
@@ -58,7 +57,7 @@ fun LoginScreen(
     val passwordFocusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
-        events.collect { event ->
+        keyboardEvents.collect { event ->
             when (event) {
                 is ScreenEvent.ShowToast -> context.toast(event.messageId)
                 is ScreenEvent.UpdateKeyboard -> {

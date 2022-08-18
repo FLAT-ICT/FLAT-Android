@@ -204,8 +204,8 @@ class LoginSignUpViewModel @Inject constructor(
             handle["focusedTextField"] = value
         }
 
-    private val _events = Channel<ScreenEvent>()
-    val events = _events.receiveAsFlow()
+    private val _keyboardEvents = Channel<ScreenEvent>()
+    val keyboardEvents = _keyboardEvents.receiveAsFlow()
 
     init {
         if (focusedTextField != FocusedTextFieldKey.NONE) focusOnLastSelectedTextField()
@@ -232,13 +232,13 @@ class LoginSignUpViewModel @Inject constructor(
 
     fun onNameImeActionClick() {
         viewModelScope.launch(Dispatchers.Default) {
-            _events.send(ScreenEvent.MoveFocus())
+            _keyboardEvents.send(ScreenEvent.MoveFocus())
         }
     }
 
     fun onPasswordImeActionClick() {
         viewModelScope.launch(Dispatchers.Default) {
-            _events.send(ScreenEvent.MoveFocus())
+            _keyboardEvents.send(ScreenEvent.MoveFocus())
         }
     }
 
@@ -247,21 +247,21 @@ class LoginSignUpViewModel @Inject constructor(
             if (areLoginInputsValid.value) clearFocusAndHideKeyboard()
             val resId =
                 if (areLoginInputsValid.value) R.string.success else R.string.validation_error
-            _events.send(ScreenEvent.ShowToast(resId))
+            _keyboardEvents.send(ScreenEvent.ShowToast(resId))
         }
     }
 
     private suspend fun clearFocusAndHideKeyboard() {
-        _events.send(ScreenEvent.ClearFocus)
-        _events.send(ScreenEvent.UpdateKeyboard(false))
+        _keyboardEvents.send(ScreenEvent.ClearFocus)
+        _keyboardEvents.send(ScreenEvent.UpdateKeyboard(false))
         focusedTextField = FocusedTextFieldKey.NONE
     }
 
     private fun focusOnLastSelectedTextField() {
         viewModelScope.launch(Dispatchers.Default) {
-            _events.send(ScreenEvent.RequestFocus(focusedTextField))
+            _keyboardEvents.send(ScreenEvent.RequestFocus(focusedTextField))
             delay(250)
-            _events.send(ScreenEvent.UpdateKeyboard(true))
+            _keyboardEvents.send(ScreenEvent.UpdateKeyboard(true))
         }
     }
 }
