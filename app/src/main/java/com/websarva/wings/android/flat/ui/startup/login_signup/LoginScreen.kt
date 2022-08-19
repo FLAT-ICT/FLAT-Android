@@ -40,6 +40,10 @@ fun LoginScreen(
         mutableStateOf(false)
     }
 
+    val (errorMessageId, setErrorMessageId) = remember {
+        mutableStateOf(R.string.empty)
+    }
+
     val keyboardEvents = remember(viewModel.keyboardEvents, lifecycleOwner) {
         viewModel.keyboardEvents.flowWithLifecycle(
             lifecycleOwner.lifecycle,
@@ -120,32 +124,61 @@ fun LoginScreen(
 
             Spacer(Modifier.height(32.dp))
             ConfirmButton(
-                onCLick = {
-                    viewModel.login(
+                onCLick = { setErrorMessage ->
+                    viewModel.preLogin(
                         inputData = LoginInputData(
                             name.value,
                             password.value,
                             areInputsValid
                         )
                     )
-                    viewModel.loginResponse.observe(lifecycleOwner) { response ->
-                        when (response.code()) {
+                    viewModel.preLoginResponse.observe(lifecycleOwner) {
+                        when (it.code()) {
                             200 -> {
-                                viewModel.roomChanged.observe(lifecycleOwner) { room ->
-                                    when (room) {
-                                        true -> onNavigate(R.id.friendListFragment)
-                                        false -> context.toast(R.string.connection_error)
+                                if (it.body()?.others == true) {
+                                    setIsOpenDialog(true)
+                                    // viewModel.preLoginResponse.removeObservers(lifecycleOwner)
+                                } else {
+                                    viewModel.login(
+                                        inputData = LoginInputData(
+                                            name.value,
+                                            password.value,
+                                            areInputsValid
+                                        )
+                                    )
+                                    viewModel.loginResponse.observe(lifecycleOwner) { response ->
+                                        when (response.code()) {
+                                            200 -> {
+                                                viewModel.roomChanged.observe(lifecycleOwner) { room ->
+                                                    when (room) {
+                                                        true -> onNavigate(R.id.friendListFragment)
+                                                        false -> setErrorMessage(R.string.connection_error)
+                                                    }
+                                                }
+                                            }
+                                            404 -> {
+                                                setErrorMessage(R.string.input_nickname_or_password_error)
+                                            }
+                                            else -> {
+                                                setErrorMessage(R.string.connection_error)
+                                            }
+                                        }
                                     }
                                 }
                             }
+                            404 -> {
+                                setErrorMessage(R.string.input_nickname_or_password_error)
+                            }
                             else -> {
-                                context.toast(R.string.connection_error)
+                                setErrorMessage(R.string.connection_error)
                             }
                         }
                     }
                 },
                 enabled = areInputsValid,
-                labelResId = R.string.login
+                labelResId = R.string.login,
+                errorMessageId = errorMessageId,
+                setErrorMessageId = setErrorMessageId
             )
             Spacer(modifier = Modifier.weight(1f))
             // Text: アカウントを持っている人はログインする
@@ -164,7 +197,26 @@ fun LoginScreen(
                             areInputsValid
                         )
                     )
-                })
+                    viewModel.loginResponse.observe(lifecycleOwner) { response ->
+                        when (response.code()) {
+                            200 -> {
+                                viewModel.roomChanged.observe(lifecycleOwner) { room ->
+                                    when (room) {
+                                        true -> onNavigate(R.id.friendListFragment)
+                                        false -> setErrorMessageId(R.string.connection_error)
+                                    }
+                                }
+                            }
+                            404 -> {
+                                setErrorMessageId(R.string.input_nickname_or_password_error)
+                            }
+                            else -> {
+                                setErrorMessageId(R.string.connection_error)
+                            }
+                        }
+                    }
+                }
+            )
         }
     }
 }

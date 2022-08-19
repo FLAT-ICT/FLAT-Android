@@ -96,5 +96,6 @@
     <string name="password_too_long">パスワードは255文字以下で入力してください</string>
     <string name="invalid_character">使用できない文字が含まれています</string>
     <string name="password_retype_mismatch">パスワードが一致していません</string>
+    <string name="empty" />
 
 </resources>

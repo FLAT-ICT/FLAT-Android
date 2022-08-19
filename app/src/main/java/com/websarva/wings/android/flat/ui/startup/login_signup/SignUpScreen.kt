@@ -30,6 +30,10 @@ import com.websarva.wings.android.flat.ui.startup.inputValidations.toast
 fun SignUpScreen(onNavigate: (Int) -> Unit) {
 
     val viewModel: LoginSignUpViewModel = hiltViewModel()
+    val (errorMessageId, setErrorMessageId) = remember {
+        mutableStateOf(R.string.empty)
+    }
+
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -156,7 +160,9 @@ fun SignUpScreen(onNavigate: (Int) -> Unit) {
                     }
                 },
                 enabled = areInputsValid,
-                labelResId = R.string.register
+                labelResId = R.string.register,
+                errorMessageId = errorMessageId,
+                setErrorMessageId = setErrorMessageId
             )
             Spacer(modifier = Modifier.weight(1f))
             // Text: アカウントを持っている人はログインする

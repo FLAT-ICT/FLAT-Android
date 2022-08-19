@@ -60,17 +60,23 @@ fun SignUpButton(onNavigate: (Int) -> Unit) {
 
 
 @Composable
-fun ConfirmButton(onCLick: () -> Unit, enabled: Boolean, labelResId: Int) {
+fun ConfirmButton(
+    onCLick: ((Int) -> Unit) -> Unit,
+    enabled: Boolean,
+    labelResId: Int,
+    errorMessageId: Int,
+    setErrorMessageId: (Int) -> Unit
+) {
 
     var isBusy by rememberSaveable { mutableStateOf(false) }
+//    val (errorMessage, setErrorMessage) = remember { mutableStateOf(R.id.empty_error_message) }
     val scope = rememberCoroutineScope()
-
 
     Column() {
         Button(
             onClick = {
                 isBusy = true
-                scope.launch { onCLick() }
+                scope.launch { onCLick(setErrorMessageId) }
                 isBusy = false
             },
             modifier = Modifier
@@ -95,7 +101,40 @@ fun ConfirmButton(onCLick: () -> Unit, enabled: Boolean, labelResId: Int) {
 
         }
         // エラーメッセージ出力用
-        Text(text = "")
+        Text(text = stringResource(errorMessageId))
     }
-
 }
+
+//data class SignUpState(
+//    val isLoading: Boolean = false,
+//    val isError: Boolean = false,
+//    val errorMessage: String = ""
+//)
+//
+//data class LoginState(
+//    val preLoginState: PreLoginState = PreLoginState(),
+//    val isShowDialog: Boolean = false,
+//    val isLoading: Boolean = false,
+//    val isError: Boolean = false,
+//    var errorMessage: String = ""
+//)
+//
+//data class PreLoginState(
+//    val required: Boolean = false,
+//    val done: Boolean = false,
+//)
+
+//@Composable
+//fun LoginConfirmButton(enabled: Boolean) {
+//    val viewModel: LoginViewModel = viewModel()
+//    val state by produceState(initialValue = LoginState()) {
+//        viewModel.login(LoginViewModel.LoginInput("a", "a", true, true))
+//    }
+//    ConfirmButton(onCLick = {
+//        when {
+//            state.isError -> {
+//                state.errorMessage = ""
+//            }
+//        }
+//    }, enabled = enabled, labelResId = R.string.login)
+//}
