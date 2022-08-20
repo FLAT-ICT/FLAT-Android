@@ -1,4 +1,4 @@
-package com.websarva.wings.android.flat.view
+package com.websarva.wings.android.flat.ui.map
 
 import android.app.ActionBar
 import android.content.DialogInterface
@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.websarva.wings.android.flat.R
 import com.websarva.wings.android.flat.databinding.FragmentMapBinding
-//import com.websarva.wings.android.flat.viewmodel.MapViewModel
+//import com.websarva.wings.android.flat.ui.map.MapViewModel
 import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
 import org.json.JSONException
 import org.json.JSONObject

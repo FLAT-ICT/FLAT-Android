@@ -1,4 +1,4 @@
-package com.websarva.wings.android.flat.viewmodel
+package com.websarva.wings.android.flat.ui.map
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
