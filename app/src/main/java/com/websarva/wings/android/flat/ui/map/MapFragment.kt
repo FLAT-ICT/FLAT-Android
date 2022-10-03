@@ -20,6 +20,8 @@ import org.w3c.dom.Node
 import android.view.ViewGroup.LayoutParams
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.compose.ui.platform.ComposeView
+import androidx.navigation.findNavController
 import com.websarva.wings.android.flat.api.ResponseData
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -75,79 +77,28 @@ class MapFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentMapBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.friends.observe(viewLifecycleOwner) {
-            binding.apply {
-
-
-                spots = it.mutual.map { it.spot }
-
-                updateMap()
-
-                Log.d("friendSpot", "friendSpot = ${it.mutual.map { it.id }}")
-            }
-        }
-
-        binding.btMap1.setOnClickListener {
-            binding.ivMap.setImageResource(R.drawable.map1f)
-            floor = 1
-            updateMap()
-        }
-        binding.btMap2.setOnClickListener {
-            binding.ivMap.setImageResource(R.drawable.map2f)
-            floor = 2
-            updateMap()
-
-        }
-        binding.btMap3.setOnClickListener {
-            binding.ivMap.setImageResource(R.drawable.map3f)
-            floor = 3
-            updateMap()
-        }
-        binding.btMap4.setOnClickListener {
-
-            binding.ivMap.setImageResource(R.drawable.map4f)
-            floor = 4
-            updateMap()
-        }
-        binding.btMap5.setOnClickListener {
-            binding.ivMap.setImageResource(R.drawable.map5f)
-            floor = 5
-            updateMap()
+    ): View = ComposeView(inflater.context).apply {
+        setContent {
+            MapScreen(
+//                onNavigate = {dest -> findNavController().navigate(dest)},
+            )
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.getFriends()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun updateMap() {
-        arrayOfPins.forEach {
-            Log.d("MapFragment", "$floor, $it")
-            if (it.pin.visibility == View.VISIBLE) {
-                it.pin.visibility = View.GONE
-            }
-        }
-
-        arrayOfPins.forEach {
-            if (it.name in spots && it.floor == floor) {
-                it.pin.visibility = View.VISIBLE
-            }
-        }
-    }
+//    private fun updateMap() {
+//        arrayOfPins.forEach {
+//            Log.d("MapFragment", "$floor, $it")
+//            if (it.pin.visibility == View.VISIBLE) {
+//                it.pin.visibility = View.GONE
+//            }
+//        }
+//
+//        arrayOfPins.forEach {
+//            if (it.name in spots && it.floor == floor) {
+//                it.pin.visibility = View.VISIBLE
+//            }
+//        }
+//    }
 
 }
 
