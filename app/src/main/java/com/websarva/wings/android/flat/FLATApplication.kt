@@ -10,7 +10,7 @@ import kotlin.properties.Delegates
 class FLATApplication: Application() {
     companion object {
         lateinit var userRoomRepository: UserRoomRepository
-        var myId = 0
+        var myId = -1
         val applicationScope = CoroutineScope(SupervisorJob())
     }
 
