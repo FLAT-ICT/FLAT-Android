@@ -8,17 +8,19 @@ import androidx.compose.material.Button
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.mxalbert.zoomable.Zoomable
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
 /*
     mapの画面を作成する関数
 
@@ -48,15 +50,16 @@ fun MapScreen (){
 //            Text(text = "Zoom me!")
 //        }
 
-        Row() {
-            elevatorButton(floor, scope)
-            Column(modifier = Modifier.fillMaxSize()) {
+        BoxWithConstraints(Modifier.fillMaxSize()) {
+            val width = maxWidth
+            ElevatorButton(floor, scope, width)
+            Box(modifier = Modifier.fillMaxSize()) {
                 when (floor.value) {
-                    1 -> map1f()
-                    2 -> map2f()
-                    3 -> map3f()
-                    4 -> map4f()
-                    5 -> map5f()
+                    1 -> Map1f()
+                    2 -> Map2f()
+                    3 -> Map3f()
+                    4 -> Map4f()
+                    5 -> Map5f()
                 }
             }
         }
@@ -65,28 +68,20 @@ fun MapScreen (){
 
 
 @Composable
-fun elevatorButton(currentFloor: MutableState<Int>, scope: CoroutineScope){
-    Row(){
+fun ElevatorButton(currentFloor: MutableState<Int>, scope: CoroutineScope, parentwidth: Dp) {
+    Column(
+        // 右寄せ
+        modifier = Modifier
+            .zIndex(1f)
+            // TODO:ハードコーディングがすぎるので直す
+            .padding( parentwidth - 80.dp, 16.dp, 16.dp, 0.dp)
+    ){
         Button(onClick = {
             scope.launch {
-                currentFloor.value = 1
+                currentFloor.value = 5
             }
         }) {
-            Text(text = "1")
-        }
-        Button(onClick = {
-            scope.launch {
-                currentFloor.value = 2
-            }
-        }) {
-            Text(text = "2")
-        }
-        Button(onClick = {
-            scope.launch {
-                currentFloor.value = 3
-            }
-        }) {
-            Text(text = "3")
+            Text(text = "5")
         }
         Button(onClick = {
             scope.launch {
@@ -97,76 +92,101 @@ fun elevatorButton(currentFloor: MutableState<Int>, scope: CoroutineScope){
         }
         Button(onClick = {
             scope.launch {
-                currentFloor.value = 5
+                currentFloor.value = 3
             }
         }) {
-            Text(text = "5")
+            Text(text = "3")
+        }
+        Button(onClick = {
+            scope.launch {
+                currentFloor.value = 2
+            }
+        }) {
+            Text(text = "2")
+        }
+        Button(onClick = {
+            scope.launch {
+                currentFloor.value = 1
+            }
+        }) {
+            Text(text = "1")
         }
     }
 
 }
 
 @Composable
-fun map1f(){
+fun Map1f(){
     val painter = painterResource(id = R.drawable.map1f)
     val size = painter.intrinsicSize
-    Image(
-        painter = painter,
-        contentDescription = null,
-        modifier = Modifier
-            .aspectRatio(size.width / size.height)
-            .fillMaxSize()
-    )
+    Zoomable {
+        Image(
+            painter = painter,
+            contentDescription = null,
+            modifier = Modifier
+                .aspectRatio(size.width / size.height)
+                .fillMaxSize()
+        )
+    }
+
 }
 
 @Composable
-fun map2f(){
+fun Map2f(){
     val painter = painterResource(id = R.drawable.map2f)
     val size = painter.intrinsicSize
-    Image(
-        painter = painter,
-        contentDescription = null,
-        modifier = Modifier
-            .aspectRatio(size.width / size.height)
-            .fillMaxSize()
-    )
+    Zoomable {
+        Image(
+            painter = painter,
+            contentDescription = null,
+            modifier = Modifier
+                .aspectRatio(size.width / size.height)
+                .fillMaxSize()
+        )
+    }
 }
 
 @Composable
-fun map3f(){
+fun Map3f(){
     val painter = painterResource(id = R.drawable.map3f)
     val size = painter.intrinsicSize
-    Image(
-        painter = painter,
-        contentDescription = null,
-        modifier = Modifier
-            .aspectRatio(size.width / size.height)
-            .fillMaxSize()
-    )
+    Zoomable {
+        Image(
+            painter = painter,
+            contentDescription = null,
+            modifier = Modifier
+                .aspectRatio(size.width / size.height)
+                .fillMaxSize()
+        )
+    }
 }
 
 @Composable
-fun map4f(){
+fun Map4f() {
     val painter = painterResource(id = R.drawable.map4f)
     val size = painter.intrinsicSize
-    Image(
-        painter = painter,
-        contentDescription = null,
-        modifier = Modifier
-            .aspectRatio(size.width / size.height)
-            .fillMaxSize()
-    )
+    Zoomable {
+        Image(
+            painter = painter,
+            contentDescription = null,
+            modifier = Modifier
+                .aspectRatio(size.width / size.height)
+                .fillMaxSize()
+        )
+    }
 }
 
 @Composable
-fun map5f(){
+fun Map5f(){
     val painter = painterResource(id = R.drawable.map5f)
     val size = painter.intrinsicSize
-    Image(
-        painter = painter,
-        contentDescription = null,
-        modifier = Modifier
-            .aspectRatio(size.width / size.height)
-            .fillMaxSize()
-    )
+    Zoomable {
+        Image(
+            painter = painter,
+            contentDescription = null,
+            modifier = Modifier
+                .aspectRatio(size.width / size.height)
+                .fillMaxSize()
+        )
+    }
 }
