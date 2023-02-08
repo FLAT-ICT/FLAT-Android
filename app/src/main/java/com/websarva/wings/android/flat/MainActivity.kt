@@ -4,7 +4,10 @@ import android.Manifest
 import android.annotation.TargetApi
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -25,15 +28,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LOCATION
 import com.websarva.wings.android.flat.other.PermissionConstants.REQUEST_CODE_LOCATION_BACKGROUND
-import android.content.IntentFilter
-
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.view.ViewTreeObserver
-import androidx.activity.viewModels
-import androidx.room.Room
-import com.websarva.wings.android.flat.model.UserRoomDatabase
-import com.websarva.wings.android.flat.ui.startup.StartupViewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -92,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         getBluetoothAdapter()
         bluetoothOnRequest()
         requestPermission()
+        checkBluetoothPermissions()
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
         val serviceIntent = Intent(this, BeaconDetectionService::class.java)
@@ -181,6 +176,21 @@ class MainActivity : AppCompatActivity() {
             if (!bluetoothAdapter?.isEnabled!!) {
                 val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 startForResult.launch(enableBtIntent)
+            }
+        }
+    }
+
+    private fun checkBluetoothPermissions() {
+        val permList = arrayOf(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT)
+        //Bluetooth
+        //Bluetooth
+        if (Build.VERSION.SDK_INT > 30) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_CONNECT
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(permList, REQUEST_CODE_LOCATION)
             }
         }
     }

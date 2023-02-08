@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.altbeacon.beacon.*
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
@@ -128,7 +129,7 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
         val notifyIntent = Intent(this, MainActivity::class.java).apply {
             this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val pendingIntent: PendingIntent =  PendingIntent.getActivity(this, 0, notifyIntent, 0)
+        val pendingIntent: PendingIntent =  PendingIntent.getActivity(this, 0, notifyIntent, FLAG_IMMUTABLE)
 
         val notification: Notification = NotificationCompat.Builder(this, channelId)
             .setContentTitle("FLAT Service")
