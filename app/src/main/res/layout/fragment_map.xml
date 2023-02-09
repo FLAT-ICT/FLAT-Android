@@ -170,17 +170,18 @@
         android:visibility="invisible"
         android:src="@drawable/pin"
         />
+
     <ImageView
         android:id="@+id/iv_pin_150"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        app:layout_constraintStart_toStartOf="@+id/iv_map"
-        app:layout_constraintTop_toTopOf="@+id/iv_map"
         android:layout_marginStart="83.277548dp"
         android:layout_marginTop="183.958068dp"
-        android:visibility="invisible"
         android:src="@drawable/pin"
-        />
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/iv_map"
+        app:layout_constraintTop_toTopOf="@+id/iv_map" />
+
     <ImageView
         android:id="@+id/iv_pin_44"
         android:layout_width="20dp"

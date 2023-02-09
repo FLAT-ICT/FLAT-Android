@@ -97,7 +97,7 @@
     </fragment>
     <fragment
         android:id="@id/mapFragment"
-        android:name="com.websarva.wings.android.flat.view.MapFragment"
+        android:name="com.websarva.wings.android.flat.ui.map.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map">
 

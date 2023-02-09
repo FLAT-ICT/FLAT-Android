@@ -1,4 +1,4 @@
-package com.websarva.wings.android.flat.viewmodel
+package com.websarva.wings.android.flat.ui.map
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +15,7 @@ class MapViewModel : ViewModel() {
     private val roomRepository = FLATApplication.userRoomRepository
 
     private val _user = LiveEvent<User>()
+    // これ自分の情報だけど，ここでほしいのは友人の情報
     val user: LiveData<User> get() = _user
 
     private val _isUpdated = LiveEvent<Int>()
