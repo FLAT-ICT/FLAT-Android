@@ -9,7 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
@@ -112,9 +111,10 @@ fun SchoolMap(floor: Int, spots: List<String>) {
         maxScale = 3f
     )
 
-    val mapId = FloorList.floors[floor - 1].mapId
-//    val spots = FloorList.floors[floor - 1].spots.filter { spots.contains(it.name) }
-    val spots1f = Pins.pins1f
+    val floorInfo = FloorList.floors[floor - 1]
+    val mapId = floorInfo.mapId
+//    val floorSpots = floorInfo.spots.filter { spots.contains(it.name) }
+    val floorSpots = floorInfo.spots
     val painter = painterResource(id = mapId)
 
     val size = painter.intrinsicSize
@@ -129,7 +129,7 @@ fun SchoolMap(floor: Int, spots: List<String>) {
 
             // ピンの位置がずれるが，これはZoomableと地図の原点が異なることが原因
             // 要修正
-            spots1f.map {
+            floorSpots.map {
                 Pin(it.x, it.y, size, boxWidth, boxHeight, zoomableState)
             }
             Image(
