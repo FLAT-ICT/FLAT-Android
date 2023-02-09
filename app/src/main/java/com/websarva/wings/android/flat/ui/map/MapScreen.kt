@@ -109,7 +109,7 @@ fun SchoolMap(floor: Int, spots: List<String>) {
 
     val zoomableState = rememberZoomableState(
         minScale = 1f,
-        maxScale = 2f
+        maxScale = 3f
     )
 
     val mapId = FloorList.floors[floor - 1].mapId

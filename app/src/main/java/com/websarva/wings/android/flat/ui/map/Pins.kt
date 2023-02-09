@@ -58,13 +58,13 @@ fun Pin(
 //    val parentWidth = parentSize
 
 
-    val dpx = x * 2.75 * widthRatio * scale
-    val dpy = y * 2.75 * widthRatio * scale
+    val dpx = x * 2.75  * widthRatio * scale
+    val dpy = y * 2.75 * widthRatio  * scale
     Log.d("MapScreen", "dpx: $dpx, dpy: $dpy")
     Image(painter = painterResource(id = R.drawable.pin), contentDescription = null, modifier = Modifier
         .offset(x = dpx.dp, y = dpy.dp)
         .zIndex(1f)
-        .size(20.dp)
+        .size(40.dp)
     )
 }
 
