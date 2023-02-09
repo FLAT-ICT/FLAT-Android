@@ -15,6 +15,7 @@ class MapViewModel : ViewModel() {
     private val roomRepository = FLATApplication.userRoomRepository
 
     private val _user = LiveEvent<User>()
+    // これ自分の情報だけど，ここでほしいのは友人の情報
     val user: LiveData<User> get() = _user
 
     private val _isUpdated = LiveEvent<Int>()

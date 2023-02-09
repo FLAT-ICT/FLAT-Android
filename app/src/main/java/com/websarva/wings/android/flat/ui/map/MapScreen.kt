@@ -1,26 +1,28 @@
 package com.websarva.wings.android.flat.ui.map
 
+import android.util.Log
 import com.websarva.wings.android.flat.R
 import androidx.compose.foundation.Image
-import android.view.Surface
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
-import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.mxalbert.zoomable.Zoomable
 import com.websarva.wings.android.flat.ui.theme.FLATTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mxalbert.zoomable.rememberZoomableState
+import com.websarva.wings.android.flat.viewmodel.FriendListViewModel
+
 /*
     mapの画面を作成する関数
 
@@ -34,10 +36,13 @@ import kotlinx.coroutines.launch
     ピンは地図に対する相対表示位置を持つ．
 */
 @Composable
-fun MapScreen (){
+fun MapScreen (model: FriendListViewModel = viewModel()){
 
     val floor = remember { mutableStateOf(1) }
-    var mapScale = remember { mutableStateOf(1f) }
+
+    val friends = model.friends.observeAsState()
+    // これ正しく更新されなさそう
+    val spots = friends.value?.mutual?.map { it.spot } ?: listOf()
 
     val scope = rememberCoroutineScope()
 
@@ -53,140 +58,87 @@ fun MapScreen (){
         BoxWithConstraints(Modifier.fillMaxSize()) {
             val width = maxWidth
             ElevatorButton(floor, scope, width)
-            Box(modifier = Modifier.fillMaxSize()) {
-                when (floor.value) {
-                    1 -> Map1f()
-                    2 -> Map2f()
-                    3 -> Map3f()
-                    4 -> Map4f()
-                    5 -> Map5f()
-                }
-            }
+            SchoolMap(floor.value, spots)
         }
     }
 }
 
-
 @Composable
-fun ElevatorButton(currentFloor: MutableState<Int>, scope: CoroutineScope, parentwidth: Dp) {
+fun ElevatorButton(currentFloor: MutableState<Int>, scope: CoroutineScope, parentWidth: Dp) {
     Column(
         // 右寄せ
         modifier = Modifier
             .zIndex(1f)
             // TODO:ハードコーディングがすぎるので直す
-            .padding( parentwidth - 80.dp, 16.dp, 16.dp, 0.dp)
+            .padding( parentWidth - 80.dp, 16.dp, 16.dp, 0.dp)
     ){
-        Button(onClick = {
-            scope.launch {
-                currentFloor.value = 5
+        (5 downTo 1).forEach {
+            Button(onClick = {
+                scope.launch {
+                    currentFloor.value = it
+                }
+            }) {
+                Text(text = it.toString())
             }
-        }) {
-            Text(text = "5")
-        }
-        Button(onClick = {
-            scope.launch {
-                currentFloor.value = 4
-            }
-        }) {
-            Text(text = "4")
-        }
-        Button(onClick = {
-            scope.launch {
-                currentFloor.value = 3
-            }
-        }) {
-            Text(text = "3")
-        }
-        Button(onClick = {
-            scope.launch {
-                currentFloor.value = 2
-            }
-        }) {
-            Text(text = "2")
-        }
-        Button(onClick = {
-            scope.launch {
-                currentFloor.value = 1
-            }
-        }) {
-            Text(text = "1")
         }
     }
 
 }
 
-@Composable
-fun Map1f(){
-    val painter = painterResource(id = R.drawable.map1f)
-    val size = painter.intrinsicSize
-    Zoomable {
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier
-                .aspectRatio(size.width / size.height)
-                .fillMaxSize()
-        )
-    }
+data class Floor(
+    val floor: Int,
+    val mapId: Int,
+    val spots: List<Spot>
+)
 
-}
-
-@Composable
-fun Map2f(){
-    val painter = painterResource(id = R.drawable.map2f)
-    val size = painter.intrinsicSize
-    Zoomable {
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier
-                .aspectRatio(size.width / size.height)
-                .fillMaxSize()
+class FloorList {
+    companion object {
+        val floors = listOf(
+            Floor(1, R.drawable.map1f, Pins.pins1f),
+            Floor(2, R.drawable.map2f, Pins.pins2f),
+            Floor(3, R.drawable.map3f, Pins.pins3f),
+            Floor(4, R.drawable.map4f, Pins.pins4f),
+            Floor(5, R.drawable.map5f, Pins.pins5f)
         )
     }
 }
 
-@Composable
-fun Map3f(){
-    val painter = painterResource(id = R.drawable.map3f)
-    val size = painter.intrinsicSize
-    Zoomable {
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier
-                .aspectRatio(size.width / size.height)
-                .fillMaxSize()
-        )
-    }
-}
 
 @Composable
-fun Map4f() {
-    val painter = painterResource(id = R.drawable.map4f)
-    val size = painter.intrinsicSize
-    Zoomable {
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier
-                .aspectRatio(size.width / size.height)
-                .fillMaxSize()
-        )
-    }
-}
+fun SchoolMap(floor: Int, spots: List<String>) {
 
-@Composable
-fun Map5f(){
-    val painter = painterResource(id = R.drawable.map5f)
+    val zoomableState = rememberZoomableState(
+        minScale = 1f,
+        maxScale = 2f
+    )
+
+    val mapId = FloorList.floors[floor - 1].mapId
+//    val spots = FloorList.floors[floor - 1].spots.filter { spots.contains(it.name) }
+    val spots1f = Pins.pins1f
+    val painter = painterResource(id = mapId)
+
     val size = painter.intrinsicSize
-    Zoomable {
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier
-                .aspectRatio(size.width / size.height)
-                .fillMaxSize()
-        )
+    Log.d("MapScreen", "intrinsicWidth: ${size.width}, intrinsicHeight: ${size.height}")
+
+
+    BoxWithConstraints {
+        val boxWidth = with(LocalDensity.current) { constraints.maxWidth.toDp() }
+        val boxHeight = with(LocalDensity.current) { constraints.maxHeight.toDp() }
+        Log.d("MapScreen", "maxWidth: $maxWidth, maxHeight: $maxHeight")
+        Zoomable(state = zoomableState) {
+
+            // ピンの位置がずれるが，これはZoomableと地図の原点が異なることが原因
+            // 要修正
+            spots1f.map {
+                Pin(it.x, it.y, size, boxWidth, boxHeight, zoomableState)
+            }
+            Image(
+                painter = painter,
+                contentDescription = null,
+                modifier = Modifier
+                    .aspectRatio(size.width / size.height)
+                    .fillMaxSize()
+            )
+        }
     }
 }
