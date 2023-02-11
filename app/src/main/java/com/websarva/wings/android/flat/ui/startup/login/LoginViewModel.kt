@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication
+import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.api.PostData
 import com.websarva.wings.android.flat.api.ResponseData
 import com.websarva.wings.android.flat.model.User
@@ -82,6 +83,7 @@ class LoginViewModel : ViewModel() {
                 val response = apiRepository.postLogin(postData)
                 _loginResponse.postValue(response)
                 if (response.isSuccessful) {
+                    myId = response.body()?.id ?: 0
                     Log.d(
                         "LoginSuccess",
                         "${response}\n${response.body()}"

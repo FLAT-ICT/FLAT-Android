@@ -40,26 +40,67 @@ fun MapScreen (model: FriendListViewModel = viewModel()){
     val floor = remember { mutableStateOf(1) }
 
     val friends = model.friends.observeAsState()
+    model.getFriends()
     // これ正しく更新されなさそう
+    Log.d("friendSpot", friends.value.toString())
     val spots = friends.value?.mutual?.map { it.spot } ?: listOf()
 
     val scope = rememberCoroutineScope()
 
     FLATTheme {
         // この中にmapの画面を作成していく
-//        val state = rememberZoomableState(
-//            minScale = 2f
-//        )
-//        Zoomable(state = state) {
-//            Text(text = "Zoom me!")
-//        }
+        val state = rememberZoomableState(
+            minScale = 2f
+        )
 
         BoxWithConstraints(Modifier.fillMaxSize()) {
             val width = maxWidth
-            ElevatorButton(floor, scope, width)
-            SchoolMap(floor.value, spots)
+//            ElevatorButton(floor, scope, width)
+            AkibaMap(spots)
         }
     }
+}
+
+@Composable
+fun AkibaMap(spots: List<String>) {
+    val zoomableState = rememberZoomableState(
+        minScale = 1f,
+        maxScale = 3f
+    )
+
+
+
+    Log.d("friendSpot", spots.toString())
+    Log.d("friendSpot", Pins.akiba.map { it.name }.toString())
+    val floorSpots = Pins.akiba.filter { spots.contains(it.name) }
+//    val floorSpots = Pins.akiba
+    val painter = painterResource(id = R.drawable.map_akiba_demo)
+
+    val size = painter.intrinsicSize
+    Log.d("MapScreen", "intrinsicWidth: ${size.width}, intrinsicHeight: ${size.height}")
+
+
+    BoxWithConstraints {
+        val boxWidth = with(LocalDensity.current) { constraints.maxWidth.toDp() }
+        val boxHeight = with(LocalDensity.current) { constraints.maxHeight.toDp() }
+        Log.d("MapScreen", "maxWidth: $maxWidth, maxHeight: $maxHeight")
+        Zoomable(state = zoomableState) {
+
+            // ピンの位置がずれるが，これはZoomableと地図の原点が異なることが原因
+            // 要修正
+            floorSpots.map {
+                Pin(it.x, it.y, size, boxWidth, boxHeight, zoomableState)
+            }
+            Image(
+                painter = painter,
+                contentDescription = null,
+                modifier = Modifier
+                    .aspectRatio(size.width / size.height)
+                    .fillMaxSize()
+            )
+        }
+    }
+
 }
 
 @Composable

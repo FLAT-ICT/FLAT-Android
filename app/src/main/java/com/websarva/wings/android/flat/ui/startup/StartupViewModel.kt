@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication
+import com.websarva.wings.android.flat.FLATApplication.Companion.myId
 import com.websarva.wings.android.flat.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +28,7 @@ class StartupViewModel(
             // Coroutine that will be canceled when the ViewModel is cleared.
             _user.value = roomRepository.getUserData()
             _isReady.value = true
+            myId = _user.value?.myId ?: -1
             Log.d("UserId in ViewModel: ", "${_user.value?.myId}")
         }
     }

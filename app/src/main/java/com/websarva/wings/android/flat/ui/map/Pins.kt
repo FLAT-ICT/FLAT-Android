@@ -58,11 +58,12 @@ fun Pin(
 //    val parentWidth = parentSize
 
 
-    val dpx = x * 2.75  * widthRatio * scale
-    val dpy = y * 2.75 * widthRatio  * scale
+    val dpx = (x * imageSize.width  / 100 ) * widthRatio * scale
+    val dpy = (y * imageSize.height / 100 ) * widthRatio  * scale
     Log.d("MapScreen", "dpx: $dpx, dpy: $dpy")
-    Image(painter = painterResource(id = R.drawable.pin), contentDescription = null, modifier = Modifier
-        .offset(x = dpx.dp, y = dpy.dp)
+    val pinImage = painterResource(id = R.drawable.pin)
+    Image(painter = pinImage, contentDescription = null, modifier = Modifier
+        .offset(x = dpx.dp - 20.dp, y = dpy.dp - 40.dp)
         .zIndex(1f)
         .size(40.dp)
     )
@@ -113,6 +114,13 @@ class Pins {
         )
         val pins5f = listOf(
             Spot("127教室", 0.5f, 0.5f),
+        )
+        val akiba = listOf(
+            Spot("エントランスエリア", 25.66f, 71.18f),
+            Spot("休憩ブース", 71.43f, 49.94f),
+            Spot("交流エリア", 16.83f, 44.63f),
+            Spot("函館補完計画ブース", 48.87f, 76.09f),
+            Spot("高度ICT演習ブース", 45.34f, 34.67f),
         )
     }
 }
