@@ -12,7 +12,9 @@ import androidx.navigation.findNavController
 
 class StartupFragment : Fragment() {
 
-    private val viewModel: StartupViewModel by viewModels()
+//    private val viewModel: StartupViewModel by viewModels()
+//    val user = viewModel.user.value
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,10 +22,10 @@ class StartupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = ComposeView(inflater.context).apply {
         setContent {
-            if (viewModel.user != null && viewModel.user!!.myId != 0) {
-                Log.d("StartupFragment", "user is not null")
-            }
-            Log.d("UserId in Fragment", "${viewModel.user}")
+//            if (user != null) {
+//                Log.d("StartupFragment", "user is not null")
+//            }
+//            Log.d("UserId in Fragment", "${viewModel.user}")
             StartupScreen(
                 onNavigate = { dest -> findNavController().navigate(dest) },
             )
