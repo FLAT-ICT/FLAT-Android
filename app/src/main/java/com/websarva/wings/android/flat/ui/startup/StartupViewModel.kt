@@ -8,21 +8,26 @@ import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.websarva.wings.android.flat.FLATApplication
 import com.websarva.wings.android.flat.model.User
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class StartupViewModel(
     saveStateHandle: SavedStateHandle
 ) : ViewModel() {
-    var isReady = false
+    private val _isReady = MutableStateFlow(false)
+    val isReady: StateFlow<Boolean> get() = _isReady
     private val roomRepository = FLATApplication.userRoomRepository
 
-    var user: User? = null
+//    var user: User? = null
+    private val _user = MutableStateFlow<User?>(null)
+    val user: StateFlow<User?> get() = _user
     init {
         viewModelScope.launch {
             // Coroutine that will be canceled when the ViewModel is cleared.
-            user = roomRepository.getUserData()
-            isReady = true
-            Log.d("UserId in ViewModel: ", "${user?.myId}")
+            _user.value = roomRepository.getUserData()
+            _isReady.value = true
+            Log.d("UserId in ViewModel: ", "${_user.value?.myId}")
         }
     }
 }
