@@ -9,6 +9,7 @@ class PostData {
     )
 
     data class PostBeacon(
+        //rssiの値をサーバーに送信しているが、使用はされていない
         @Json(name = "user_id") val user_id: Int,
         @Json(name = "major") val major: Int,
         @Json(name = "minor") val minor: Int,
