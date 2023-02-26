@@ -52,6 +52,7 @@ class BeaconDetectionService : Service(), RangeNotifier, MonitorNotifier {
         }
         // TODO:IDをroom等で内部に保存しrepositoryから持ってくる
         if (nearBeacon != null) {
+            //rssiの値をサーバーに送信しているが、使用はされていない
             postData = PostData.PostBeacon(
                 user_id = myId,
                 major = nearBeacon.id2.toInt(),
